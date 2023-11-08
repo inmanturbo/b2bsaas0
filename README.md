@@ -7,7 +7,7 @@
       - The first user to login becomes a SuperAdmin
         - After that registration is by team invitation only except when registering using the `Master Password` (see Master Password section below)
         - Invitation only mode can be disabled by setting `B2BSAAS_INVITATION_ONLY=false` in `.env` 
-    - Teams, Metadata for the Tenant Databases, and Authentication details are all stored in the `landlord database`
+    - Teams, Metadata for the Tenant Databases and Authentication details are all stored in the `landlord database`
     - Teams are tenants
       - Setting the tenant can be done by calling `$team->configure()->use();` on a team instance.
       - A Team belongs to one Tenant Database, or `TeamDatabase`
