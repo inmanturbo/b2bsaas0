@@ -57,7 +57,7 @@
                     }
             ```
 
-            - You could then finish by writing your own implementation of the some key methods found in the `\App\Models\InteractsWithSystemDatabase` trait, such as:
+            - You could then finish by writing your own implementation of a few methods found in the `\App\Models\InteractsWithSystemDatabase` trait, such as:
               - `deleteTeamDatabase()`
               - `createTeamDatabase()`
               - `teamDatabaseExists()`, and
