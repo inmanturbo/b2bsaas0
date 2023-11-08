@@ -42,7 +42,15 @@ class TeamPolicy
      */
     public function update(User $user, Team $team): bool
     {
-        return $user->ownsTeam($team);
+        return $user->ownsTeam($team) || $user->type === UserType::SuperAdmin->name;
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     */
+    public function updateTeamDatabase(User $user, Team $team): bool
+    {
+        return $user->ownsTeam($team) || $user->type === UserType::SuperAdmin->name;
     }
 
     /**

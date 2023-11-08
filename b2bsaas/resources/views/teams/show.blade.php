@@ -14,6 +14,13 @@
 
     <div>
         <div class="py-10 mx-auto max-w-7xl sm:px-6 lg:px-8">
+
+            @if (Gate::check('updateTeamDatabase', $team ))
+                @livewire('update-team-database-form', ['team' => $team])
+                <x-section-border />
+            @endif
+
+
             @livewire('teams.update-team-name-form', ['team' => $team])
             
             <x-section-border />
