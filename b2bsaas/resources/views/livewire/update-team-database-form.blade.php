@@ -37,6 +37,8 @@ $updateTeamDatabase = function () {
         'team_database_id' => $this->state['team_database_id'],
     ])->save();
 
+    $this->team->migrate()->configure()->use();
+
     $this->dispatch('saved');
 };
 
