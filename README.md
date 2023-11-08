@@ -1,24 +1,23 @@
 # B2bSaas
 
-- b2bsaas
-  - Multitenancy
-    - You may build your Laravel app as you normally would, and the default implementation for multitenancy will be handled for you automatically
-    - By default tenancy is by authentication based on the user's team, but support for domain based tenancy is built in as well
-      - The first user to login becomes a SuperAdmin
-        - After that registration is by team invitation only except when registering using the `Master Password` (see Master Password section below)
-        - Invitation only mode can be disabled by setting `B2BSAAS_INVITATION_ONLY=false` in `.env` 
-    - Teams, Metadata for the Tenant Databases and Authentication details are all stored in the `landlord database`
-    - Teams are tenants
-      - Setting the tenant can be done by calling `$team->configure()->use();` on a team instance.
-      - A Team belongs to one Tenant Database, or `TeamDatabase`
-      - More than one Team can be on a single database (optional)
-      - Only SuperAdmins and UpgradedUsers can create Teams
-    - Users can have many databases
-      - Databases are created for SuperAdmins and UpgradedUsers when they create a team
-      - A single Database And Team are created for each user when they register
-      - Databases belong to one user
-      - Databases can have many teams
-      - SuperAdmins and UpgradedUsers may select an existing database that they already own when creating a new team, in the case that they want to share data across teams.
+- Multitenancy
+  - You may build your Laravel app as you normally would, and the default implementation for multitenancy will be handled for you automatically
+  - By default tenancy is by authentication based on the user's team, but support for domain based tenancy is built in as well
+    - The first user to login becomes a SuperAdmin
+      - After that registration is by team invitation only except when registering using the `Master Password` (see Master Password section below)
+      - Invitation only mode can be disabled by setting `B2BSAAS_INVITATION_ONLY=false` in `.env` 
+  - Teams, Metadata for the Tenant Databases and Authentication details are all stored in the `landlord database`
+  - Teams are tenants
+    - Setting the tenant can be done by calling `$team->configure()->use();` on a team instance.
+    - A Team belongs to one Tenant Database, or `TeamDatabase`
+    - More than one Team can be on a single database (optional)
+    - Only SuperAdmins and UpgradedUsers can create Teams
+  - Users can have many databases
+    - Databases are created for SuperAdmins and UpgradedUsers when they create a team
+    - A single Database And Team are created for each user when they register
+    - Databases belong to one user
+    - Databases can have many teams
+    - SuperAdmins and UpgradedUsers may select an existing database that they already own when creating a new team, in the case that they want to share data across teams.
 - Master Password
   - b2bsaas uses [laravel-Masterpass]([https://github.com/imanghafoori1/laravel-MasterPass)
   - when using the master password to register a user:
