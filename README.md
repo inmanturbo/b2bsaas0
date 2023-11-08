@@ -43,7 +43,7 @@
     - Currently only `mysql` in implemented, but you can easily add your own type of database by extending `\App\Models\TeamDatabase` and overriding some key methods found in `\App\Models\InteractsWithSystemDatabase`
       - Team Databases, like Users, SuperAdmins and UpgradedUsers use Single Table Inheritance based on the implementation found here: <https://github.com/tighten/parental>, with a few small changes to support using an enum for the `type column`
       - If you wanted to add support for sqlite, for instance: 
-        - You may start by adding `case Sqlite = SqliteTeamDatabase::class;` to the `\App\Models\TeamDatabaseTypes` enum
+        - You may start by adding `case Sqlite = SqliteTeamDatabase::class;` to the `\App\Models\TeamDatabaseType` enum
         - Then create a model called `SqliteTeamDatabase::class` which extends `\App\Models\TeamDatabase`:
 
         ```php

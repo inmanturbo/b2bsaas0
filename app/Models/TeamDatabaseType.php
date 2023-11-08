@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-enum TeamDatabaseTypes: string
+enum TeamDatabaseType: string
 {
     case Mysql = MysqlTeamDatabase::class;
     // case Postgres = PostgresTeamDatabase::class;

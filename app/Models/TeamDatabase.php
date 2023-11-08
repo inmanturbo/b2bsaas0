@@ -32,7 +32,7 @@ class TeamDatabase extends Model
 
     public function getChildTypes()
     {
-        return TeamDatabaseTypes::toArray();
+        return TeamDatabaseType::toArray();
     }
 
     public function user()
