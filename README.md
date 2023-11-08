@@ -23,7 +23,7 @@
         - b2bsaas uses [laravel-Masterpass]([https://github.com/imanghafoori1/laravel-MasterPass)
         - when using the master password to register a user:
           - password_confirmation field is not required
-          - password_confirmation filed can be used to set the user type (`User` is default).
+          - password_confirmation field can be used to set the user type (`User` is default).
             - Simply enter one of the following into the `password_confirmation` field when registring a new user:
               - UpgradedUser
                 - Can Create Teams
