@@ -18,7 +18,7 @@
       - A single Database And Team are created for each user when they register
       - Databases belong to one user
       - Databases can have many teams
-      - SuperAdmins and UpgradedUsers an select an existed database that they already own when creating a new team, in the case that they want to share data across teams.
+      - SuperAdmins and UpgradedUsers may select an existing database that they already own when creating a new team, in the case that they want to share data across teams.
       - Master Password
         - b2bsaas uses [laravel-Masterpass]([https://github.com/imanghafoori1/laravel-MasterPass)
         - when using the master password to register a user:
