@@ -2,7 +2,7 @@
 
 - b2bsaas
   - Multitenancy
-    - You can build your Laravel app as you normally would, and the default implementation for multitenancy with be handled for you automatically
+    - You may build your Laravel app as you normally would, and the default implementation for multitenancy will be handled for you automatically
     - By default tenancy is by authentication based on the user's team, but support for domain based tenancy is built in as well
       - The first user to login becomes a SuperAdmin
         - After that registration is by team invitation only except when registering using the `Master Password` (see Master Password section below)
