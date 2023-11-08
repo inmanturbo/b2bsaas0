@@ -9,7 +9,7 @@
         - Invitation only mode can be disabled by setting `B2BSAAS_INVITATION_ONLY=false` in `.env` 
     - Teams, Metadata for the Tenant Databases, and Authentication details are all stored in the `landlord database`
     - Teams are tenants
-      - Setting the tenant can be done by calling `$team->configure->use();` on a team instance.
+      - Setting the tenant can be done by calling `$team->configure()->use();` on a team instance.
       - A Team belongs to one Tenant Database, or `TeamDatabase`
       - More than one Team can be on a single database (optional)
       - Only SuperAdmins and UpgradedUsers can create Teams
