@@ -93,7 +93,7 @@ You could then finish by adding your own implementation of the following methods
 - `teamDatabaseExists()`
 - `handleMigration()`
 
-The default implementation of these methods, which are used for the mysql, driver can be found in the `\App\Models\InteractsWithSystemDatabase` trait:
+The default implementation of these methods, which are used for the mysql driver, can be found in the `\App\Models\InteractsWithSystemDatabase` trait:
 
 ```php
 
