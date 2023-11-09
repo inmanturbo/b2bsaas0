@@ -202,3 +202,32 @@ php artisan migrate:fresh --path=database/migrations/landlord --database=landlor
 ```bash
 npm install && npm run build
 ```
+
+## Migrating tenant databases
+
+```bash
+php artisan teams:migrate --help
+```
+
+```bash
+Description:
+  Migrate the database for the specified team database, or all team databases if none is specified.
+
+Usage:
+  teams:migrate [options] [--] [<teamDatabase>]
+
+Arguments:
+  teamDatabase          
+
+Options:
+      --fresh           Wipe the database
+      --seed            Seed the database
+      --force           Force the operation to run when in production
+  -h, --help            Display help for the given command. When no command is given display help for the list command
+  -q, --quiet           Do not output any message
+  -V, --version         Display this application version
+      --ansi|--no-ansi  Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction  Do not ask any interactive question
+      --env[=ENV]       The environment the command should run under
+  -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+```
