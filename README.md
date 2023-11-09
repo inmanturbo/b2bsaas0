@@ -4,7 +4,14 @@ This is about the simplest implementation possible, with minimal changes to the 
 
 In order to avoid many changes to the skeleton, I've made most of my additions in the b2bsaas directory, then bootstrapped them with a service provider and a Psr4 namespace of thier own instead of adding them directly to the app directory. I've avoided doing this with models however, as they are first class citizens in a laravel app, often need to be modified, and are expected to live in the `app/Models` directory where many packages and laravel tools will autoscan for them.
 
-I've copied the blade files for the layout components directory from jestream and added `wire:navigate` to the links to make the navigation more snappy. The simplest way to do this without as little chang as possible to the origianl skeleton was to copy them into `b2bsaas/resources/views` and ensure they are rendered by the Components in App\View. For example, for the `app-layout` component, I've changed the render method to this:
+> NOTE:    
+> b2bsaas IS NOT a package under vendor, or using any fancy "modules" package --    
+> It is simply using a custom namespace (B2bSaas) 
+> added to composer.json in the PSR4 Autoload section,    
+> in addition to the standard App root.    
+> Feel free to modify it as needed!
+
+I've copied the blade files for the layout components directory from jetstream and added `wire:navigate` to the links to make the navigation more snappy. The simplest way to do this without as little chang as possible to the origianl skeleton was to copy them into `b2bsaas/resources/views` and ensure they are rendered by the Components in App\View. For example, for the `app-layout` component, I've changed the render method to this:
 
 ```php
 /**
