@@ -44,7 +44,7 @@ Simply enter one of the following into the `password_confirmation` field when re
 - `SuperAdmin`
   - Can Create Teams and Impersonate
 - `User`
-  - Cannot Create Teams or Impoersonate
+  - Cannot Create Teams or Impersonate
   - Can Invite others to join thier `personal_team`
 
 ## Impersonation
