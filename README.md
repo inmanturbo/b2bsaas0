@@ -2,40 +2,50 @@
 
 ## Multitenancy
 
-- You may build your Laravel app as you normally would, and the default implementation for multitenancy will be handled for you automatically
-- By default tenancy is by authentication based on the user's team, but support for domain based tenancy is built in as well
-  - The first user to login becomes a SuperAdmin
-    - After that registration is by team invitation only except when registering using the `Master Password` (see Master Password section below)
-    - Invitation only mode can be disabled by setting `B2BSAAS_INVITATION_ONLY=false` in `.env` 
-- Teams, Metadata for the Tenant Databases and Authentication details are all stored in the `landlord database`
-- Teams are tenants
-  - Setting the tenant can be done by calling `$team->configure()->use();` on a team instance.
-  - A Team belongs to one Tenant Database, or `TeamDatabase`
-  - More than one Team can be on a single database (optional)
-  - Only SuperAdmins and UpgradedUsers can create Teams
-- Users can have many databases
-  - Databases are created for SuperAdmins and UpgradedUsers when they create a team
-  - A single Database And Team are created for each user when they register
-  - Databases belong to one user
-  - Databases can have many teams
-  - SuperAdmins and UpgradedUsers may select an existing database that they already own when creating a new team, in the case that they want to share data across teams.
- 
-## Master Password
+You may build your Laravel app as you normally would, and the default implementation for multitenancy will be handled for you automatically
 
-### b2bsaas uses [laravel-Masterpass](https://github.com/imanghafoori1/laravel-MasterPass)
+By default tenancy is by authentication based on the user's team, but support for domain based tenancy is built in as well
 
-#### when using the master password to register a user:
+The first user to login becomes a SuperAdmin
 
-- password_confirmation field is not required
-- password_confirmation field can be used to set the user type (`User` is default).
-  - Simply enter one of the following into the `password_confirmation` field when registring a new user:
-    - UpgradedUser
-      - Can Create Teams
-    - SuperAdmin
-      - Can Create Teams and Impersonate
-    - User
-      - Cannot Create Teams or Impoersonate
-        - Can Invite others to join thier `personal_team`
+- After that registration is by team invitation only except when registering using the `Master Password` (see Master Password section below)
+- Invitation only mode can be disabled by setting `B2BSAAS_INVITATION_ONLY=false` in `.env`
+
+>Teams, Metadata for the Tenant Databases and Authentication details are all stored in the `landlord database`
+
+### Teams are tenants
+
+- Setting the tenant can be done by calling `$team->configure()->use();` on a team instance.
+- A Team belongs to one Tenant Database, or `TeamDatabase`
+- More than one Team can be on a single database (optional)
+- Only SuperAdmins and UpgradedUsers can create Teams
+
+### Users can have many databases
+
+- Databases are created for SuperAdmins and UpgradedUsers when they create a team
+- A single Database And Team are created for each user when they register
+- Databases belong to one user
+- Databases can have many teams
+- SuperAdmins and UpgradedUsers may select an existing database that they already own when creating a new team, in the case that they want to share data across teams.
+
+### Master Password
+
+> b2bsaas uses [laravel-Masterpass](https://github.com/imanghafoori1/laravel-MasterPass)
+
+#### when using the master password to register a user
+
+Password_confirmation field is not required
+Password_confirmation field can be used to set the user type (`User` is default).
+
+Simply enter one of the following into the `password_confirmation` field when registring a new user
+
+- UpgradedUser
+  - Can Create Teams
+- SuperAdmin
+  - Can Create Teams and Impersonate
+- User
+  - Cannot Create Teams or Impoersonate
+  - Can Invite others to join thier `personal_team`
 
 ## Impersonation
 
@@ -71,11 +81,12 @@ If you wanted to add support for sqlite, for instance:
         }
 ```
 
-- You could then finish by writing your own implementation of a few methods found in the `\App\Models\InteractsWithSystemDatabase` trait, such as:
-  - `deleteTeamDatabase()`
-  - `createTeamDatabase()`
-  - `teamDatabaseExists()`, and
-  - `handleMigration()`
+You could then finish by writing your own implementation of a few methods found in the `\App\Models\InteractsWithSystemDatabase` trait, such as
+
+- `deleteTeamDatabase()`
+- `createTeamDatabase()`
+- `teamDatabaseExists()`, and
+- `handleMigration()`
 
 ## Installation
 
