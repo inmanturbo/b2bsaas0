@@ -41,7 +41,7 @@ class MigrateTeamDatabasesCommand extends Command
 
     protected function migrate($db)
     {
-        
+
         $this->line('');
         $this->line('-----------------------------------------');
         $this->line("Migrating team database #{$db->id} ({$db->name})");
