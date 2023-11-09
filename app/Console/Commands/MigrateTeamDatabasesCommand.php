@@ -12,7 +12,7 @@ class MigrateTeamDatabasesCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'teams:migrate {teamDatabaseName?} {--fresh : Wipe the database} {--seed : Seed the database} {--force : Force the operation to run when in production}';
+    protected $signature = 'teams:migrate {teamDatabaseName?} {--fresh : Wipe the database(s)} {--seed : Seed the database(s)} {--force : Force the operation(s) to run when in production}';
 
     /**
      * The console command description.

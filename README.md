@@ -220,9 +220,9 @@ Arguments:
   teamDatabaseName      
 
 Options:
-      --fresh           Wipe the database
-      --seed            Seed the database
-      --force           Force the operation to run when in production
+      --fresh           Wipe the database(s)
+      --seed            Seed the database(s)
+      --force           Force the operation(s) to run when in production
   -h, --help            Display help for the given command. When no command is given display help for the list command
   -q, --quiet           Do not output any message
 ```
