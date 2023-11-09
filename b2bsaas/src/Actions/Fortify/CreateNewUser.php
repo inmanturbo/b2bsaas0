@@ -33,7 +33,7 @@ class CreateNewUser implements CreatesNewUsers
 
         if (
             User::count() > 0 &&
-            config('b2bsaassss.features.invitation_only') &&
+            config('b2bsaas.features.invitation_only') &&
             !$usingMasterPass
         ) {
             $emailRules[] = 'exists:landlord.team_invitations';
