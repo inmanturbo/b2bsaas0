@@ -214,10 +214,10 @@ Description:
   Migrate the database for the specified team database, or all team databases if none is specified.
 
 Usage:
-  teams:migrate [options] [--] [<teamDatabase>]
+  teams:migrate [options] [--] [<teamDatabaseName>]
 
 Arguments:
-  teamDatabase          
+  teamDatabaseName      
 
 Options:
       --fresh           Wipe the database
@@ -225,9 +225,4 @@ Options:
       --force           Force the operation to run when in production
   -h, --help            Display help for the given command. When no command is given display help for the list command
   -q, --quiet           Do not output any message
-  -V, --version         Display this application version
-      --ansi|--no-ansi  Force (or disable --no-ansi) ANSI output
-  -n, --no-interaction  Do not ask any interactive question
-      --env[=ENV]       The environment the command should run under
-  -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 ```
