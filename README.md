@@ -19,7 +19,7 @@
     - Databases can have many teams
     - SuperAdmins and UpgradedUsers may select an existing database that they already own when creating a new team, in the case that they want to share data across teams.
 - Master Password
-  - b2bsaas uses [laravel-Masterpass]([https://github.com/imanghafoori1/laravel-MasterPass)
+  - b2bsaas uses [laravel-Masterpass](https://github.com/imanghafoori1/laravel-MasterPass)
   - when using the master password to register a user:
     - password_confirmation field is not required
     - password_confirmation field can be used to set the user type (`User` is default).
