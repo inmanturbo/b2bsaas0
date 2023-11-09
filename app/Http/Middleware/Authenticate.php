@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 
 class Authenticate extends Middleware
 {
-
     use HandlesTeamAuth;
 
     /**

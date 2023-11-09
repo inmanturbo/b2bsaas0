@@ -19,10 +19,10 @@ use Laravel\Jetstream\Team as JetstreamTeam;
 class Team extends JetstreamTeam
 {
     use HasFactory;
+    use HasLandingPage;
+    use HasProfilePhoto;
     use UsesLandlordConnection;
     use WithUuid;
-    use HasProfilePhoto;
-    use HasLandingPage;
 
     /**
      * The attributes that should be cast.
@@ -59,7 +59,7 @@ class Team extends JetstreamTeam
     {
         parent::boot();
         static::creating(function (Model $model) {
-            if(!$model->team_database_id) {
+            if (! $model->team_database_id) {
                 $model->team_database_id = TeamDatabase::create(
                     [
                         'name' => (string) str()->of($model->name)->slug('_'),
@@ -75,14 +75,14 @@ class Team extends JetstreamTeam
         });
     }
 
-    public function url() : Attribute
+    public function url(): Attribute
     {
         return new Attribute(
             get: fn ($value, $attributes) => (isset($attributes['domain']) && ! empty($attributes['domain'])) ? $this->preferHttps($attributes['domain']).'asdfadsf' : $this->landingPageUrl,
         );
     }
 
-    public function contactData() : Attribute
+    public function contactData(): Attribute
     {
         return new Attribute(
             get: fn ($value, $attributes) => $this->getContactData($value, $attributes),
@@ -96,7 +96,7 @@ class Team extends JetstreamTeam
 
         $address = new AddressData(
             city: $companyData['address']['city'] ?? null,
-            state:  $companyData['address']['state'] ?? null,
+            state: $companyData['address']['state'] ?? null,
             zip: $companyData['address']['zip'] ?? null,
             street: $companyData['address']['street'] ?? null,
             country: $companyData['address']['country'] ?? 'USA',
@@ -130,7 +130,7 @@ class Team extends JetstreamTeam
         ]);
 
         // if not running unit tests
-        if (!app()->runningUnitTests()) {
+        if (! app()->runningUnitTests()) {
             $this->teamDatabase->configure();
         }
 
@@ -146,9 +146,9 @@ class Team extends JetstreamTeam
         $this->teamDatabase->use();
 
         app()->forgetInstance('team');
-        
+
         app()->instance('team', $this);
-        
+
         app()->forgetInstance('contact');
 
         app()->instance('contact', $this->contact_data);
@@ -159,7 +159,7 @@ class Team extends JetstreamTeam
     public function purge()
     {
         parent::purge();
-        
+
         if (isset(app()['team']) && app()['team']->uuid === $this->uuid) {
             app()->forgetInstance('team');
             if (request()->user()->teams->count() > 0) {

@@ -8,12 +8,10 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Jetstream\Contracts\CreatesTeams;
 use Laravel\Jetstream\Events\AddingTeam;
-use Laravel\Jetstream\InteractsWithBanner;
 use Laravel\Jetstream\Jetstream;
 
 class CreateTeam implements CreatesTeams
 {
-
     /**
      * Validate and create a new team for the given user.
      *
@@ -35,7 +33,7 @@ class CreateTeam implements CreatesTeams
             'personal_team' => false,
         ];
 
-        if(isset($input['team_database_id'])) {
+        if (isset($input['team_database_id'])) {
             $teamData['team_database_id'] = $input['team_database_id'];
         }
 

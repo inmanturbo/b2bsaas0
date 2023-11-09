@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\Schema;
 
 class TeamDatabase extends Model
 {
+    use HasChildren;
     use HasFactory;
+    use InteractsWithSystemDatabase;
     use UsesLandlordConnection;
     use WithUuid;
-    use HasChildren;
-    use InteractsWithSystemDatabase;
 
     public $originalConfig = [];
 
@@ -49,11 +49,11 @@ class TeamDatabase extends Model
     {
         parent::boot();
         static::creating(function (Model $model) {
-            if(!$model->user_id) {
+            if (! $model->user_id) {
                 $model->user_id = auth()->id() ?? 1;
             }
             // if not running tests
-            if (!app()->runningUnitTests() && !config('b2bsaas.database_creation_disabled')) {
+            if (! app()->runningUnitTests() && ! config('b2bsaas.database_creation_disabled')) {
                 $model->createTeamDatabase()
                     ->migrate();
             }
@@ -78,8 +78,8 @@ class TeamDatabase extends Model
     {
         $this->configure()->handleMigration();
 
-        if(!empty($this->originalConfig)) {
-            config()->set('database.connections.' . $this->tenantConnection, $this->originalConfig);
+        if (! empty($this->originalConfig)) {
+            config()->set('database.connections.'.$this->tenantConnection, $this->originalConfig);
         }
 
         return $this;
@@ -94,9 +94,9 @@ class TeamDatabase extends Model
 
     protected function prepareTenantConnection($name)
     {
-        $this->originalConfig = config('database.connections.' . $this->tenantConnection);
+        $this->originalConfig = config('database.connections.'.$this->tenantConnection);
 
-        config()->set('database.connections.' . $this->tenantConnection . '.database', $name);
+        config()->set('database.connections.'.$this->tenantConnection.'.database', $name);
 
         DB::purge($this->tenantConnection);
 

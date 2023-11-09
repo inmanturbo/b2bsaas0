@@ -22,7 +22,7 @@ class B2bSaasServiceProvider extends \Illuminate\Support\ServiceProvider
         Sanctum::ignoreMigrations();
 
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/b2bsaas.php',
+            __DIR__.'/../config/b2bsaas.php',
             'b2bsaas'
         );
     }
@@ -36,10 +36,12 @@ class B2bSaasServiceProvider extends \Illuminate\Support\ServiceProvider
 
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
+
         Jetstream::inviteTeamMembersUsing(InviteTeamMember::class);
         Jetstream::addTeamMembersUsing(AddTeamMember::class);
         Jetstream::deleteUsersUsing(Actions\Jetstream\DeleteUser::class);
         Jetstream::createTeamsUsing(Actions\Jetstream\CreateTeam::class);
+
         Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
 
         //if the config('app.url_scheme') is set to https, then we will force the scheme to be https
@@ -47,18 +49,18 @@ class B2bSaasServiceProvider extends \Illuminate\Support\ServiceProvider
             \URL::forceScheme('https');
         }
 
-        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'b2bsaas');
+        $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'b2bsaas');
 
         Volt::mount([
-            __DIR__ . '/../resources/views/livewire',
-            __DIR__ . '/../resources/views/pages',
+            __DIR__.'/../resources/views/livewire',
+            __DIR__.'/../resources/views/pages',
         ]);
     }
 
     public function configureRequests()
     {
-        if (!$this->app->runningInConsole()) {
+        if (! $this->app->runningInConsole()) {
             $domain = $this->app->request->getHost();
 
             /** @var \App\Models\Team $team
@@ -69,10 +71,10 @@ class B2bSaasServiceProvider extends \Illuminate\Support\ServiceProvider
             if (isset($team->id) && isset($team->team_database_id)) {
 
                 // migrate only once a day, cache a key to check if it has been done today
-                if(!cache()->has('team_migrated_' . $team->id)) {
+                if (! cache()->has('team_migrated_'.$team->id)) {
                     $team
                         ->migrate();
-                    cache()->put('team_migrated_' . $team->id, true, now()->addDay());
+                    cache()->put('team_migrated_'.$team->id, true, now()->addDay());
                 }
 
                 $team
@@ -88,10 +90,9 @@ class B2bSaasServiceProvider extends \Illuminate\Support\ServiceProvider
             $this->app['queue']->createPayloadUsing(function () {
                 return $this->app['team'] ? [
                     'team_uuid' => $this->app['team']->uuid,
-                    ] : [];
+                ] : [];
             });
         }
-
 
         $this->app['events']->listen(JobProcessing::class, function ($event) {
             if (isset($event->job->payload['team_uuid'])) {
@@ -102,5 +103,4 @@ class B2bSaasServiceProvider extends \Illuminate\Support\ServiceProvider
             }
         });
     }
-
 }

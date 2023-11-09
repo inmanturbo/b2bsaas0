@@ -19,7 +19,7 @@ trait InteractsWithSystemDatabase
         $name = (string) str()->of($this->name)->slug('_');
 
         DB::connection($this->tenantConnection)
-            ->statement('DROP DATABASE IF EXISTS ' . $name);
+            ->statement('DROP DATABASE IF EXISTS '.$name);
     }
 
     protected function createTeamDatabase(): self
@@ -30,13 +30,13 @@ trait InteractsWithSystemDatabase
         $name = (string) str()->of($this->name)->slug('_');
 
         if ($this->teamDatabaseExists()) {
-            $name = $name . '_1';
+            $name = $name.'_1';
             $this->name = $name;
             $this->createTeamDatabase();
         }
 
         DB::connection($this->tenantConnection)
-            ->statement('CREATE DATABASE IF NOT EXISTS ' . $name);
+            ->statement('CREATE DATABASE IF NOT EXISTS '.$name);
 
         $this->prepareTenantConnection($name);
 
@@ -48,7 +48,7 @@ trait InteractsWithSystemDatabase
 
         $exists = DB::connection($this->tenantConnection)
             ->select(
-                "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '" . $this->name . "'"
+                "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '".$this->name."'"
             );
 
         return count($exists) > 0;

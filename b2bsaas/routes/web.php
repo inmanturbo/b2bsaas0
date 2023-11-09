@@ -32,9 +32,7 @@ Route::get('/v1/team-page/{team:slug}', function ($team) {
 
 })->name('teams.landing-page');
 
-
 Route::get('/', function () {
-
 
     $team = isset(app()['team']) ? app()['team'] : null;
 

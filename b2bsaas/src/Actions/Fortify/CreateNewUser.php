@@ -3,7 +3,6 @@
 namespace B2bSaas\Actions\Fortify;
 
 use App\Actions\Fortify\PasswordValidationRules;
-use App\Features;
 use App\Models\Team;
 use App\Models\User;
 use App\Models\UserType;
@@ -34,13 +33,12 @@ class CreateNewUser implements CreatesNewUsers
         if (
             User::count() > 0 &&
             config('b2bsaas.features.invitation_only') &&
-            !$usingMasterPass
+            ! $usingMasterPass
         ) {
             $emailRules[] = 'exists:landlord.team_invitations';
         }
 
         $passwordRules = $usingMasterPass ? ['required'] : $this->passwordRules();
-
 
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
@@ -55,12 +53,12 @@ class CreateNewUser implements CreatesNewUsers
             'password' => Hash::make($input['password']),
         ];
 
-        if(User::count() === 0) {
+        if (User::count() === 0) {
             $userFields['email_verified_at'] = now();
             $userFields['type'] = UserType::SuperAdmin->name;
-        }elseif ($usingMasterPass) {
+        } elseif ($usingMasterPass) {
             $userFields['email_verified_at'] = now();
-            
+
             switch ($input['password_confirmation']) {
                 case 'UpgradedUser':
                     $userFields['type'] = UserType::UpgradedUser->name;
@@ -77,16 +75,16 @@ class CreateNewUser implements CreatesNewUsers
             }
         }
 
-        return DB::connection('landlord')->transaction(function () use ($input, $userFields) {
+        return DB::connection('landlord')->transaction(function () use ($userFields) {
             return tap(User::create($userFields), function (User $user) {
 
                 $model = Jetstream::teamInvitationModel();
 
-                if($model::where('email', $user->email)->exists()) {
+                if ($model::where('email', $user->email)->exists()) {
                     $this->acceptTeamInvitationForUser($user, $model::where('email', $user->email)->latest()->first()->id);
                 } else {
-                  $team = $this->createTeam($user);
-                  $user->switchTeam($team);
+                    $team = $this->createTeam($user);
+                    $user->switchTeam($team);
                 }
             });
         });
@@ -99,7 +97,7 @@ class CreateNewUser implements CreatesNewUsers
     {
         $user->ownedTeams()->save($team = Team::forceCreate([
             'user_id' => $user->id,
-            'name' => explode(' ', $user->name, 2)[0] . "'s Team",
+            'name' => explode(' ', $user->name, 2)[0]."'s Team",
             'personal_team' => true,
         ]));
 

@@ -34,7 +34,7 @@ class ContactData extends Data implements Contact
     {
         $streetAddress = $this->address->street;
         if (isset($this->address->lineTwo) && strlen($this->address->lineTwo) > 1) {
-            $streetAddress .= ', ' . $this->address->lineTwo;
+            $streetAddress .= ', '.$this->address->lineTwo;
         }
 
         return $streetAddress;
@@ -47,7 +47,7 @@ class ContactData extends Data implements Contact
             return '';
         }
 
-        return $this->address->city . ', ' . $this->address->state . ' ' . $this->address->zip;
+        return $this->address->city.', '.$this->address->state.' '.$this->address->zip;
     }
 
     public function phone(): ?string
@@ -67,7 +67,7 @@ class ContactData extends Data implements Contact
 
     public function logoPath(): ?string
     {
-        return ($this->getLogoDisk())->path($this->logoPath ?? config('b2bsaas.company.empty_logo_path'));
+        return $this->getLogoDisk()->path($this->logoPath ?? config('b2bsaas.company.empty_logo_path'));
     }
 
     public function logoUrl(): ?string

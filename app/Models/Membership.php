@@ -6,7 +6,6 @@ use Laravel\Jetstream\Membership as JetstreamMembership;
 
 class Membership extends JetstreamMembership
 {
-
     use UsesLandlordConnection;
 
     /**

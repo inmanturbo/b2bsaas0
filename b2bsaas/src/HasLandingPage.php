@@ -11,16 +11,14 @@ trait HasLandingPage
     /**
      * Update the user's profile photo.
      *
-     * @param  \Illuminate\Http\UploadedFile  $page
      * @return void
      */
     public function updateLandingPage(UploadedFile $page)
     {
         tap($this->contact_data->landingPage(), function ($previous) use ($page) {
-            $this->forceFill([ 'contact_data' =>
-               $value = array_merge($this->contact_data->toArray() ?? [], ['landingPage' => $page->storePublicly('landing-pages', ['disk' => $this->landingPageDisk()]),]),
-                ])->save();
-            
+            $this->forceFill(['contact_data' => $value = array_merge($this->contact_data->toArray() ?? [], ['landingPage' => $page->storePublicly('landing-pages', ['disk' => $this->landingPageDisk()])]),
+            ])->save();
+
             // $browserShot = Browsershot::html($page->get())->save(Storage::disk($this->landingPageDisk())
             // ->path($value['landingPage'].'.png'));
 
@@ -43,7 +41,7 @@ trait HasLandingPage
 
         Storage::disk($this->landingPageDisk())->delete($this->contact_data->landingPage());
 
-        $this->forceFill([ 'contact_data' => json_encode(array_merge($this->contact_data->toArray(), [
+        $this->forceFill(['contact_data' => json_encode(array_merge($this->contact_data->toArray(), [
             'landingPage' => null,
         ]))])->save();
     }
@@ -56,9 +54,9 @@ trait HasLandingPage
     public function getLandingPageUrlAttribute()
     {
         // return '/v1/team-page/'. $this->slug;
-        
+
         return $this->contact_data?->landingPage()
-                    ? str_replace(url(''), '', '/v1/team-page/'. $this->slug)
+                    ? str_replace(url(''), '', '/v1/team-page/'.$this->slug)
                     : $this->defaultlandingPageUrl();
 
         return $this->contact_data?->landingPage()
@@ -90,7 +88,7 @@ trait HasLandingPage
      */
     protected function defaultlandingPageUrl()
     {
-        return url(config('b2bsaassss.company.default_landing_page_path', '/v1/team-page/'. $this->slug));
+        return url(config('b2bsaassss.company.default_landing_page_path', '/v1/team-page/'.$this->slug));
     }
 
     /**
