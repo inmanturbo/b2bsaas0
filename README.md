@@ -145,7 +145,9 @@ trait InteractsWithSystemDatabase
     {
 
         $exists = DB::connection($this->tenantConnection)
-            ->select("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '" . $this->name . "'");
+            ->select(
+                "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '" . $this->name . "'"
+            );
 
         return count($exists) > 0;
     }
@@ -159,6 +161,7 @@ trait InteractsWithSystemDatabase
         return $this;
     }
 }
+
 ```
 
 ## Installation
