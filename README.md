@@ -86,7 +86,7 @@ SuperAdmins have the ability to impersonate other users
 ## Database Drivers
 
 > Note:    
-> Currently only `mysql` support is implemented
+> Currently only `mysql` support is implemented for tenant databases
 
 You can easily support another database by extending `\App\Models\TeamDatabase` and overriding some key methods found in `\App\Models\InteractsWithSystemDatabase`
 
