@@ -1,6 +1,6 @@
 # B2bSaas
 
-This is about the simplest implementation possible, with minimal chages to the original jetstream skeleton, in order to mak it easier to keep it up to date with the latest changes in `laravel/jetstream`
+This is about the simplest implementation possible, with minimal changes to the original jetstream skeleton, in order to mak it easier to keep it up to date with the latest changes in `laravel/jetstream`
 
 in order to avoid many changes to the skeleton, I've made most of my additions in the b2bsaas directory, then bootstrapped them with a service provider and a Psr4 namespace of thier own instead of adding them directly to the app directory. I've avoided doing this with models, however as they are first class citizens in a laravel app, often need to be modified, and are expected to live in the `app/Models` directory where many packages and laravel tools will autoscan for them.
 
