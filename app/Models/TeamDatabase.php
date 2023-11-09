@@ -92,16 +92,19 @@ class TeamDatabase extends Model
         parent::delete();
     }
 
-    protected function prepareTenantConnection($name)
+    protected function prepareTenantConnection($name): void
     {
-        $this->originalConfig = config('database.connections.'.$this->tenantConnection);
+        if (! config('b2bsaas.database_creation_disabled')) {
 
-        config()->set('database.connections.'.$this->tenantConnection.'.database', $name);
+            $this->originalConfig = config('database.connections.'.$this->tenantConnection);
 
-        DB::purge($this->tenantConnection);
+            config()->set('database.connections.'.$this->tenantConnection.'.database', $name);
 
-        DB::reconnect($this->tenantConnection);
+            DB::purge($this->tenantConnection);
 
-        Schema::connection($this->tenantConnection)->getConnection()->reconnect();
+            DB::reconnect($this->tenantConnection);
+
+            Schema::connection($this->tenantConnection)->getConnection()->reconnect();
+        }
     }
 }
