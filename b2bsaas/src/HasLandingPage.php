@@ -88,7 +88,7 @@ trait HasLandingPage
      */
     protected function defaultlandingPageUrl()
     {
-        return url(config('b2bsaassss.company.default_landing_page_path', '/v1/team-page/'.$this->slug));
+        return url(config('b2bsaas.company.default_landing_page_path', '/v1/team-page/'.$this->slug));
     }
 
     /**
@@ -98,6 +98,6 @@ trait HasLandingPage
      */
     public function landingPageDisk()
     {
-        return isset($_ENV['VAPOR_ARTIFACT_NAME']) ? 's3' : config('b2bsaassss.company.landing_page_disk', 'public');
+        return isset($_ENV['VAPOR_ARTIFACT_NAME']) ? 's3' : config('b2bsaas.company.landing_page_disk', 'public');
     }
 }
