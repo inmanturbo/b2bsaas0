@@ -223,6 +223,11 @@ Options:
       --fresh           Wipe the database(s)
       --seed            Seed the database(s)
       --force           Force the operation(s) to run when in production
+      --pretend         Dump the SQL queries that would be run
+      --path[=PATH]     The path of migrations files to be executed
+      --realpath        Indicate any provided migration file paths are pre-resolved absolute paths
+      --step            Force the migrations to be run so they can be rolled back individually
+      --rollback        Rollback the last database migration
   -h, --help            Display help for the given command. When no command is given display help for the list command
   -q, --quiet           Do not output any message
 ```

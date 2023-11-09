@@ -12,7 +12,16 @@ class MigrateTeamDatabasesCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'teams:migrate {teamDatabaseName?} {--fresh : Wipe the database(s)} {--seed : Seed the database(s)} {--force : Force the operation(s) to run when in production}';
+    protected $signature = 'teams:migrate 
+                                {teamDatabaseName?} 
+                                {--fresh : Wipe the database(s)} 
+                                {--seed : Seed the database(s)} 
+                                {--force : Force the operation(s) to run when in production} 
+                                {--pretend : Dump the SQL queries that would be run}
+                                {--path= : The path of migrations files to be executed}
+                                {--realpath : Indicate any provided migration file paths are pre-resolved absolute paths}
+                                {--step : Force the migrations to be run so they can be rolled back individually}
+                                {--rollback : Rollback the last database migration}';
 
     /**
      * The console command description.
@@ -58,11 +67,39 @@ class MigrateTeamDatabasesCommand extends Command
             $options['--force'] = true;
         }
 
+        if ($this->option('pretend')) {
+            $options['--pretend'] = true;
+        }
+
+        if ($this->option('path')) {
+            $options['--path'] = $this->option('path');
+        }
+
+        if ($this->option('realpath')) {
+            $options['--realpath'] = true;
+        }
+
+        if ($this->option('step')) {
+            $options['--step'] = true;
+        }
+
         $db->configure();
 
-        $this->call(
-            $this->option('fresh') ? 'migrate:fresh' : 'migrate',
-            $options
-        );
+        if ($this->option('rollback')) {
+            $this->call(
+                'migrate:rollback',
+                $options
+            );
+        } elseif ($this->option('fresh')) {
+            $this->call(
+                'migrate:fresh',
+                $options
+            );
+        } else {
+            $this->call(
+                'migrate',
+                $options
+            );
+        }
     }
 }
