@@ -111,7 +111,7 @@ Once this is done, we need a model called `SqliteTeamDatabase::class` which exte
     }
 ```
 
-You could then finish by adding your own implementation of the following methods to your new model
+You could then complete the driver by adding your own implementation of the following methods to our new model, and that's it!
 
 - `deleteTeamDatabase()`
 - `createTeamDatabase()`
