@@ -96,7 +96,6 @@ You could then finish by adding your own implementation of the following methods
 The default implementation of these methods, which are used for the mysql driver, can be found in the `\App\Models\InteractsWithSystemDatabase` trait:
 
 ```php
-
 <?php
 
 namespace App\Models;
@@ -117,10 +116,11 @@ trait InteractsWithSystemDatabase
 
         $name = (string) str()->of($this->name)->slug('_');
 
-        DB::connection($this->tenantConnection)->statement('DROP DATABASE IF EXISTS ' . $name);
+        DB::connection($this->tenantConnection)
+            ->statement('DROP DATABASE IF EXISTS ' . $name);
     }
 
-    protected function createTeamDatabase() : self
+    protected function createTeamDatabase(): self
     {
 
         $this->prepareTenantConnection($this->getSystemDatabaseName());
@@ -133,7 +133,8 @@ trait InteractsWithSystemDatabase
             $this->createTeamDatabase();
         }
 
-        DB::connection($this->tenantConnection)->statement('CREATE DATABASE IF NOT EXISTS ' . $name);
+        DB::connection($this->tenantConnection)
+            ->statement('CREATE DATABASE IF NOT EXISTS ' . $name);
 
         $this->prepareTenantConnection($name);
 
@@ -143,7 +144,8 @@ trait InteractsWithSystemDatabase
     protected function teamDatabaseExists(): bool
     {
 
-        $exists = DB::connection($this->tenantConnection)->select("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '" . $this->name . "'");
+        $exists = DB::connection($this->tenantConnection)
+            ->select("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '" . $this->name . "'");
 
         return count($exists) > 0;
     }
