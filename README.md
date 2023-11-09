@@ -49,6 +49,8 @@ Simply enter one of the following into the `password_confirmation` field when re
 
 ## Impersonation
 
+SuperAdmins have the ability to impersonate other users
+
 - start by adding `start_impersonate={user_id}` to any request
 - end by adding `stop_impersonate` to any request
 - Only SuperAdmin users can Impersonate
