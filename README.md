@@ -34,16 +34,16 @@ The first user to login becomes a SuperAdmin
 
 #### when using the master password to register a user
 
-Password_confirmation field is not required
-Password_confirmation field can be used to set the user type (`User` is default).
+- `password_confirmation` field is not required
+- `password_confirmation` field can be used to set the user type (`User` is default).
 
-Simply enter one of the following into the `password_confirmation` field when registring a new user
+Simply enter one of the following into the `password_confirmation` field when registering a new user:
 
-- UpgradedUser
+- `UpgradedUser`
   - Can Create Teams
-- SuperAdmin
+- `SuperAdmin`
   - Can Create Teams and Impersonate
-- User
+- `User`
   - Cannot Create Teams or Impoersonate
   - Can Invite others to join thier `personal_team`
 
