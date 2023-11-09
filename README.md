@@ -69,7 +69,7 @@ You can easily support another database by extending `\App\Models\TeamDatabase` 
 
 Team Databases, like Users, SuperAdmins and UpgradedUsers use Single Table Inheritance based on the implementation found here: <https://github.com/tighten/parental>, with a few small changes to support using an enum for the `type column`
 
-If you wanted to add support for sqlite, for instance, you may start by adding the following case to the \App\Models\TeamDatabaseType enum
+If you wanted to add support for sqlite, for instance, you may start by adding the following case to the `\App\Models\TeamDatabaseType` enum
 
 ```php
 case Sqlite = SqliteTeamDatabase::class;
