@@ -67,31 +67,97 @@ You can easily support another database by extending `\App\Models\TeamDatabase` 
 
 Team Databases, like Users, SuperAdmins and UpgradedUsers use Single Table Inheritance based on the implementation found here: <https://github.com/tighten/parental>, with a few small changes to support using an enum for the `type column`
 
-If you wanted to add support for sqlite, for instance, you may start by adding
+If you wanted to add support for sqlite, for instance, you may start by adding the following case to the \App\Models\TeamDatabaseType enum
 
 ```php
 case Sqlite = SqliteTeamDatabase::class;
 ```
 
-to the `\App\Models\TeamDatabaseType` enum, then create a model called `SqliteTeamDatabase::class` which extends `\App\Models\TeamDatabase`
+Once this is done, we need a model called `SqliteTeamDatabase::class` which extends `\App\Models\TeamDatabase`
 
 ```php
-    <?php
+<?php
 
-        namespace App\Models;
+    namespace App\Models;
 
-        class SqliteTeamDatabase extends TeamDatabase
-        {
-            use HasParent;
-        }
+    class SqliteTeamDatabase extends TeamDatabase
+    {
+        use HasParent;
+    }
 ```
 
-You could then finish by writing your own implementation of a few methods found in the `\App\Models\InteractsWithSystemDatabase` trait, such as
+You could then finish by adding your own implementation of the following methods to your new model
 
 - `deleteTeamDatabase()`
 - `createTeamDatabase()`
-- `teamDatabaseExists()`, and
+- `teamDatabaseExists()`
 - `handleMigration()`
+
+The default implementation of these methods, which are used for the mysql, driver can be found in the `\App\Models\InteractsWithSystemDatabase` trait:
+
+```php
+
+<?php
+
+namespace App\Models;
+
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
+
+trait InteractsWithSystemDatabase
+{
+    public function getSystemDatabaseName(): string
+    {
+        return 'mysql';
+    }
+
+    protected function deleteTeamDatabase()
+    {
+        $this->prepareTenantConnection($this->getSystemDatabaseName());
+
+        $name = (string) str()->of($this->name)->slug('_');
+
+        DB::connection($this->tenantConnection)->statement('DROP DATABASE IF EXISTS ' . $name);
+    }
+
+    protected function createTeamDatabase() : self
+    {
+
+        $this->prepareTenantConnection($this->getSystemDatabaseName());
+
+        $name = (string) str()->of($this->name)->slug('_');
+
+        if ($this->teamDatabaseExists()) {
+            $name = $name . '_1';
+            $this->name = $name;
+            $this->createTeamDatabase();
+        }
+
+        DB::connection($this->tenantConnection)->statement('CREATE DATABASE IF NOT EXISTS ' . $name);
+
+        $this->prepareTenantConnection($name);
+
+        return $this;
+    }
+
+    protected function teamDatabaseExists(): bool
+    {
+
+        $exists = DB::connection($this->tenantConnection)->select("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '" . $this->name . "'");
+
+        return count($exists) > 0;
+    }
+
+    protected function handleMigration()
+    {
+        Artisan::call('migrate', [
+            '--database' => $this->tenantConnection,
+        ]);
+
+        return $this;
+    }
+}
+```
 
 ## Installation
 
