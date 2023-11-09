@@ -51,11 +51,6 @@ class B2bSaasServiceProvider extends \Illuminate\Support\ServiceProvider
 
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'b2bsaas');
-
-        Volt::mount([
-            __DIR__.'/../resources/views/livewire',
-            __DIR__.'/../resources/views/pages',
-        ]);
     }
 
     public function configureRequests()
