@@ -61,9 +61,9 @@ Simply enter one of the following into the `password_confirmation` field when re
 ## Database Drivers
 
 > Note:    
-> Currently only `mysql` support is implemented,     
-> but you can easily add your own type of database by extending `\App\Models\TeamDatabase`     
-> and overriding some key methods found in `\App\Models\InteractsWithSystemDatabase`
+> Currently only `mysql` support is implemented
+
+You can easily support another database by extending `\App\Models\TeamDatabase` and overriding some key methods found in `\App\Models\InteractsWithSystemDatabase`
 
 Team Databases, like Users, SuperAdmins and UpgradedUsers use Single Table Inheritance based on the implementation found here: <https://github.com/tighten/parental>, with a few small changes to support using an enum for the `type column`
 
