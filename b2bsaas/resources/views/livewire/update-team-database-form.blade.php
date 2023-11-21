@@ -69,7 +69,7 @@ $updateTeamDatabase = function () {
 
     </x-slot>
 
-    @if (Gate::check('updateDatabase', $team))
+    @if (Gate::check('updateTeamDatabase', $team))
         <x-slot name="actions">
             <x-action-message class="me-3" on="saved">
                 {{ __('Saved.') }}
