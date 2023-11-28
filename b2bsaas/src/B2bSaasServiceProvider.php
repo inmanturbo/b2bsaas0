@@ -12,7 +12,6 @@ use Illuminate\Queue\Events\JobProcessing;
 use Laravel\Fortify\Fortify;
 use Laravel\Jetstream\Jetstream;
 use Laravel\Sanctum\Sanctum;
-use Livewire\Volt\Volt;
 
 class B2bSaasServiceProvider extends \Illuminate\Support\ServiceProvider
 {

@@ -77,11 +77,10 @@ class User extends Authenticatable
      * Switch the user's context to the given team.
      *
      * @param  mixed  $team
-     * @return bool
      */
-    public function switchTeam($team) : bool
+    public function switchTeam($team): bool
     {
-       $isOnTeam = $this->jetstreamSwitchTeam($team);
+        $isOnTeam = $this->jetstreamSwitchTeam($team);
 
         $team?->configure()
             ?->use();
