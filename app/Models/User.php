@@ -79,11 +79,13 @@ class User extends Authenticatable
      * @param  mixed  $team
      * @return bool
      */
-    public function switchTeam($team)
+    public function switchTeam($team) : bool
     {
-        $this->jetstreamSwitchTeam($team);
+       $isOnTeam = $this->jetstreamSwitchTeam($team);
 
         $team?->configure()
             ?->use();
+
+        return $isOnTeam;
     }
 }

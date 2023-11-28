@@ -47,6 +47,6 @@ class CreateTeam implements CreatesTeams
         // session()->flash('flash.banner', 'Team created successfully.');
         // session()->flash('flash.bannerStyle', 'success');
 
-        return route('teams.show', ['team' => auth()->user()->currentTeam->id]);
+        return route('teams.show', [ 'team' => auth()->user()->currentTeam->uuid ]);
     }
 }
