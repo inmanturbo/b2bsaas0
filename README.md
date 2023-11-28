@@ -192,6 +192,14 @@ trait InteractsWithSystemDatabase
 ## Installation
 
 ```bash
+cp .env.example .env
+```
+
+```bash
+mysql -u root -e "create database b2bsaas_landlord"
+```
+
+```bash
 composer install
 ```
 
