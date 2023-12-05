@@ -1,7 +1,9 @@
 <?php
 
+use App\Models\Contact;
 use B2bSaas\AddressData;
 use B2bSaas\ContactData;
+use Illuminate\Validation\Rule;
 
 use function Livewire\Volt\{state, mount};
 
@@ -14,7 +16,7 @@ mount(function ($team) {
         
         $this->team = $team;
 
-        $this->state = $team->contactData->toArray();
+        $this->state = $team->contact_data->toArray();
 
         if ($this->state['fax'] == config('b2bsaas.company.empty_phone')) {
             $this->state['fax'] = null;
@@ -43,27 +45,29 @@ $updateTeamContactData = function () {
         'email' => ['nullable', 'email'],
         'phone' => ['nullable', 'string'],
         'fax' => ['nullable', 'string'],
+        'name' => ['nullable', 'string', 'max:255', Rule::unique('contacts', 'name')->ignore(Contact::where('team_uuid', $this->team->uuid)->first()->id)],
     ])->validate();
+
+    $originalData = $this->team->contact_data->toArray();
 
     $companyData = new ContactData(
         address: new AddressData(
-            city: $input['address']['city'] ?? '',
-            state: $input['address']['state'] ?? '',
-            zip: $input['address']['zip'] ?? '',
-            street: $input['address']['street'] ?? '',
-            country: $input['address']['country'] ?? '',
-            lineTwo: $input['address']['lineTwo'] ?? '',
+            city: $input['address']['city'] ?? $originalData['address']['city'] ?? null,
+            state: $input['address']['state'] ?? $originalData['address']['state'] ?? null,
+            zip: $input['address']['zip'] ?? $originalData['address']['zip'] ?? null,
+            street: $input['address']['street'] ?? $originalData['address']['street'] ?? null,
+            country: $input['address']['country'] ?? $originalData['address']['country'] ?? null,
+            lineTwo: $input['address']['lineTwo'] ?? $originalData['address']['lineTwo'] ?? null,
         ),
-        website: $input['website'] ?? null,
-        email: $input['email'] ?? null,
-        phone: $input['phone'] ?? config('b2bsaas.company.empty_phone'),
-        fax: $input['fax'] ?? config('b2bsaas.company.empty_phone'),
+        name: $input['name'] ?? $originalData['name'] ?? config('b2bsaas.company.empty_name'),
+        website: $input['website'] ?? $originalData['website'] ?? null,
+        email: $input['email'] ?? $originalData['email'] ?? null,
+        phone: $input['phone'] ?? $originalData['phone'] ?? config('b2bsaas.company.empty_phone'),
+        fax: $input['fax'] ?? $originalData['fax'] ?? config('b2bsaas.company.empty_phone'),
     );
 
-    $mergedData = array_merge($this->team->contact_data->toArray(), $companyData->toArray());
-
     $this->team->forceFill([
-        'contact_data' => $mergedData,
+        'contact_data' => $companyData->toArray(),
     ])->save();
 
     $this->dispatch('saved');
@@ -84,15 +88,15 @@ $updateTeamContactData = function () {
 
             <!-- Company Name -->
             <div class="col-span-6 sm:col-span-4">
-                <x-label for="phone" value="{{ __('Name') }}" />
+                <x-label for="name" value="{{ __('Name') }}" />
 
-                <x-input id="phone"
+                <x-input id="name"
                             type="text"
                             class="block w-full mt-1"
                             wire:model.defer="state.name"
                             :disabled="! Gate::check('update', $team)" />
 
-                <x-input-error for="phone" class="mt-2" />
+                <x-input-error for="name" class="mt-2" />
             </div>
 
             <!-- Company Phone -->

@@ -2,13 +2,14 @@
 
 namespace B2bSaas;
 
+use App\Models\ContactType;
 use Illuminate\Support\Facades\Storage;
 use Spatie\LaravelData\Data;
 
 class ContactData extends Data implements Contact
 {
     public function __construct(
-        public AddressData $address,
+        public ?AddressData $address = null,
         public ?string $name = null,
         public ?string $website = null,
         public ?string $email = null,
@@ -16,8 +17,38 @@ class ContactData extends Data implements Contact
         public ?string $logoUrl = null,
         public ?string $logoPath = null,
         public ?string $phone = null,
-        public ?string $fax = null
+        public ?string $fax = null,
+        public ?string $type = 'Contact',
+        public ?string $businessId = null,
+        public ?string $uuid = null,
+        public ?int $id = null,
+        public ?string $teamUUID = null,
     ) {
+    }
+
+    public function teamUUID(): ?string
+    {
+        return $this->teamUUID ?? null;
+    }
+
+    public function uuid(): ?string
+    {
+        return $this->uuid ?? null;
+    }
+
+    public function businessId(): ?string
+    {
+        return $this->businessId ?? null;
+    }
+
+    public function id(): ?int
+    {
+        return $this->id ?? null;
+    }
+
+    public function type(): ?string
+    {
+        return $this->type ?? ContactType::Contact->name;
     }
 
     public function name(): ?string
@@ -32,7 +63,7 @@ class ContactData extends Data implements Contact
 
     public function streetAddress(): ?string
     {
-        $streetAddress = $this->address->street;
+        $streetAddress = $this->address?->street;
         if (isset($this->address->lineTwo) && strlen($this->address->lineTwo) > 1) {
             $streetAddress .= ', '.$this->address->lineTwo;
         }
@@ -53,6 +84,11 @@ class ContactData extends Data implements Contact
     public function phone(): ?string
     {
         return $this->phone ?? config('b2bsaas.company.empty_phone');
+    }
+
+    public function rawPhone(): ?string
+    {
+        return $this->phone ?? null;
     }
 
     public function email(): ?string

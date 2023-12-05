@@ -2,7 +2,6 @@
 /**
  * @var \App\Models\Team $team
  */
-
  $team = \App\Models\Team::whereUuid(request()->route('team'))->firstOrFail();
 ?>
 <x-app-layout>

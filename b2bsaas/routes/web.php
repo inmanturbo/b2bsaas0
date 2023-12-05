@@ -3,7 +3,23 @@
 // Path: b2bsaas/routes/web.php
 
 use App\Models\Team;
+use B2bSaas\Http\Controllers\CurrentTeamController;
 use Illuminate\Support\Facades\Route;
+
+Route::put('/current-team', [CurrentTeamController::class, 'update'])->name('current-team.update')->middleware([
+    'web',
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+]);
+
+Route::get('/teams/create', function () {
+    return redirect()->route('teams.create');
+});
+
+Route::get('/teams/{team:uuid}', function ($team) {
+    return redirect()->route('teams.show', $team);
+});
 
 Route::view('/v1/teams/create', 'b2bsaas::teams.create')->name('teams.create')->middleware([
     'web',
@@ -43,4 +59,4 @@ Route::get('/', function () {
 
     return view('welcome');
 
-})->name('teams.landing-page');
+})->name('home');
