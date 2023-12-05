@@ -15,6 +15,14 @@
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" wire:navigate="true">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    <x-nav-link href="{{ route('contacts.v1.index') }}" :active="request()->routeIs('contacts.v1.index')" wire:navigate="true">
+                        {{ __('Contacts') }}
+                    </x-nav-link>
+
+                    <x-nav-link href="{{ route('invoices.v1.index') }}" :active="request()->routeIs('invoices.v1.index')" wire:navigate="true">
+                        {{ __('Invoices') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -190,7 +198,7 @@
                     </div>
 
                     <!-- Team Settings -->
-                    <x-responsive-nav-link href="{{ route('teams.show', Auth::user()->currentTeam->id) }}" :active="request()->routeIs('teams.show')">
+                    <x-responsive-nav-link href="{{ route('teams.show', Auth::user()->currentTeam->uuid) }}" :active="request()->routeIs('teams.show')">
                         {{ __('Team Settings') }}
                     </x-responsive-nav-link>
 
