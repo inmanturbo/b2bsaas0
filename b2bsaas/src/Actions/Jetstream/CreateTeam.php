@@ -23,7 +23,7 @@ class CreateTeam implements CreatesTeams
 
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
-            'team_database_id' => ['nullable', 'integer', 'exists:' . config('database.landlord') . '.team_databases,id'],
+            'team_database_id' => ['nullable', 'integer', 'exists:'.config('database.landlord').'.team_databases,id'],
         ])->validateWithBag('createTeam');
 
         AddingTeam::dispatch($user);

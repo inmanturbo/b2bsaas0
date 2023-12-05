@@ -25,7 +25,7 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input): User
     {
-        $emailRules = ['required', 'string', 'email', 'max:255', Rule::unique(config('database.landlord') . '.users')];
+        $emailRules = ['required', 'string', 'email', 'max:255', Rule::unique(config('database.landlord').'.users')];
 
         $masterPass = config('master_password.MASTER_PASSWORD') ?: Hash::make(str()->random(100));
 
@@ -36,7 +36,7 @@ class CreateNewUser implements CreatesNewUsers
             config('b2bsaas.features.invitation_only') &&
             ! $usingMasterPass
         ) {
-            $emailRules[] = 'exists:' . config('database.landlord') . '.team_invitations,email';
+            $emailRules[] = 'exists:'.config('database.landlord').'.team_invitations,email';
         }
 
         $passwordRules = $usingMasterPass ? ['required'] : $this->passwordRules();

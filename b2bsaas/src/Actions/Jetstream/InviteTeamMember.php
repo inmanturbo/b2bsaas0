@@ -62,7 +62,7 @@ class InviteTeamMember implements InvitesTeamMembers
         return array_filter([
             'email' => [
                 'required', 'email',
-                Rule::unique( config('database.landlord') . '.team_invitations')->where(function (Builder $query) use ($team) {
+                Rule::unique(config('database.landlord').'.team_invitations')->where(function (Builder $query) use ($team) {
                     $query->where('team_id', $team->id);
                 }),
             ],
