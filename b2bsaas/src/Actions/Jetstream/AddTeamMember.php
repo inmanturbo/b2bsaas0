@@ -59,7 +59,7 @@ class AddTeamMember implements AddsTeamMembers
     protected function rules(): array
     {
         return array_filter([
-            'email' => ['required', 'email', 'exists:landlord.users'],
+            'email' => ['required', 'email', 'exists:' . config('database.landlord') . '.users,email'],
             'role' => Jetstream::hasRoles()
                             ? ['required', 'string', new Role()]
                             : null,

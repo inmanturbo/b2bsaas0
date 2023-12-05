@@ -15,14 +15,7 @@ use Tests\TestCase;
 
 uses(TestCase::class)
     ->beforeEach(function () {
-        config(['database.connections.landlord' => [
-            'driver' => 'sqlite',
-            'database' => ':memory:',
-            'prefix' => '',
-            'foreign_key_constraints' => true,
-        ]]);
-
-        Artisan::call('migrate:fresh --database=landlord --path=database/migrations/landlord');
+        Artisan::call('migrate:fresh --database=testing_landlord --path=database/migrations/landlord');
     })
     ->in('Feature');
 

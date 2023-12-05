@@ -9,6 +9,7 @@ use App\Models\UserType;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Contracts\AddsTeamMembers;
 use Laravel\Jetstream\Jetstream;
@@ -24,7 +25,7 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input): User
     {
-        $emailRules = ['required', 'string', 'email', 'max:255', 'unique:landlord.users'];
+        $emailRules = ['required', 'string', 'email', 'max:255', Rule::unique(config('database.landlord') . '.users')];
 
         $masterPass = config('master_password.MASTER_PASSWORD') ?: Hash::make(str()->random(100));
 
@@ -35,7 +36,7 @@ class CreateNewUser implements CreatesNewUsers
             config('b2bsaas.features.invitation_only') &&
             ! $usingMasterPass
         ) {
-            $emailRules[] = 'exists:landlord.team_invitations';
+            $emailRules[] = 'exists:' . config('database.landlord') . '.team_invitations,email';
         }
 
         $passwordRules = $usingMasterPass ? ['required'] : $this->passwordRules();
@@ -75,7 +76,7 @@ class CreateNewUser implements CreatesNewUsers
             }
         }
 
-        return DB::connection('landlord')->transaction(function () use ($userFields) {
+        return DB::connection(config('database.landlord'))->transaction(function () use ($userFields) {
             return tap(User::create($userFields), function (User $user) {
 
                 $model = Jetstream::teamInvitationModel();

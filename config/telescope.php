@@ -46,7 +46,7 @@ return [
 
     'storage' => [
         'database' => [
-            'connection' => 'landlord',
+            'connection' => env('LANDLORD_DB_CONNECTION', 'landlord_mysql'),
             'chunk' => 1000,
         ],
     ],

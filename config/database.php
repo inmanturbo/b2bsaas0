@@ -16,6 +16,7 @@ return [
     */
 
     'default' => env('DB_CONNECTION', 'tenant_connection'),
+    'landlord' => env('LANDLORD_DB_CONNECTION', 'landlord_mysql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -43,7 +44,14 @@ return [
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
 
-        'landlord' => [
+        'testing_landlord' => [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+            'prefix' => '',
+            'foreign_key_constraints' => true,
+        ],
+
+        'landlord_mysql' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),

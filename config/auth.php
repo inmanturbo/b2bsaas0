@@ -94,7 +94,7 @@ return [
         'users' => [
             'provider' => 'users',
             'table' => 'password_reset_tokens',
-            'connection' => 'landlord',
+            'connection' => env('LANDLORD_DB_CONNECTION', 'landlord_mysql'),
             'expire' => 60,
             'throttle' => 60,
         ],

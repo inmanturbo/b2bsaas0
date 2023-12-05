@@ -72,7 +72,7 @@ return [
     |
     */
 
-    'connection' => env('SESSION_CONNECTION'),
+    'connection' => env('LANDLORD_DB_CONNECTION', env('SESSION_CONNECTION', 'landlord_mysql')),
 
     /*
     |--------------------------------------------------------------------------
