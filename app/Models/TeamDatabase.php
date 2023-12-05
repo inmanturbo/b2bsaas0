@@ -95,6 +95,9 @@ class TeamDatabase extends Model
     protected function prepareTenantConnection($name): void
     {
         if (! config('b2bsaas.database_creation_disabled')) {
+            
+
+            $this->originalConfig = once(fn() => config('database.connections.'.$this->tenantConnection));
 
             $this->originalConfig = config('database.connections.'.$this->tenantConnection);
 
