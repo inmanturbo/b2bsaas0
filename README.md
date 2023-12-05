@@ -11,7 +11,7 @@ In order to avoid many changes to the skeleton, I've made most of my additions i
 > in addition to the standard App root.    
 > Feel free to modify it as needed!
 
-I've copied the blade files for the layout components directory from jetstream and added `wire:navigate` to the links to make the navigation more snappy. The simplest way to do this without as little change as possible to the original skeleton was to copy them into `b2bsaas/resources/views` and ensure they are rendered by the Components in `app/View`. For example, for the `app/View/AppLayout.php` component (tagged `<x-app-layout></x-app-layout>`), I've changed the render method to this:
+I've copied the blade files for the layout components directory from jetstream and added `wire:navigate` to the links to make the navigation more snappy. The simplest way to do this without as little change as possible to the original skeleton was to copy them into `b2bsaas/resources/views` and ensure they are rendered by the Components in `app/View`. For example, for the `app/View/AppLayout.php` component (tagged `<x-app-layout>...</x-app-layout>`), I've changed the render method to this:
 
 ```php
 /**
