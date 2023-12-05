@@ -22,6 +22,7 @@ public function render(): View
     return view('b2bsaas::components.app');
 }
 ```
+The markup for the view `b2bsaas::components.app` lives in `b2bsaas/resources/views/components/app.blade.php`.
 
 ## Multitenancy
 
