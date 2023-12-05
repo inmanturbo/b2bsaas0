@@ -204,7 +204,8 @@ composer install
 ```
 
 ```bash
-php artisan migrate:fresh --path=database/migrations/landlord --database=landlord
+# landlord_mysql is the default landlord connection
+php artisan migrate:fresh --path=database/migrations/landlord --database=landlord_mysql
 ```
 
 ```bash
