@@ -36,7 +36,7 @@ trait InteractsWithSystemDatabase
             $this->createTeamDatabase(testing: $testing);
         }
 
-        if(! $testing) {
+        if (! $testing) {
             DB::statement('CREATE DATABASE IF NOT EXISTS '.$name);
         }
 
@@ -49,14 +49,15 @@ trait InteractsWithSystemDatabase
     {
         $this->prepareTenantConnection($this->getSystemDatabaseName());
 
-        if($testing) {
+        if ($testing) {
             $this->restoreOriginalConnection();
+
             return false;
         }
 
         $exists = DB::select(
-                "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '".$this->name."'"
-            );
+            "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '".$this->name."'"
+        );
 
         $this->restoreOriginalConnection();
 

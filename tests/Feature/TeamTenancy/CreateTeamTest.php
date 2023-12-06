@@ -1,14 +1,12 @@
 <?php
 
 use App\Models\Team;
-use App\Models\TeamDatabaseType;
 use App\Models\User;
 use App\Models\UserType;
 use Illuminate\Support\Facades\Schema;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertDatabaseHas;
-use function Pest\Laravel\withoutExceptionHandling;
 use function PHPUnit\Framework\assertTrue;
 
 it('creates and migrates team database when a teams is created', function () {
