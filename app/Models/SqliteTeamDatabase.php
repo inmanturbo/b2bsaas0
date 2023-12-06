@@ -21,12 +21,11 @@ class SqliteTeamDatabase extends TeamDatabase
 
         $userUuid = (string) $this->user->uuid;
 
-        // create storage director for use if it doesn't exist
+        // create storage directory for user if it doesn't exist
         if (! file_exists(storage_path('app/'.$userUuid))) {
             mkdir(storage_path('app/'.$userUuid));
         }
 
-        // create database file if it doesn't exist
         if (! file_exists(storage_path('app/'.$userUuid.'/'.$name.'.sqlite'))) {
             Storage::disk('local')->put($userUuid.'/'.$name.'.sqlite', '');
         }
@@ -40,7 +39,6 @@ class SqliteTeamDatabase extends TeamDatabase
 
         $userUuid = (string) $this->user->uuid;
 
-        // delete database file if it exists
         if (file_exists(storage_path('app/'.$userUuid.'/'.$name.'.sqlite'))) {
             unlink(storage_path('app/'.$userUuid.'/'.$name.'.sqlite'));
         }
