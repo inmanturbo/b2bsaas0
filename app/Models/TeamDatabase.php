@@ -17,9 +17,9 @@ class TeamDatabase extends Model
 
     public $originalConfig = [];
 
-    protected $childColumn = 'driver';
+    public $originalDefaultConnectionName = null;
 
-    protected $tenantConnection = 'tenant_connection';
+    protected $childColumn = 'driver';
 
     /**
      * The attributes that are mass assignable.
@@ -56,13 +56,15 @@ class TeamDatabase extends Model
             if (! app()->runningUnitTests() && ! config('b2bsaas.database_creation_disabled')) {
                 $model->createTeamDatabase()
                     ->migrate();
+            }elseif (app()->runningUnitTests()) {
+                $model->createTeamDatabase(testing: true)->migrate();
             }
         });
     }
 
     public function configure()
     {
-        $this->prepareTenantConnection($this->name);
+        $this->prepareTenantConnection($connection = $this->createTenantConnection());
 
         return $this;
     }
@@ -78,9 +80,7 @@ class TeamDatabase extends Model
     {
         $this->configure()->handleMigration();
 
-        if (! empty($this->originalConfig)) {
-            config()->set('database.connections.'.$this->tenantConnection, $this->originalConfig);
-        }
+        $this->restoreOriginalConnection();
 
         return $this;
     }
@@ -92,21 +92,50 @@ class TeamDatabase extends Model
         parent::delete();
     }
 
+    protected function restoreOriginalConnection(): void
+    {
+        if (! empty($this->originalConfig)) {
+            config()->set('database.connections.'.$this->originalDefaultConnectionName, $this->originalConfig);
+            config()->set('database.default', $this->originalDefaultConnectionName);
+        }
+    }
+
+    protected function createTenantConnection(): string
+    {
+        if(! app()->runningUnitTests()) {
+            
+            $driver = (string) str()->of($this->driver)->lower();
+            
+            $connectionTemplate = config('database.connections.tenant_'.$driver);
+            
+        }else{ 
+            $connectionTemplate = config('database.connections.testing_tenant');
+        }
+        $databaseConfig = [];
+
+        if (! config('b2bsaas.database_creation_disabled') && ! app()->runningUnitTests()) {
+            $databaseConfig['database'] = $this->name;
+        }
+
+        config()->set('database.connections.'.$this->name, array_merge($connectionTemplate, $databaseConfig));
+
+        return $this->name;
+    }
+
     protected function prepareTenantConnection($name): void
     {
-        if (! config('b2bsaas.database_creation_disabled')) {
+        $default = once(fn() => config('database.default'));
 
-            $this->originalConfig = once(fn () => config('database.connections.'.$this->tenantConnection));
+        $this->originalDefaultConnectionName = $default;
 
-            $this->originalConfig = config('database.connections.'.$this->tenantConnection);
+        $this->originalConfig = once(fn() => config('database.connections.'.$this->originalDefaultConnectionName));
 
-            config()->set('database.connections.'.$this->tenantConnection.'.database', $name);
+        config()->set('database.default', $name);
 
-            DB::purge($this->tenantConnection);
+        DB::purge();
 
-            DB::reconnect($this->tenantConnection);
+        DB::reconnect();
 
-            Schema::connection($this->tenantConnection)->getConnection()->reconnect();
-        }
+        Schema::connection(config('database.default'))->getConnection()->reconnect();
     }
 }

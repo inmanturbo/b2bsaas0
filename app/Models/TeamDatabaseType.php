@@ -5,8 +5,8 @@ namespace App\Models;
 enum TeamDatabaseType: string
 {
     case Mysql = MysqlTeamDatabase::class;
+    case Sqlite = SqliteTeamDatabase::class;
     // case Postgres = PostgresTeamDatabase::class;
-    // case Sqlite = SqliteTeamDatabase::class;
     // case SqlServer = SqlServerTeamDatabase::class;
 
     public static function toArray(): array

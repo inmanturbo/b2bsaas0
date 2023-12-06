@@ -9,7 +9,7 @@ trait InteractsWithSystemDatabase
 {
     public function getSystemDatabaseName(): string
     {
-        return 'mysql';
+        return 'landlord_mysql';
     }
 
     protected function deleteTeamDatabase()
@@ -18,38 +18,47 @@ trait InteractsWithSystemDatabase
 
         $name = (string) str()->of($this->name)->slug('_');
 
-        DB::connection($this->tenantConnection)
-            ->statement('DROP DATABASE IF EXISTS '.$name);
+        DB::statement('DROP DATABASE IF EXISTS '.$name);
+
+        $this->restoreOriginalConnection();
     }
 
-    protected function createTeamDatabase(): self
+    protected function createTeamDatabase(bool $testing = false): self
     {
 
         $this->prepareTenantConnection($this->getSystemDatabaseName());
 
         $name = (string) str()->of($this->name)->slug('_');
 
-        if ($this->teamDatabaseExists()) {
+        if ($this->teamDatabaseExists(testing: $testing)) {
             $name = $name.'_1';
             $this->name = $name;
-            $this->createTeamDatabase();
+            $this->createTeamDatabase(testing: $testing);
         }
 
-        DB::connection($this->tenantConnection)
-            ->statement('CREATE DATABASE IF NOT EXISTS '.$name);
+        if(! $testing) {
+            DB::statement('CREATE DATABASE IF NOT EXISTS '.$name);
+        }
 
-        $this->prepareTenantConnection($name);
+        $this->restoreOriginalConnection();
 
         return $this;
     }
 
-    protected function teamDatabaseExists(): bool
+    protected function teamDatabaseExists(bool $testing = false): bool
     {
+        $this->prepareTenantConnection($this->getSystemDatabaseName());
 
-        $exists = DB::connection($this->tenantConnection)
-            ->select(
+        if($testing) {
+            $this->restoreOriginalConnection();
+            return false;
+        }
+
+        $exists = DB::select(
                 "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '".$this->name."'"
             );
+
+        $this->restoreOriginalConnection();
 
         return count($exists) > 0;
     }
@@ -57,7 +66,7 @@ trait InteractsWithSystemDatabase
     protected function handleMigration()
     {
         Artisan::call('migrate', [
-            '--database' => $this->tenantConnection,
+            '--force' => true,
         ]);
 
         return $this;
