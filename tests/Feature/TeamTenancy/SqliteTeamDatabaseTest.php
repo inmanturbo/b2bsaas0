@@ -16,4 +16,7 @@ it('creates and deletes an sqlite database', function () {
     $database->delete();
 
     $this->assertFileDoesNotExist(storage_path('app/'.$user->uuid.'/'.$database->name.'.sqlite'));
+
+    // cleanup
+    Storage::disk('local')->deleteDirectory($user->uuid);
 });

@@ -10,11 +10,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Schema;
 use Laravel\Jetstream\Events\TeamCreated;
 use Laravel\Jetstream\Events\TeamDeleted;
 use Laravel\Jetstream\Events\TeamUpdated;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\Team as JetstreamTeam;
+use Log;
 
 class Team extends JetstreamTeam
 {
@@ -56,12 +58,9 @@ class Team extends JetstreamTeam
         parent::boot();
         static::creating(function (Model $model) {
             if (! $model->team_database_id) {
-                $model->team_database_id = TeamDatabase::create(
-                    [
-                        'name' => (string) str()->of($model->name)->slug('_'),
-                        'user_id' => $model?->user_id ?? (auth()?->id() ?? 1),
-                    ]
-                )->id;
+                $teamDatabase = $model->createTeamDatabase();
+
+                $model->team_database_id = $teamDatabase->id;
             }
             $model->slug = (string) str()->of($model->name)->slug('-');
         });
@@ -69,6 +68,36 @@ class Team extends JetstreamTeam
         static::updating(function (Model $model) {
             $model->slug = (string) str()->of($model->name)->slug('-');
         });
+    }
+
+    protected function createTeamDatabase() : TeamDatabase
+    {
+        $column = Schema::connection($this->getConnectionName())->getConnection()->getDoctrineColumn('team_databases', 'driver');
+        $driver = $column->getDefault();
+        
+        switch ($driver) {
+            case TeamDatabaseType::Sqlite->name:
+                $teamDatabase = SqliteTeamDatabase::create(
+                    [
+                        'name' => (string) str()->of($this->name)->slug('_'),
+                        'user_id' => $this?->user_id ?? (auth()?->id() ?? 1),
+                        'driver' => TeamDatabaseType::Sqlite->name,
+                        ]
+                    );
+                    break;
+                    case TeamDatabaseType::Mysql->name:
+                        $teamDatabase = MysqlTeamDatabase::create(
+                            [
+                                'name' => (string) str()->of($this->name)->slug('_'),
+                                'user_id' => $this?->user_id ?? (auth()?->id() ?? 1),
+                                'driver' => TeamDatabaseType::Mysql->name,
+                                ]
+                            );
+                break;
+            default:
+                throw new \Exception('Unsupported database driver');
+        }
+        return $teamDatabase;
     }
 
     public function url(): Attribute

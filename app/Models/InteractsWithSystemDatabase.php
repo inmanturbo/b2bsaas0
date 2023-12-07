@@ -9,7 +9,7 @@ trait InteractsWithSystemDatabase
 {
     public function getSystemDatabaseName(): string
     {
-        return 'landlord_mysql';
+        return 'mysql';
     }
 
     protected function deleteTeamDatabase()
@@ -25,23 +25,18 @@ trait InteractsWithSystemDatabase
 
     protected function createTeamDatabase(bool $testing = false): self
     {
-
-        $this->prepareTenantConnection($this->getSystemDatabaseName());
-
         $name = (string) str()->of($this->name)->slug('_');
-
+        
         if ($this->teamDatabaseExists(testing: $testing)) {
             $name = $name.'_1';
             $this->name = $name;
             $this->createTeamDatabase(testing: $testing);
         }
-
+        
         if (! $testing) {
-            DB::statement('CREATE DATABASE IF NOT EXISTS '.$name);
+            DB::connection($this->getSystemDatabaseName())->statement('CREATE DATABASE IF NOT EXISTS '.$name);
         }
-
-        $this->restoreOriginalConnection();
-
+        
         return $this;
     }
 
@@ -55,7 +50,7 @@ trait InteractsWithSystemDatabase
             return false;
         }
 
-        $exists = DB::select(
+        $exists = DB::connection($this->getSystemDatabaseName())->select(
             "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '".$this->name."'"
         );
 

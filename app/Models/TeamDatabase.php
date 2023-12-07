@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Log;
 
 class TeamDatabase extends Model
 {
@@ -48,18 +49,20 @@ class TeamDatabase extends Model
     public static function boot(): void
     {
         parent::boot();
-        static::creating(function (Model $model) {
+        static::created(function (Model $model) {
             if (! $model->user_id) {
                 $model->user_id = auth()->id() ?? 1;
             }
             // if not running tests
             if (! app()->runningUnitTests() && ! config('b2bsaas.database_creation_disabled')) {
                 $model->createTeamDatabase()
-                    ->migrate();
+                ->migrate();
+
             } elseif (app()->runningUnitTests()) {
                 $model->createTeamDatabase(testing: true)->migrate();
             }
         });
+        Log::debug('Created and migrated team database about to exit boot function');
     }
 
     public function configure()
@@ -107,35 +110,40 @@ class TeamDatabase extends Model
             $driver = (string) str()->of($this->driver)->lower();
 
             $connectionTemplate = config('database.connections.tenant_'.$driver);
-
+            
         } else {
             $connectionTemplate = config('database.connections.testing_tenant');
         }
         $databaseConfig = [];
-
+        
         if (! config('b2bsaas.database_creation_disabled') && ! app()->runningUnitTests()) {
-            $databaseConfig['database'] = $this->name;
+            $databaseConfig['database'] = $this->getTenantConnectionDatabaseName();
         }
-
+    
         config()->set('database.connections.'.$this->name, array_merge($connectionTemplate, $databaseConfig));
 
+        return $this->name;
+    }
+
+    protected function getTenantConnectionDatabaseName(): string
+    {
         return $this->name;
     }
 
     protected function prepareTenantConnection($name): void
     {
         $default = once(fn () => config('database.default'));
-
+        
         $this->originalDefaultConnectionName = $default;
-
+        
         $this->originalConfig = once(fn () => config('database.connections.'.$this->originalDefaultConnectionName));
-
+        
         config()->set('database.default', $name);
-
+        
         DB::purge();
-
+        
         DB::reconnect();
-
+        
         Schema::connection(config('database.default'))->getConnection()->reconnect();
     }
 }

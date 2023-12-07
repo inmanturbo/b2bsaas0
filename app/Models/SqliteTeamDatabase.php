@@ -59,4 +59,14 @@ class SqliteTeamDatabase extends TeamDatabase
             '--force' => true,
         ]);
     }
+
+    protected function getTenantConnectionDatabaseName(): string
+    {
+        $name = (string) str()->of($this->name)->slug('_');
+
+        $userUuid = (string) $this->user->uuid;
+
+        return storage_path('app/'.$userUuid.'/'.$name.'.sqlite');
+    }
+
 }

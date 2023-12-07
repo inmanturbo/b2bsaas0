@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid')->unique()->index();
             $table->foreignId('user_id')->index();
-            $table->foreignId('team_database_id')->index();
+            $table->foreignId('team_database_id')->index()->nullable();
             $table->string('name');
             $table->string('domain')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
