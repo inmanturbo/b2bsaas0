@@ -8,7 +8,6 @@ use App\Models\User;
 use App\Models\UserType;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
@@ -47,6 +46,7 @@ class CreateNewUser implements CreatesNewUsers
             'email' => $emailRules,
             'password' => $passwordRules,
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
+            'team_database_driver' => 'nullable|string',
         ])->validate();
 
         $userFields = [
@@ -85,9 +85,7 @@ class CreateNewUser implements CreatesNewUsers
                 if ($model::where('email', $user->email)->exists()) {
                     $this->acceptTeamInvitationForUser($user, $model::where('email', $user->email)->latest()->first()->id);
                 } else {
-                    Log::debug('Creating personal team for user');
-                    $team = $this->createTeam($user);
-                    Log::debug('Created personal team for user');
+                    $team = $this->createTeam($user, $input['team_database_driver'] ?? null);
                     $user->switchTeam($team);
                 }
             });
@@ -97,13 +95,22 @@ class CreateNewUser implements CreatesNewUsers
     /**
      * Create a personal team for the user.
      */
-    protected function createTeam(User $user): Team
+    protected function createTeam(User $user, string $teamDatabaseDriver = null): Team
     {
-        $user->ownedTeams()->save($team = Team::forceCreate([
+
+        $team = new Team([
             'user_id' => $user->id,
             'name' => explode(' ', $user->name, 2)[0]."'s Team",
             'personal_team' => true,
-        ]));
+        ]);
+
+        if ($teamDatabaseDriver) {
+            $team->team_database_driver = $teamDatabaseDriver;
+        }
+
+        $team->save();
+
+        $user->ownedTeams()->save($team);
 
         return $team;
     }

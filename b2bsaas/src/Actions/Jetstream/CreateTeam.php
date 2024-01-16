@@ -24,6 +24,7 @@ class CreateTeam implements CreatesTeams
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'team_database_id' => ['nullable', 'integer', 'exists:'.config('database.landlord').'.team_databases,id'],
+            'team_database_driver' => 'nullable|string',
         ])->validateWithBag('createTeam');
 
         AddingTeam::dispatch($user);
@@ -37,16 +38,33 @@ class CreateTeam implements CreatesTeams
             $teamData['team_database_id'] = $input['team_database_id'];
         }
 
-        $user->switchTeam($team = $user->ownedTeams()->create($teamData));
+        $user->switchTeam($team = $user->ownedTeams()->save(
+            $this->createTeamForUser($user, $teamData, $input['team_database_driver'] ?? null
+            )));
+
+        return $team;
+    }
+
+    protected function createTeamForUser($user, array $teamData, string $teamDatbaseDriver = null): Team
+    {
+
+        $teamData = array_merge($teamData, [
+            'user_id' => $user->id,
+        ]);
+
+        $team = new Team($teamData);
+
+        if ($teamDatbaseDriver) {
+            $team->team_database_driver = $teamDatbaseDriver;
+        }
+
+        $team->save();
 
         return $team;
     }
 
     public function redirectTo(): string
     {
-        // session()->flash('flash.banner', 'Team created successfully.');
-        // session()->flash('flash.bannerStyle', 'success');
-
         return route('teams.show', ['team' => auth()->user()->currentTeam->uuid]);
     }
 }

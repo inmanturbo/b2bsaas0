@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             $table->string('name');
-            $table->string('driver')->default(config('b2bsaas.defaut_team_database_driver'));
+            $table->string('driver')->default(config('b2bsaas.default_team_database_driver'));
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });

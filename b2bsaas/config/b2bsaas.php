@@ -1,6 +1,6 @@
 <?php
 
-// Path: b2bsaas/src/configb2bsaasas.php
+// Path: b2bsaas/src/config/b2bsaas.php
 
 return [
 

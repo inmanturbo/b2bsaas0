@@ -52,6 +52,25 @@ class Team extends JetstreamTeam
         'deleted' => TeamDeleted::class,
     ];
 
+    public $teamDatabaseDriver = null;
+
+    // protected function teamDatabaseDriver(): Attribute
+    // {
+    //     return new Attribute(
+    //         get: fn ($value, $attributes) => $value
+    //             ? constant(TeamDatabaseType::class.'::'.$value)
+    //             : constant(TeamDatabaseType::class.'::'.$this->getDefaultTeamDatabaseDriverName()),
+    //     );
+    // }
+
+    protected function getDefaultTeamDatabaseDriverName(): string
+    {
+        $column = Schema::connection($this->getConnectionName())->getConnection()->getDoctrineColumn('team_databases', 'driver');
+        $driver = $column->getDefault();
+
+        return $driver;
+    }
+
     public static function boot(): void
     {
         parent::boot();
@@ -69,12 +88,19 @@ class Team extends JetstreamTeam
         });
     }
 
-    protected function createTeamDatabase(): TeamDatabase
+    protected function createTeamDatabase(TeamDatabaseType $driver = null): TeamDatabase
     {
-        $column = Schema::connection($this->getConnectionName())->getConnection()->getDoctrineColumn('team_databases', 'driver');
-        $driver = $column->getDefault();
 
-        switch ($driver) {
+        if (! $driver) {
+
+            $defaultDriverName = $this->getDefaultTeamDatabaseDriverName();
+
+            $driver = $this->teamDatabaseDriver
+                ? constant(TeamDatabaseType::class.'::'.$this->teamDatabaseDriver)
+                : constant(TeamDatabaseType::class.'::'.$defaultDriverName);
+        }
+
+        switch ($driver->name) {
             case TeamDatabaseType::Sqlite->name:
                 $teamDatabase = SqliteTeamDatabase::create(
                     [
@@ -94,7 +120,7 @@ class Team extends JetstreamTeam
                 );
                 break;
             default:
-                throw new \Exception('Unsupported database driver');
+                throw new \Exception('Unsupported database driver: '.$driver->name);
         }
 
         return $teamDatabase;
