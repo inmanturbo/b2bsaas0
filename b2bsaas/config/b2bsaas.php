@@ -6,6 +6,8 @@ return [
 
     'url_scheme' => env('APP_URL_SCHEME', 'http'),
 
+    'default_team_database_driver' => env('DEFAULT_TEAM_DATABASE_DRIVER', \App\Models\TeamDatabaseType::Mysql->name),
+
     'features' => [
         'invitation_only' => env('B2BSAAS_INVITATION_ONLY', true),
     ],

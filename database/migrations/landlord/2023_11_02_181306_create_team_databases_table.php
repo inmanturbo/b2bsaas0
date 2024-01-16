@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\TeamDatabaseType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             $table->string('name');
-            $table->string('driver')->default(TeamDatabaseType::Mysql->name);
+            $table->string('driver')->default(config('b2bsaas.defaut_team_database_driver'));
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
