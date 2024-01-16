@@ -26,17 +26,17 @@ trait InteractsWithSystemDatabase
     protected function createTeamDatabase(bool $testing = false): self
     {
         $name = (string) str()->of($this->name)->slug('_');
-        
+
         if ($this->teamDatabaseExists(testing: $testing)) {
             $name = $name.'_1';
             $this->name = $name;
             $this->createTeamDatabase(testing: $testing);
         }
-        
+
         if (! $testing) {
             DB::connection($this->getSystemDatabaseName())->statement('CREATE DATABASE IF NOT EXISTS '.$name);
         }
-        
+
         return $this;
     }
 

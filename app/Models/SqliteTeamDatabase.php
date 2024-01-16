@@ -68,5 +68,4 @@ class SqliteTeamDatabase extends TeamDatabase
 
         return storage_path('app/'.$userUuid.'/'.$name.'.sqlite');
     }
-
 }

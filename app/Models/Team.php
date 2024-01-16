@@ -16,7 +16,6 @@ use Laravel\Jetstream\Events\TeamDeleted;
 use Laravel\Jetstream\Events\TeamUpdated;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\Team as JetstreamTeam;
-use Log;
 
 class Team extends JetstreamTeam
 {
@@ -70,11 +69,11 @@ class Team extends JetstreamTeam
         });
     }
 
-    protected function createTeamDatabase() : TeamDatabase
+    protected function createTeamDatabase(): TeamDatabase
     {
         $column = Schema::connection($this->getConnectionName())->getConnection()->getDoctrineColumn('team_databases', 'driver');
         $driver = $column->getDefault();
-        
+
         switch ($driver) {
             case TeamDatabaseType::Sqlite->name:
                 $teamDatabase = SqliteTeamDatabase::create(
@@ -82,21 +81,22 @@ class Team extends JetstreamTeam
                         'name' => (string) str()->of($this->name)->slug('_'),
                         'user_id' => $this?->user_id ?? (auth()?->id() ?? 1),
                         'driver' => TeamDatabaseType::Sqlite->name,
-                        ]
-                    );
-                    break;
-                    case TeamDatabaseType::Mysql->name:
-                        $teamDatabase = MysqlTeamDatabase::create(
-                            [
-                                'name' => (string) str()->of($this->name)->slug('_'),
-                                'user_id' => $this?->user_id ?? (auth()?->id() ?? 1),
-                                'driver' => TeamDatabaseType::Mysql->name,
-                                ]
-                            );
+                    ]
+                );
+                break;
+            case TeamDatabaseType::Mysql->name:
+                $teamDatabase = MysqlTeamDatabase::create(
+                    [
+                        'name' => (string) str()->of($this->name)->slug('_'),
+                        'user_id' => $this?->user_id ?? (auth()?->id() ?? 1),
+                        'driver' => TeamDatabaseType::Mysql->name,
+                    ]
+                );
                 break;
             default:
                 throw new \Exception('Unsupported database driver');
         }
+
         return $teamDatabase;
     }
 

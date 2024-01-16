@@ -56,7 +56,7 @@ class TeamDatabase extends Model
             // if not running tests
             if (! app()->runningUnitTests() && ! config('b2bsaas.database_creation_disabled')) {
                 $model->createTeamDatabase()
-                ->migrate();
+                    ->migrate();
 
             } elseif (app()->runningUnitTests()) {
                 $model->createTeamDatabase(testing: true)->migrate();
@@ -110,16 +110,16 @@ class TeamDatabase extends Model
             $driver = (string) str()->of($this->driver)->lower();
 
             $connectionTemplate = config('database.connections.tenant_'.$driver);
-            
+
         } else {
             $connectionTemplate = config('database.connections.testing_tenant');
         }
         $databaseConfig = [];
-        
+
         if (! config('b2bsaas.database_creation_disabled') && ! app()->runningUnitTests()) {
             $databaseConfig['database'] = $this->getTenantConnectionDatabaseName();
         }
-    
+
         config()->set('database.connections.'.$this->name, array_merge($connectionTemplate, $databaseConfig));
 
         return $this->name;
@@ -133,17 +133,17 @@ class TeamDatabase extends Model
     protected function prepareTenantConnection($name): void
     {
         $default = once(fn () => config('database.default'));
-        
+
         $this->originalDefaultConnectionName = $default;
-        
+
         $this->originalConfig = once(fn () => config('database.connections.'.$this->originalDefaultConnectionName));
-        
+
         config()->set('database.default', $name);
-        
+
         DB::purge();
-        
+
         DB::reconnect();
-        
+
         Schema::connection(config('database.default'))->getConnection()->reconnect();
     }
 }

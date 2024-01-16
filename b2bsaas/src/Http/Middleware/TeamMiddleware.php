@@ -38,7 +38,6 @@ class TeamMiddleware
                 cache()->put('team_migrated_'.$team->id, true, now()->addDay());
             }
 
-
             $team
             // ->migrate()
                 ->configure()
