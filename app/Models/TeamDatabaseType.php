@@ -14,4 +14,17 @@ enum TeamDatabaseType: string
         // programatically return associative array of enum cases
         return array_column(self::cases(), 'value', 'name');
     }
+
+    public function createTeamDatabase(string $name, int|string $userId = null): TeamDatabase
+    {
+        $teamDatabaseModel = $this->value;
+
+        return $teamDatabaseModel::create(
+            [
+                'name' => (string) str()->of($name)->slug('_'),
+                'user_id' => $userId ?? (auth()?->id() ?? 1),
+                'driver' => $this->name,
+            ]
+        );
+    }
 }

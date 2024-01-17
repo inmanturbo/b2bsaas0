@@ -100,30 +100,10 @@ class Team extends JetstreamTeam
                 : constant(TeamDatabaseType::class.'::'.$defaultDriverName);
         }
 
-        switch ($driver->name) {
-            case TeamDatabaseType::Sqlite->name:
-                $teamDatabase = SqliteTeamDatabase::create(
-                    [
-                        'name' => (string) str()->of($this->name)->slug('_'),
-                        'user_id' => $this?->user_id ?? (auth()?->id() ?? 1),
-                        'driver' => TeamDatabaseType::Sqlite->name,
-                    ]
-                );
-                break;
-            case TeamDatabaseType::Mysql->name:
-                $teamDatabase = MysqlTeamDatabase::create(
-                    [
-                        'name' => (string) str()->of($this->name)->slug('_'),
-                        'user_id' => $this?->user_id ?? (auth()?->id() ?? 1),
-                        'driver' => TeamDatabaseType::Mysql->name,
-                    ]
-                );
-                break;
-            default:
-                throw new \Exception('Unsupported database driver: '.$driver->name);
-        }
-
-        return $teamDatabase;
+        return $driver->createTeamDatabase(
+            name: $this->name,
+            userId: $this?->user_id ?? (auth()?->id() ?? 1)
+        );
     }
 
     public function url(): Attribute
