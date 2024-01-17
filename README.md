@@ -172,7 +172,7 @@ The `connection_template`:
 
 The above "connection_template" (`tenant_sqlite`) will be merged along with the tenant specific details to create a working connection for the database at runtime.
 
-Note that the connection name `tenant_sqlite` is the same as the name for the enum case, `tenant_sqlite` is also the value that will be stored in the `connection_template` column for any `App\Models\SqliteTeamDatabase` instances.
+Note that the connection name `tenant_sqlite` is the same as the name for the enum case. `tenant_sqlite` is also the value that will be stored in the `connection_template` column for any `App\Models\SqliteTeamDatabase` instances.
 
 ## Installation
 
