@@ -4,7 +4,7 @@ namespace App\Policies;
 
 use App\Models\SuperAdmin;
 use App\Models\User;
-use App\Models\UserType;
+use B2bSaas\UserType;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class UserPolicy

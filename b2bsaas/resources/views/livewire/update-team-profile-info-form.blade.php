@@ -18,7 +18,7 @@ $updateTeamLogo = function () {
     ])->validateWithBag('updateProfileInformation');
 
     if ($this->photo) {
-        DB::connection('landlord')->transaction(function () {
+        DB::connection(config('database.landlord'))->transaction(function () {
             $this->team->updateProfilePhoto($this->photo);
         });
     }
@@ -27,7 +27,7 @@ $updateTeamLogo = function () {
 };
 
 $deleteProfilePhoto = function () {
-    DB::connection('landlord')->transaction(function () {
+    DB::connection(config('database.landlord'))->transaction(function () {
         $this->team->deleteProfilePhoto();
     });
 

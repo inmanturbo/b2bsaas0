@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Artisan;
+use B2bSaas\HasParent;
 use Illuminate\Support\Facades\Storage;
 
 class SqliteTeamDatabase extends TeamDatabase

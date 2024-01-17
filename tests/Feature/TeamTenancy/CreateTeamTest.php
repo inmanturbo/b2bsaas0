@@ -2,7 +2,7 @@
 
 use App\Models\Team;
 use App\Models\User;
-use App\Models\UserType;
+use B2bSaas\UserType;
 use Illuminate\Support\Facades\Schema;
 
 use function Pest\Laravel\actingAs;

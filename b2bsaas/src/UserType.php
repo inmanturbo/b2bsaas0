@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Models;
+namespace B2bSaas;
+
+use App\Models;
 
 enum UserType: string
 {
-    case SuperAdmin = SuperAdmin::class;
-    case User = User::class;
-    case UpgradedUser = UpgradedUser::class;
+    case SuperAdmin = Models\SuperAdmin::class;
+    case User = Models\User::class;
+    case UpgradedUser = Models\UpgradedUser::class;
 
     public static function toArray(): array
     {

@@ -4,7 +4,6 @@ namespace B2bSaas;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Spatie\Browsershot\Browsershot;
 
 trait HasLandingPage
 {
@@ -18,9 +17,6 @@ trait HasLandingPage
         tap($this->contact_data->landingPage(), function ($previous) use ($page) {
             $this->forceFill(['contact_data' => $value = array_merge($this->contact_data->toArray() ?? [], ['landingPage' => $page->storePublicly('landing-pages', ['disk' => $this->landingPageDisk()])]),
             ])->save();
-
-            // $browserShot = Browsershot::html($page->get())->save(Storage::disk($this->landingPageDisk())
-            // ->path($value['landingPage'].'.png'));
 
             if ($previous) {
                 Storage::disk($this->landingPageDisk())->delete($previous);

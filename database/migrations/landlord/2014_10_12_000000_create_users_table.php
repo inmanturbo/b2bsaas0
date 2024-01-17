@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\UserType;
+use B2bSaas\UserType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

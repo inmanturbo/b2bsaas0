@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use B2bSaas\HasChildren;
+use B2bSaas\InteractsWithSystemDatabase;
+use B2bSaas\TeamDatabaseType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +22,7 @@ class TeamDatabase extends Model
 
     public $originalDefaultConnectionName = null;
 
-    protected $childColumn = 'driver';
+    protected $childColumn = 'connection_template';
 
     /**
      * The attributes that are mass assignable.
@@ -105,9 +108,9 @@ class TeamDatabase extends Model
     {
         if (! app()->runningUnitTests()) {
 
-            $driver = (string) str()->of($this->driver)->lower();
+            $connectionTemplate = (string) str()->of($this->connection_template)->lower();
 
-            $connectionTemplate = config('database.connections.tenant_'.$driver);
+            $connectionTemplate = config('database.connections.'.$connectionTemplate);
 
         } else {
             $connectionTemplate = config('database.connections.testing_tenant');

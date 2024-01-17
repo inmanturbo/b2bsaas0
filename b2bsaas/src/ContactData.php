@@ -2,7 +2,6 @@
 
 namespace B2bSaas;
 
-use App\Models\ContactType;
 use Illuminate\Support\Facades\Storage;
 use Spatie\LaravelData\Data;
 
@@ -48,7 +47,7 @@ class ContactData extends Data implements Contact
 
     public function type(): ?string
     {
-        return $this->type ?? ContactType::Contact->name;
+        return $this->type ?? null;
     }
 
     public function name(): ?string
@@ -58,7 +57,14 @@ class ContactData extends Data implements Contact
 
     public function address(): AddressData
     {
-        return $this->address;
+        return $this->address ?? new AddressData(
+            city: config('b2bsaas.company.empty_city'),
+            state: config('b2bsaas.company.empty_state'),
+            zip: config('b2bsaas.company.empty_zip'),
+            street: config('b2bsaas.company.empty_street'),
+            country: config('b2bsaas.company.empty_country'),
+            lineTwo: config('b2bsaas.company.empty_line_two'),
+        );
     }
 
     public function streetAddress(): ?string

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use B2bSaas\HasChildren;
+use B2bSaas\UserType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;

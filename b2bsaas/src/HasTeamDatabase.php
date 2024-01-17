@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Models;
+namespace B2bSaas;
 
+use App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Schema;
 
 trait HasTeamDatabase
 {
-
     public $teamDatabaseDriver = null;
 
     public static function bootHasTeamDatabase()
@@ -29,7 +29,7 @@ trait HasTeamDatabase
 
     protected function getDefaultTeamDatabaseDriverName(): string
     {
-        $column = Schema::connection($this->getConnectionName())->getConnection()->getDoctrineColumn('team_databases', 'driver');
+        $column = Schema::connection($this->getConnectionName())->getConnection()->getDoctrineColumn('team_databases', 'connection_template');
         $driver = $column->getDefault();
 
         return $driver;
@@ -44,22 +44,22 @@ trait HasTeamDatabase
 
     public function teamDatabase(): BelongsTo
     {
-        return $this->belongsTo(TeamDatabase::class);
+        return $this->belongsTo(Models\TeamDatabase::class);
     }
 
-    protected function createTeamDatabase(TeamDatabaseType $driver = null): TeamDatabase
+    protected function createTeamDatabase(TeamDatabaseType $connectionTemplate = null): Models\TeamDatabase
     {
 
-        if (! $driver) {
+        if (! $connectionTemplate) {
 
             $defaultDriverName = $this->getDefaultTeamDatabaseDriverName();
 
-            $driver = $this->teamDatabaseDriver
+            $connectionTemplate = $this->teamDatabaseDriver
                 ? constant(TeamDatabaseType::class.'::'.$this->teamDatabaseDriver)
                 : constant(TeamDatabaseType::class.'::'.$defaultDriverName);
         }
 
-        return $driver->createTeamDatabase(
+        return $connectionTemplate->createTeamDatabase(
             name: $this->name,
             userId: $this?->user_id ?? (auth()?->id() ?? 1)
         );

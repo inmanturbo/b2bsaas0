@@ -5,12 +5,11 @@ namespace App\Models;
 use B2bSaas\AddressData;
 use B2bSaas\ContactData;
 use B2bSaas\HasLandingPage;
+use B2bSaas\HasTeamDatabase;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Schema;
 use Laravel\Jetstream\Events\TeamCreated;
 use Laravel\Jetstream\Events\TeamDeleted;
 use Laravel\Jetstream\Events\TeamUpdated;
@@ -22,9 +21,9 @@ class Team extends JetstreamTeam
     use HasFactory;
     use HasLandingPage;
     use HasProfilePhoto;
+    use HasTeamDatabase;
     use UsesLandlordConnection;
     use WithUuid;
-    use HasTeamDatabase;
 
     /**
      * The attributes that should be cast.

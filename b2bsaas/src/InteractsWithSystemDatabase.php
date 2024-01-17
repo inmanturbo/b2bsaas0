@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Models;
+namespace B2bSaas;
 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 
 trait InteractsWithSystemDatabase
 {
-    public function getSystemDatabaseName(): string
+    public function getSystemDatabaseConnectionName(): string
     {
         return 'mysql';
     }
 
     protected function deleteTeamDatabase()
     {
-        $this->prepareTenantConnection($this->getSystemDatabaseName());
+        $this->prepareTenantConnection($this->getSystemDatabaseConnectionName());
 
         $name = (string) str()->of($this->name)->slug('_');
 
@@ -34,7 +34,7 @@ trait InteractsWithSystemDatabase
         }
 
         if (! $testing) {
-            DB::connection($this->getSystemDatabaseName())->statement('CREATE DATABASE IF NOT EXISTS '.$name);
+            DB::connection($this->getSystemDatabaseConnectionName())->statement('CREATE DATABASE IF NOT EXISTS '.$name);
         }
 
         return $this;
@@ -42,7 +42,7 @@ trait InteractsWithSystemDatabase
 
     protected function teamDatabaseExists(bool $testing = false): bool
     {
-        $this->prepareTenantConnection($this->getSystemDatabaseName());
+        $this->prepareTenantConnection($this->getSystemDatabaseConnectionName());
 
         if ($testing) {
             $this->restoreOriginalConnection();
@@ -50,7 +50,7 @@ trait InteractsWithSystemDatabase
             return false;
         }
 
-        $exists = DB::connection($this->getSystemDatabaseName())->select(
+        $exists = DB::connection($this->getSystemDatabaseConnectionName())->select(
             "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '".$this->name."'"
         );
 

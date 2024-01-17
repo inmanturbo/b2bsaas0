@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace B2bSaas;
 
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Str;
