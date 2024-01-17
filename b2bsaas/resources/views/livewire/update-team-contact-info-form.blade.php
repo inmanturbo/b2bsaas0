@@ -45,7 +45,7 @@ $updateTeamContactData = function () {
         'email' => ['nullable', 'email'],
         'phone' => ['nullable', 'string'],
         'fax' => ['nullable', 'string'],
-        'name' => ['nullable', 'string', 'max:255', Rule::unique('contacts', 'name')->ignore(Contact::where('team_uuid', $this->team->uuid)->first()->id)],
+        'name' => ['nullable', 'string', 'max:255',],
     ])->validate();
 
     $originalData = $this->team->contact_data->toArray();

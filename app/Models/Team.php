@@ -24,6 +24,7 @@ class Team extends JetstreamTeam
     use HasProfilePhoto;
     use UsesLandlordConnection;
     use WithUuid;
+    use HasTeamDatabase;
 
     /**
      * The attributes that should be cast.
@@ -51,60 +52,6 @@ class Team extends JetstreamTeam
         'updated' => TeamUpdated::class,
         'deleted' => TeamDeleted::class,
     ];
-
-    public $teamDatabaseDriver = null;
-
-    // protected function teamDatabaseDriver(): Attribute
-    // {
-    //     return new Attribute(
-    //         get: fn ($value, $attributes) => $value
-    //             ? constant(TeamDatabaseType::class.'::'.$value)
-    //             : constant(TeamDatabaseType::class.'::'.$this->getDefaultTeamDatabaseDriverName()),
-    //     );
-    // }
-
-    protected function getDefaultTeamDatabaseDriverName(): string
-    {
-        $column = Schema::connection($this->getConnectionName())->getConnection()->getDoctrineColumn('team_databases', 'driver');
-        $driver = $column->getDefault();
-
-        return $driver;
-    }
-
-    public static function boot(): void
-    {
-        parent::boot();
-        static::creating(function (Model $model) {
-            if (! $model->team_database_id) {
-                $teamDatabase = $model->createTeamDatabase();
-
-                $model->team_database_id = $teamDatabase->id;
-            }
-            $model->slug = (string) str()->of($model->name)->slug('-');
-        });
-
-        static::updating(function (Model $model) {
-            $model->slug = (string) str()->of($model->name)->slug('-');
-        });
-    }
-
-    protected function createTeamDatabase(TeamDatabaseType $driver = null): TeamDatabase
-    {
-
-        if (! $driver) {
-
-            $defaultDriverName = $this->getDefaultTeamDatabaseDriverName();
-
-            $driver = $this->teamDatabaseDriver
-                ? constant(TeamDatabaseType::class.'::'.$this->teamDatabaseDriver)
-                : constant(TeamDatabaseType::class.'::'.$defaultDriverName);
-        }
-
-        return $driver->createTeamDatabase(
-            name: $this->name,
-            userId: $this?->user_id ?? (auth()?->id() ?? 1)
-        );
-    }
 
     public function url(): Attribute
     {
@@ -199,18 +146,6 @@ class Team extends JetstreamTeam
                 request()->user()->teams?->first()?->use();
             }
         }
-    }
-
-    public function migrate()
-    {
-        $this->teamDatabase->migrate();
-
-        return $this;
-    }
-
-    public function teamDatabase(): BelongsTo
-    {
-        return $this->belongsTo(TeamDatabase::class);
     }
 
     //use  native laravel http client to check if domain supports https
