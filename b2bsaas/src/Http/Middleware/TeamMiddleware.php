@@ -49,8 +49,6 @@ class TeamMiddleware
             Log::debug('Team authenticated');
             session()->put('default_connection', config('database.default'));
             session()->put('connection_details', config('database.connections.'.config('database.default')));
-            session()->put('team_database', app('teamDatabase'));
-            session()->put('team_database_tables', Schema::connection(config('database.default'))->getConnection()->getDoctrineSchemaManager()->listTableNames());
         }
 
         return $next($request);
