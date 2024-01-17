@@ -93,9 +93,9 @@ You can easily support another database by extending `\App\Models\TeamDatabase` 
 
 Team Databases, like Users, SuperAdmins and UpgradedUsers use Single Table Inheritance based on the implementation found here: <https://github.com/tighten/parental>, with a few small changes to support using an enum for the `type column`
 
-The `team_databases` table has a connection_template column, the value of which should be the name of a `\App\Models\TeamDatabaseType` which references a model.
+The `team_databases` table has a `connection_templat`e column, the value of which should be the name of a `\App\Models\TeamDatabaseType` that references a model.
 
-This name must also be the name of a database connection which holds the configuration detail for the database connection. Example:
+This name must also be the name of a database connection which holds the configuration details for the database connection. Example:
 
 The type:
 
@@ -169,6 +169,10 @@ The `connection_template`:
 ...
   ]
 ```
+
+The above "connection_template" (`tenant_sqlite`) will be merged along with the tenant specific details to create a working connection for the database at runtime.
+
+Note that the connection name `tenant_sqlite` is the same as the name for the enum case, `tenant_sqlite` is also the value that will be stored in the `connection_template` column for any `App\Models\SqliteTeamDatabase` instances.
 
 ## Installation
 
