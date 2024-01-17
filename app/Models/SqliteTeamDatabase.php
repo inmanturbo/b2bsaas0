@@ -39,8 +39,8 @@ class SqliteTeamDatabase extends TeamDatabase
 
         $userUuid = (string) $this->user->uuid;
 
-        if (file_exists(storage_path('app/'.$userUuid.'/'.$name.'.sqlite'))) {
-            unlink(storage_path('app/'.$userUuid.'/'.$name.'.sqlite'));
+        if (file_exists($file = storage_path('app/'.$userUuid.'/'.$name.'.sqlite'))) {
+            unlink($file);
         }
     }
 
@@ -50,7 +50,7 @@ class SqliteTeamDatabase extends TeamDatabase
 
         $userUuid = (string) $this->user->uuid;
 
-        return file_exists(storage_path('app/'.$userUuid.'/'.$name.'.sqlite'));
+        return file_exists($file = storage_path('app/'.$userUuid.'/'.$name.'.sqlite'));
     }
 
     protected function handleMigration()

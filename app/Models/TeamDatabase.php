@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Log;
 
 class TeamDatabase extends Model
 {
@@ -62,7 +61,6 @@ class TeamDatabase extends Model
                 $model->createTeamDatabase(testing: true)->migrate();
             }
         });
-        Log::debug('Created and migrated team database about to exit boot function');
     }
 
     public function configure()
