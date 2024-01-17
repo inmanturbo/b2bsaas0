@@ -31,7 +31,7 @@ $updateTeamLandingPage = function () {
     )->validate();
 
     if(isset($input['landing_page']) && $input['landing_page'] != null) {
-        DB::connection('landlord')->transaction(
+        DB::connection(config('database.landlord'))->transaction(
             function () use ($input) {
                 $this->team->updateLandingPage($input['landing_page']);
             }
