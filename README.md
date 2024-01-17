@@ -107,6 +107,7 @@ enum TeamDatabaseType: string
     case tenant_sqlite = Models\SqliteTeamDatabase::class;
     ...
 }
+```
 
 The Model:
 
