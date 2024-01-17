@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\User;
-use B2bSaas\UserType;
+use App\Models\UserType;
 use Laravel\Jetstream\Http\Livewire\CreateTeamForm;
 use Livewire\Livewire;
 

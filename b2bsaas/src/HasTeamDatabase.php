@@ -47,7 +47,7 @@ trait HasTeamDatabase
         return $this->belongsTo(Models\TeamDatabase::class);
     }
 
-    protected function createTeamDatabase(TeamDatabaseType $connectionTemplate = null): Models\TeamDatabase
+    protected function createTeamDatabase(Models\TeamDatabaseType $connectionTemplate = null): Models\TeamDatabase
     {
 
         if (! $connectionTemplate) {
@@ -55,8 +55,8 @@ trait HasTeamDatabase
             $defaultDriverName = $this->getDefaultTeamDatabaseDriverName();
 
             $connectionTemplate = $this->teamDatabaseDriver
-                ? constant(TeamDatabaseType::class.'::'.$this->teamDatabaseDriver)
-                : constant(TeamDatabaseType::class.'::'.$defaultDriverName);
+                ? constant(Models\TeamDatabaseType::class.'::'.$this->teamDatabaseDriver)
+                : constant(Models\TeamDatabaseType::class.'::'.$defaultDriverName);
         }
 
         return $connectionTemplate->createTeamDatabase(

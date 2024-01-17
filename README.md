@@ -84,110 +84,90 @@ SuperAdmins have the ability to impersonate other users
 - for development purposes, you may add `__DB_DATABASE` to your .env file (set the value to a database name) and all tenants will use that database.
 - You may also add `B2BSAAS_DATABASE_CREATION_DISABLED=true` to stop the automated creation of databases cluttering your local server.
 
-## Database Drivers
+## Database Types
 
 > Note:    
-> Currently only `mysql` support is implemented for tenant databases
+> Currently only `mysql`, `mariadb` and `sqlite`, support are currently implemented for tenant databases
 
-You can easily support another database by extending `\App\Models\TeamDatabase` and overriding some key methods found in `\App\Models\InteractsWithSystemDatabase`
+You can easily support another database by extending `\App\Models\TeamDatabase` and overriding some key methods found in `\B2bSaas\InteractsWithSystemDatabase`
 
 Team Databases, like Users, SuperAdmins and UpgradedUsers use Single Table Inheritance based on the implementation found here: <https://github.com/tighten/parental>, with a few small changes to support using an enum for the `type column`
 
-If you wanted to add support for sqlite, for instance, you may start by adding the following case to the `\App\Models\TeamDatabaseType` enum
+The `team_databases` table has a connection_template column, the value of which should be the name of a `\App\Models\TeamDatabaseType` which references a model.
+
+This name must also be the name of a database connection which holds the configuration detail for the database connection. Example:
+
+The type:
 
 ```php
-case Sqlite = SqliteTeamDatabase::class;
-```
+...
+enum TeamDatabaseType: string
+{
+    ...
+    case tenant_sqlite = Models\SqliteTeamDatabase::class;
+    ...
+}
 
-Once this is done, we need a model called `SqliteTeamDatabase::class` which extends `\App\Models\TeamDatabase`
-
-```php
-<?php
-
-    namespace App\Models;
-
-    class SqliteTeamDatabase extends TeamDatabase
-    {
-        use HasParent;
-    }
-```
-
-You could then complete the driver by adding your own implementation of the following methods to our new model, and that's it!
-
-- `deleteTeamDatabase()`
-- `createTeamDatabase()`
-- `teamDatabaseExists()`
-- `handleMigration()`
-
-The default implementation of these methods, which are used for the mysql driver, can be found in the `\App\Models\InteractsWithSystemDatabase` trait:
+The Model:
 
 ```php
 <?php
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\DB;
+use Artisan;
+use B2bSaas\HasParent;
+use Illuminate\Support\Facades\Storage;
 
-trait InteractsWithSystemDatabase
+class SqliteTeamDatabase extends TeamDatabase
 {
-    public function getSystemDatabaseName(): string
-    {
-        return 'mysql';
-    }
+    use HasParent;
 
-    protected function deleteTeamDatabase()
+    protected function createTeamDatabase(bool $testing = false): self
     {
-        $this->prepareTenantConnection($this->getSystemDatabaseName());
-
         $name = (string) str()->of($this->name)->slug('_');
 
-        DB::connection($this->tenantConnection)
-            ->statement('DROP DATABASE IF EXISTS ' . $name);
-    }
-
-    protected function createTeamDatabase(): self
-    {
-
-        $this->prepareTenantConnection($this->getSystemDatabaseName());
-
-        $name = (string) str()->of($this->name)->slug('_');
-
-        if ($this->teamDatabaseExists()) {
-            $name = $name . '_1';
+        if ($this->teamDatabaseExists(testing: $testing)) {
+            $name = $name.'_1';
             $this->name = $name;
-            $this->createTeamDatabase();
+            $this->createTeamDatabase(testing: $testing);
         }
 
-        DB::connection($this->tenantConnection)
-            ->statement('CREATE DATABASE IF NOT EXISTS ' . $name);
+        $userUuid = (string) $this->user->uuid;
 
-        $this->prepareTenantConnection($name);
+        // create storage directory for user if it doesn't exist
+        if (! file_exists(storage_path('app/'.$userUuid))) {
+            mkdir(storage_path('app/'.$userUuid));
+        }
 
-        return $this;
-    }
-
-    protected function teamDatabaseExists(): bool
-    {
-
-        $exists = DB::connection($this->tenantConnection)
-            ->select(
-                "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '" . $this->name . "'"
-            );
-
-        return count($exists) > 0;
-    }
-
-    protected function handleMigration()
-    {
-        Artisan::call('migrate', [
-            '--database' => $this->tenantConnection,
-        ]);
+        if (! file_exists(storage_path('app/'.$userUuid.'/'.$name.'.sqlite'))) {
+            Storage::disk('local')->put($userUuid.'/'.$name.'.sqlite', '');
+        }
 
         return $this;
     }
+
+...
 }
+```
 
+The `connection_template`:
+
+```php
+// config/database.php
+...
+  'connections' => [
+
+...
+        'tenant_sqlite' => [
+            'driver' => 'sqlite',
+            'url' => env('DATABASE_URL'),
+            'database' => env('__DB_DATABASE'),
+            'prefix' => '',
+            'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
+        ],
+...
+  ]
 ```
 
 ## Installation

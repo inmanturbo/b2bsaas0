@@ -1,6 +1,6 @@
 <?php
 
-namespace B2bSaas;
+namespace App\Models;
 
 use App\Models;
 

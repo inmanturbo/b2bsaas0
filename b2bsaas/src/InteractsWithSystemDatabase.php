@@ -34,7 +34,7 @@ trait InteractsWithSystemDatabase
         }
 
         if (! $testing) {
-            DB::connection($this->getSystemDatabaseConnectionName())->statement('CREATE DATABASE IF NOT EXISTS '.$name);
+            DB::connection($this->getSystemDatabaseConnectionName())->statement('CREATE DATABASE IF NOT EXISTS tenant_'.$name);
         }
 
         return $this;

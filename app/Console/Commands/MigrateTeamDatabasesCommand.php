@@ -57,7 +57,7 @@ class MigrateTeamDatabasesCommand extends Command
         $this->line('-----------------------------------------');
         $this->line('');
 
-        $options = ['--database' => 'tenant_connection'];
+        $options = [];
 
         if ($this->option('seed')) {
             $options['--seed'] = true;

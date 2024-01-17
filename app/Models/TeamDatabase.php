@@ -4,7 +4,6 @@ namespace App\Models;
 
 use B2bSaas\HasChildren;
 use B2bSaas\InteractsWithSystemDatabase;
-use B2bSaas\TeamDatabaseType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -128,7 +127,7 @@ class TeamDatabase extends Model
 
     protected function getTenantConnectionDatabaseName(): string
     {
-        return $this->name;
+        return 'tenant_'.$this->name;
     }
 
     protected function prepareTenantConnection($name): void

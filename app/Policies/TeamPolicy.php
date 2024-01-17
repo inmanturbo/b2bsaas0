@@ -6,7 +6,7 @@ use App\Models\SuperAdmin;
 use App\Models\Team;
 use App\Models\UpgradedUser;
 use App\Models\User;
-use B2bSaas\UserType;
+use App\Models\UserType;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TeamPolicy
