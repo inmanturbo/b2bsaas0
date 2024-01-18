@@ -1,7 +1,8 @@
 # B2bSaas
-## Introduction
-## [Multitenancy](https://github.com/inmanturbo/b2bsaas/blob/main/README.md#multitenancy)
 
+### [Multitenancy](https://github.com/inmanturbo/b2bsaas/blob/main/README.md#multitenancy)
+
+## Introduction
 This is about the simplest implementation possible, with minimal changes to the original jetstream skeleton, to to make it easier to keep it up to date with the latest changes in `laravel/jetstream`.
 
 In order to avoid many changes to the skeleton, I've made most of my additions in the `b2bsaas/` directory, then bootstrapped them with a service provider and a Psr4 namespace of their own instead of adding them directly to the app directory. I've avoided doing this with models however, as they are first class citizens in a laravel app, often need to be modified, and are expected to live in the `app/Models` directory where many packages and laravel tools will autoscan for them.
