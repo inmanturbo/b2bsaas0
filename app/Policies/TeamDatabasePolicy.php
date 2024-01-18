@@ -8,14 +8,12 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TeamDatabasePolicy
 {
-
     use HandlesAuthorization;
 
     /**
      * Determine if the given user can use the given database.
      *
      * @param  \App\User  $user
-     * @param  \App\Models\TeamDatabase  $teamDatabase
      * @return bool
      */
     public function use($user, TeamDatabase $teamDatabase)
