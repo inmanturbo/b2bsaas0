@@ -66,7 +66,6 @@ The first user to login becomes a SuperAdmin
     - [Team Middleware](https://github.com/inmanturbo/b2bsaas/blob/main/b2bsaas/src/Http/Middleware/TeamMiddleware.php#L36)
   - Domain Based Tenancy
     - [Configure Requests](https://github.com/inmanturbo/b2bsaas/blob/main/b2bsaas/src/B2bSaasServiceProvider.php#L63) 
-
 - A Team belongs to one Tenant Database, or `TeamDatabase`
 - More than one Team can be on a single database (optional)
 - Only SuperAdmins and UpgradedUsers can create Teams
