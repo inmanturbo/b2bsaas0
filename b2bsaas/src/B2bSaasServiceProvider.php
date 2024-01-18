@@ -64,7 +64,7 @@ class B2bSaasServiceProvider extends \Illuminate\Support\ServiceProvider
 
             if (isset($team->id) && isset($team->team_database_id)) {
 
-                // migrate only once a day, cache a key to check if it has been done today
+                // migrate only once a day
                 if (! cache()->has('team_migrated_'.$team->id)) {
                     $team
                         ->migrate();
