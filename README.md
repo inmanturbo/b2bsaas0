@@ -208,7 +208,7 @@ Setting `APP_URL_SCHEME=https` in your `.env` will force all app urls to use `ht
 
 #### DEFAULT_TEAM_DATABASE_CONNECTION_TEMPLATE
 
-Setting the `DEFAULT_TEAM_DATABASE_CONNECTION_TEMPLATE` in your `.env` to a value corresponding to a database connection will cause the applicaiton to use that connection as a template for tenant database configuration.    
+Setting the `DEFAULT_TEAM_DATABASE_CONNECTION_TEMPLATE` in your `.env` to a value corresponding to a database connection will cause the application to use that connection as a template for tenant database configuration.    
 This value must also match a case name in `app/Models/TeamDatabaseType.php`, the value of which should be a model which extends `App\Models\TeamDatabase` and uses the `B2bSaas\HasParent` trait.
 The available values can be found by inspecting the `app/Models/TeamDatabaseType.php` file. At the time of writing this, "out of the box" options include `tenant_mysql`, `tenant_mariadb` and `tenant_sqlite`.
 
