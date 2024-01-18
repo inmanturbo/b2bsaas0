@@ -233,7 +233,7 @@ Setting `__DB_DATABASE` to a database name will force all teams to use this same
 
 #### B2BSAAS_INVITATION_ONLY
 
-By default registation is by invitaion only. This means that in order to register themselves a user must first be invited by a team owner
+By default registation is by invitation only. This means that in order to register themselves a user must first be invited by a team owner
 
 Setting `B2BSAAS_INVITATION_ONLY=false` will allow new users to register without an invitation
 
