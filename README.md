@@ -79,7 +79,7 @@ The first user to login becomes a SuperAdmin
 - Databases can have many teams
 - SuperAdmins and UpgradedUsers may select an existing database that they already own when creating a new team, in the case that they want to share data across teams.
 
-### Master Password
+## Master Password
 
 > b2bsaas uses [laravel-Masterpass](https://github.com/imanghafoori1/laravel-MasterPass)
 
