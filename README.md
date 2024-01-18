@@ -230,7 +230,9 @@ For example, setting `DEFAULT_TEAM_DATABASE_CONNECTION_TEMPLATE=tenant_sqlite` i
 case tenant_sqlite = Models\SqliteTeamDatabase::class;
 ```
 
-This means that the names of these tenant databases will be stored in the `team_databases` table of the landlord database. The `connection_template` column on these instances will be set to `tenant_sqlite`, which is how the application knows to use the `SqliteTeamDatabase` model for these instances. Also, `tenant_sqlite` is a database connection in `config/database.php` which will be used to build the connection config for these `TeamDatabase` instances.    
+This means that the names of these tenant databases will be stored in the `team_databases` table of the landlord database.     
+
+The `connection_template` column on these instances will be set to `tenant_sqlite`, which is how the application knows to use the `SqliteTeamDatabase` model for these instances. Also, `tenant_sqlite` is a database connection in `config/database.php` which will be used to build the connection config for these `TeamDatabase` instances.    
 
 By default sqlite databases live in the `storage/app` directory, under a folder by the uuid of the user who owns the database. The `SqliteTeamDatabase` class holds the logic for how these databases are created, in a method called `createTeamDatabase`, which is called by its parent class `TeamDatabase` during boot whenever a new instance is created.
 
