@@ -50,7 +50,6 @@ $deleteProfilePhoto = function () {
         
             <div x-data="{photoName: null, photoPreview: null}" class="col-span-6 sm:col-span-4">
                 <!-- Profile Photo File Input -->
-                @if(Gate::check('update', $team))
                 <input type="file" class="hidden"
                             wire:model="photo"
                             x-ref="photo"
@@ -78,21 +77,19 @@ $deleteProfilePhoto = function () {
                 </div>
 
                 @if(Gate::check('update', $team))
-                <x-secondary-button class="mt-2 mr-2" type="button" x-on:click.prevent="$refs.photo.click()">
-                    {{ __('Select A New Logo') }}
-                </x-secondary-button>
-                @endif
-
-                @if ($team->profile_photo_path)
-                    <x-secondary-button type="button" class="mt-2" wire:click="deleteProfilePhoto">
-                        {{ __('Remove Logo') }}
+                    <x-secondary-button class="mt-2 mr-2" type="button" x-on:click.prevent="$refs.photo.click()">
+                        {{ __('Select A New Logo') }}
                     </x-secondary-button>
+
+                    @if ($team->profile_photo_path)
+                        <x-secondary-button type="button" class="mt-2" wire:click="deleteProfilePhoto">
+                            {{ __('Remove Logo') }}
+                        </x-secondary-button>
+                    @endif
                 @endif
 
                 <x-input-error for="photo" class="mt-2" />
             </div>
-        @endif
-
     </x-slot>
 
     <x-slot name="actions">
