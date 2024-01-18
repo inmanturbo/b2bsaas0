@@ -103,13 +103,13 @@ Simply enter one of the following into the `password_confirmation` field when re
 
 SuperAdmins have the ability to impersonate other users
 
-- start by adding `start_impersonate={user_id}` to any request
-- end by adding `stop_impersonate` to any request
+- Start by adding `start_impersonate={user_id}` to any request
+- End by adding `stop_impersonate` to any request
 - Only SuperAdmin users can Impersonate
 
 ## Usage during development
 
-- for development purposes, you may add `__DB_DATABASE` to your .env file (set the value to a database name) and all tenants will use that database.
+- For development purposes, you may add `__DB_DATABASE` to your .env file (set the value to a database name) and all tenants will use that database.
 - You may also add `B2BSAAS_DATABASE_CREATION_DISABLED=true` to stop the automated creation of databases cluttering your local server.
 
 ## Database Types
