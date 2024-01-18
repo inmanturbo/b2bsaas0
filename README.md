@@ -68,7 +68,7 @@ The first user to login becomes a SuperAdmin
 ### Users can have many databases
 
 - Databases are created for SuperAdmins and UpgradedUsers when they create a team
-- A single Database And Team are created for each user when they register
+- A single Database and Team are created for each user when they register
 - Databases belong to one user
 - Databases can have many teams
 - SuperAdmins and UpgradedUsers may select an existing database that they already own when creating a new team, in the case that they want to share data across teams.
