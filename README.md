@@ -7,7 +7,6 @@
 - [Master Password](#master-password)
   - [when using the master password to register a user](#when-using-the-master-password-to-register-a-user)
 - [Impersonation](#impersonation)
-- [Usage during development](#usage-during-development)
 - [Database Types](#database-types)
 - [Configuration](#configuration)
 - [Config file](#config-file)
@@ -105,11 +104,6 @@ SuperAdmins have the ability to impersonate other users
 - Start by adding `start_impersonate={user_id}` to any request
 - End by adding `stop_impersonate` to any request
 - Only SuperAdmin users can Impersonate
-
-## Usage during development
-
-- For development purposes, you may add `__DB_DATABASE` to your .env file (set the value to a database name) and all tenants will use that database.
-- You may also add `B2BSAAS_DATABASE_CREATION_DISABLED=true` to stop the automated creation of databases cluttering your local server.
 
 ## Database Types
 
@@ -235,6 +229,12 @@ Setting `B2BSAAS_DATABASE_CREATION_DISABLED=true` in your `.env` file will disab
 #### __DB_DATABASE
 
 Setting `__DB_DATABASE` to a database name will force all teams to use this same database.
+
+#### B2BSAAS_INVITATION_ONLY
+
+By default registation is by invitaion only. This means that in order to register themselves a user must first be invited by a team owner
+
+Setting `B2BSAAS_INVITATION_ONLY=false` will allow new users to register without an invitation
 
 
 ## Installation
