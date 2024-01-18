@@ -28,8 +28,7 @@ class TeamMiddleware
             }
 
             if (! cache()->has('team_migrated_'.$team->id)) {
-                $team
-                    ->migrate();
+                $team->migrate();
                 cache()->put('team_migrated_'.$team->id, true, now()->addDay());
             }
 
