@@ -71,9 +71,7 @@ class B2bSaasServiceProvider extends \Illuminate\Support\ServiceProvider
                     cache()->put('team_migrated_'.$team->id, true, now()->addDay());
                 }
 
-                $team
-                    ->configure()
-                    ->use();
+                $team->configure()->use();
             }
         }
     }
