@@ -2,11 +2,12 @@
 
 namespace B2bSaas;
 
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 
 trait InteractsWithSystemDatabase
 {
+    use ConfiguresTenantDatabase;
+
     public function getSystemDatabaseConnectionName(): string
     {
         return 'mysql';
@@ -57,14 +58,5 @@ trait InteractsWithSystemDatabase
         $this->restoreOriginalConnection();
 
         return count($exists) > 0;
-    }
-
-    protected function handleMigration()
-    {
-        Artisan::call('migrate', [
-            '--force' => true,
-        ]);
-
-        return $this;
     }
 }

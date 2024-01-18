@@ -1,14 +1,16 @@
 # B2bSaas
-- [Introduction](#introduction)
-- [Multitenancy](#multitenancy)
-  - [Teams Are Tenants](#teams-are-tenants) 
-  - [Users Can Have Many Databases](#users-can-have-many-databases)
-  - [Master Password](#master-password)
-    - [Using the Master Password to register a user](#when-using-the-master-password-to-register-a-user)
-- [Impersonation](#impersonation)
-- [Usage During Development](#usage-during-development)
-- [Database Types](#database-types)
-- [Installation](#installation)
+- [B2bSaas](#b2bsaas)
+  - [Introduction](#introduction)
+  - [Multitenancy](#multitenancy)
+    - [Teams are tenants](#teams-are-tenants)
+    - [Users can have many databases](#users-can-have-many-databases)
+    - [Master Password](#master-password)
+      - [when using the master password to register a user](#when-using-the-master-password-to-register-a-user)
+  - [Impersonation](#impersonation)
+  - [Usage during development](#usage-during-development)
+  - [Database Types](#database-types)
+  - [Installation](#installation)
+  - [Migrating tenant databases](#migrating-tenant-databases)
 
 
 ## Introduction
@@ -111,7 +113,7 @@ You can easily support another database by extending `\App\Models\TeamDatabase` 
 
 Team Databases, like Users, SuperAdmins and UpgradedUsers use Single Table Inheritance based on the implementation found here: <https://github.com/tighten/parental>, with a few small changes to support using an enum for the `type column`
 
-The `team_databases` table has a `connection_templat`e column, the value of which should be the name of a `\App\Models\TeamDatabaseType` that references a model.
+The `team_databases` table has a `connection_templat`e column, the value of which should be the name of a `\App\TeamDatabaseType` that references a model.
 
 This name must also be the name of a database connection which holds the configuration details for the database connection. Example:
 

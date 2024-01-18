@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Models;
-
-use App\Models;
+namespace App;
 
 enum TeamDatabaseType: string
 {

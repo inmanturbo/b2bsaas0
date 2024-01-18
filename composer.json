@@ -44,7 +44,11 @@
             "B2bSaas\\": "b2bsaas/src/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+
+        "files": [
+            "b2bsaas/functions.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

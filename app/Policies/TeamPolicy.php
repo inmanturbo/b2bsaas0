@@ -6,7 +6,7 @@ use App\Models\SuperAdmin;
 use App\Models\Team;
 use App\Models\UpgradedUser;
 use App\Models\User;
-use App\Models\UserType;
+use App\UserType;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TeamPolicy

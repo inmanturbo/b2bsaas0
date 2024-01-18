@@ -2,11 +2,14 @@
 
 namespace B2bSaas;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 trait HasLandingPage
 {
+    use HasContactData;
+
     /**
      * Update the user's profile photo.
      *
@@ -95,5 +98,12 @@ trait HasLandingPage
     public function landingPageDisk()
     {
         return isset($_ENV['VAPOR_ARTIFACT_NAME']) ? 's3' : config('b2bsaas.company.landing_page_disk', 'public');
+    }
+
+    public function url(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value, $attributes) => (isset($attributes['domain']) && ! empty($attributes['domain'])) ? preferHttps($attributes['domain']) : $this->landingPageUrl,
+        );
     }
 }

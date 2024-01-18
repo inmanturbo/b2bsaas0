@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\TeamDatabaseType;
+use App\UsesLandlordConnection;
+use App\WithUuid;
 use B2bSaas\HasChildren;
 use B2bSaas\InteractsWithSystemDatabase;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Artisan;
 
 class TeamDatabase extends Model
 {
@@ -17,10 +19,6 @@ class TeamDatabase extends Model
     use UsesLandlordConnection;
     use WithUuid;
 
-    public $originalConfig = [];
-
-    public $originalDefaultConnectionName = null;
-
     protected $childColumn = 'connection_template';
 
     /**
@@ -28,9 +26,7 @@ class TeamDatabase extends Model
      *
      * @var array<int, string>
      */
-    protected $guarded = [
-        //
-    ];
+    protected $guarded = [];
 
     public function getChildTypes()
     {
@@ -50,7 +46,7 @@ class TeamDatabase extends Model
     public static function boot(): void
     {
         parent::boot();
-        static::created(function (Model $model) {
+        static::created(function (TeamDatabase $model) {
             if (! $model->user_id) {
                 $model->user_id = auth()->id() ?? 1;
             }
@@ -63,20 +59,6 @@ class TeamDatabase extends Model
                 $model->createTeamDatabase(testing: true)->migrate();
             }
         });
-    }
-
-    public function configure()
-    {
-        $this->prepareTenantConnection($connection = $this->createTenantConnection());
-
-        return $this;
-    }
-
-    public function use()
-    {
-        app()->forgetInstance('teamDatabase');
-
-        app()->instance('teamDatabase', $this);
     }
 
     public function migrate()
@@ -95,55 +77,12 @@ class TeamDatabase extends Model
         parent::delete();
     }
 
-    protected function restoreOriginalConnection(): void
+    protected function handleMigration()
     {
-        if (! empty($this->originalConfig)) {
-            config()->set('database.connections.'.$this->originalDefaultConnectionName, $this->originalConfig);
-            config()->set('database.default', $this->originalDefaultConnectionName);
-        }
-    }
+        Artisan::call('migrate', [
+            '--force' => true,
+        ]);
 
-    protected function createTenantConnection(): string
-    {
-        if (! app()->runningUnitTests()) {
-
-            $connectionTemplate = (string) str()->of($this->connection_template)->lower();
-
-            $connectionTemplate = config('database.connections.'.$connectionTemplate);
-
-        } else {
-            $connectionTemplate = config('database.connections.testing_tenant');
-        }
-        $databaseConfig = [];
-
-        if (! config('b2bsaas.database_creation_disabled') && ! app()->runningUnitTests()) {
-            $databaseConfig['database'] = $this->getTenantConnectionDatabaseName();
-        }
-
-        config()->set('database.connections.'.$this->name, array_merge($connectionTemplate, $databaseConfig));
-
-        return $this->name;
-    }
-
-    protected function getTenantConnectionDatabaseName(): string
-    {
-        return 'tenant_'.$this->name;
-    }
-
-    protected function prepareTenantConnection($name): void
-    {
-        $default = once(fn () => config('database.default'));
-
-        $this->originalDefaultConnectionName = $default;
-
-        $this->originalConfig = once(fn () => config('database.connections.'.$this->originalDefaultConnectionName));
-
-        config()->set('database.default', $name);
-
-        DB::purge();
-
-        DB::reconnect();
-
-        Schema::connection(config('database.default'))->getConnection()->reconnect();
+        return $this;
     }
 }

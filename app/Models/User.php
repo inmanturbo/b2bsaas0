@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\UserType;
+use App\UsesLandlordConnection;
+use App\WithUuid;
 use B2bSaas\HasChildren;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
