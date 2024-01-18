@@ -2,8 +2,8 @@
 
 - [Introduction](#introduction)
 - [Multitenancy](#multitenancy)
-- [Teams are tenants](#teams-are-tenants)
-- [Users can have many databases](#users-can-have-many-databases)
+    - [Teams are tenants](#teams-are-tenants)
+    - [Users can have many databases](#users-can-have-many-databases)
 - [Master Password](#master-password)
   - [when using the master password to register a user](#when-using-the-master-password-to-register-a-user)
 - [Impersonation](#impersonation)
