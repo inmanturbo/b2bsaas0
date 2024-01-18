@@ -8,7 +8,9 @@
 - [Impersonation](#impersonation)
 - [Usage During Development](#usage-during-development)
 - [Database Types](#database-types)
+- [Configuration](#configuration)
 - [Installation](#installation)
+
 
 
 ## Introduction
@@ -192,6 +194,31 @@ The `connection_template`:
 The above "connection_template" (`tenant_sqlite`) will be merged along with the tenant specific details to create a working connection for the database at runtime.
 
 Note that the connection name `tenant_sqlite` is the same as the name for the enum case. `tenant_sqlite` is also the value that will be stored in the `connection_template` column for any `App\Models\SqliteTeamDatabase` instances.
+
+## Configuration
+
+### Config file
+
+The path to the b2bsaas config file is `b2bsaas/src/config/b2bsaas.php`. However most of the options can be set using environment variables in your `.env` file.
+
+### APP_URL_SCHEME
+
+The url scheme for the application can be set by setting `APP_URL_SCHEME`. Default is `http`. Options are `http` and `https`.    
+Setting `APP_URL_SCHEME=https` in your `.env` will force all app urls to use `https` protocol.
+
+### DEFAULT_TEAM_DATABASE_CONNECTION_TEMPLATE
+
+Setting the `DEFAULT_TEAM_DATABASE_CONNECTION_TEMPLATE` in your `.env` to a value corresponding to a database connection will cause the applicaiton to use that connection as a template for tenant database configuration.    
+This value must also match a case name in `app/Models/TeamDatabaseType.php`, the value of which should be a model which extends `App\Models\TeamDatabase` and uses the `B2bSaas\HasParent` trait.
+The available values can be found by inspecting the `app/Models/TeamDatabaseType.php` file. At the time of writing this, "out of the box" options include `tenant_mysql`, `tenant_mariadb` and `tenant_sqlite`.
+
+For example, setting `DEFAULT_TEAM_DATABASE_CONNECTION_TEMPLATE=tenant_sqlite` in your `.env` file will cause the application to create and use sqlite databases for tenants by default. `tenant_sqlite` corresponds to the following `TeamDatabaseType`: 
+
+```php
+case tenant_sqlite = Models\SqliteTeamDatabase::class;
+```
+
+This means that the names of these tenant databases will be stored in the `team_databases` table of the landlord database. The `connection_template` column on these instances will be set to `tenant_sqlite`, which is how the application knows to use the `SqliteTeamDatabase` model for these instances. Also, `tenant_sqlite` is a database connection in `config/database.php` which will be used to build the connection config for these `TeamDatabase` instances. By default sqlite databases live in the `storage/app` directory, under a folder by the uuid of the user who owns the database. The `SqliteTeamDatabase` class holds the logic for how these databases are created, in its boot method.
 
 ## Installation
 
