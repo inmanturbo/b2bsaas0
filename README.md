@@ -1,6 +1,14 @@
 # B2bSaas
 - [Introduction](#introduction)
 - [Multitenancy](#multitenancy)
+  - [Teams Are Tenants](#teams-are-tenants) 
+  - [Users Can Have Many Databases](#users-can-have-many-databases)
+  - [Master Password](#master-password)
+    - [Using the Master Password to register a user](#when-using-the-master-password-to-register-a-user)
+- [Impersonation](#impersonation)
+- [Usage During Development](#usage-during-development)
+- [Database Types](#database-types)
+- [Installation](#installation)
 
 
 ## Introduction
@@ -83,7 +91,7 @@ SuperAdmins have the ability to impersonate other users
 - end by adding `stop_impersonate` to any request
 - Only SuperAdmin users can Impersonate
 
-## Developing your app using b2bsaas
+## Usage during development
 
 - for development purposes, you may add `__DB_DATABASE` to your .env file (set the value to a database name) and all tenants will use that database.
 - You may also add `B2BSAAS_DATABASE_CREATION_DISABLED=true` to stop the automated creation of databases cluttering your local server.
