@@ -1,23 +1,22 @@
 # B2bSaas
 
-- [B2bSaas](#b2bsaas)
-  - [Introduction](#introduction)
-  - [Multitenancy](#multitenancy)
+- [Introduction](#introduction)
+- [Multitenancy](#multitenancy)
     - [Teams are tenants](#teams-are-tenants)
     - [Users can have many databases](#users-can-have-many-databases)
-    - [Master Password](#master-password)
-      - [when using the master password to register a user](#when-using-the-master-password-to-register-a-user)
-  - [Impersonation](#impersonation)
-  - [Usage during development](#usage-during-development)
-  - [Database Types](#database-types)
-  - [Configuration](#configuration)
+- [Master Password](#master-password)
+  - [when using the master password to register a user](#when-using-the-master-password-to-register-a-user)
+- [Impersonation](#impersonation)
+- [Database Types](#database-types)
+- [Configuration](#configuration)
     - [Config file](#config-file)
       - [APP\_URL\_SCHEME](#app_url_scheme)
       - [DEFAULT\_TEAM\_DATABASE\_CONNECTION\_TEMPLATE](#default_team_database_connection_template)
       - [B2BSAAS\_DATABASE\_CREATION\_DISABLED](#b2bsaas_database_creation_disabled)
       - [\_\_DB\_DATABASE](#__db_database)
-  - [Installation](#installation)
-  - [Migrating tenant databases](#migrating-tenant-databases)
+      - [B2BSAAS_INVITATION_ONLY](#b2bsaas_invitation_only)
+- [Installation](#installation)
+- [Migrating tenant databases](#migrating-tenant-databases)
 
 ## Introduction
 
@@ -25,11 +24,10 @@ This is about the simplest implementation possible, with minimal changes to the 
 
 In order to avoid many changes to the skeleton, I've made most of my additions in the `b2bsaas/` directory, then bootstrapped them with a service provider and a Psr4 namespace of their own instead of adding them directly to the app directory. I've avoided doing this with models however, as they are first class citizens in a laravel app, often need to be modified, and are expected to live in the `app/Models` directory where many packages and laravel tools will autoscan for them.
 
-> NOTE:    
-> b2bsaas IS NOT a package under vendor/, or using any fancy "modules" package --    
-> It is simply using a custom namespace (B2bSaas) 
-> added to composer.json in the PSR4 Autoload section,    
-> in addition to the standard App root.    
+> [!NOTE]    
+> b2bsaas IS NOT a package under vendor/, or using any `modules` package     
+> It is just namespace, `B2bSaas`, 
+> added to composer.json in the PSR4 Autoload section,      
 > Feel free to modify it as needed!
 
 I've copied the blade files for the layout components directory from jetstream and added `wire:navigate` to the links to make the navigation more snappy. The simplest way to do this with as little change as possible to the original skeleton was to copy them into `b2bsaas/resources/views` and ensure they are rendered by the Components in `app/View`. For example, for the `app/View/AppLayout.php` component (tagged `<x-app-layout>...</x-app-layout>`), I've changed the render method to this:
@@ -57,7 +55,17 @@ The first user to login becomes a SuperAdmin
 - After that registration is by team invitation only except when registering using the `Master Password` (see Master Password section below)
 - Invitation only mode can be disabled by setting `B2BSAAS_INVITATION_ONLY=false` in `.env`
 
+
+>[!IMPORTANT]   
 >Teams, Metadata for the Tenant Databases and Authentication details are all stored in the `landlord database`
+
+
+All of the migrations included in the template are for the landlord database, and are under `database/migrations/landlord`. These migration are not meant to be run on tenant databases!
+
+The dynamic tenant connection is the default database connection. A typical development workflow using this template would include somethind like running `php artisan make migration create_posts_table`.    
+This will create a migration in the default location, which would be run for all new team databases whenever a new team is created!    
+
+If you have existing teams and would like to run your new migration for them right away, simply run `php artisan teams:migrate`. [More Info](#migrating-tenant-databases)
 
 ### Teams are tenants
 
@@ -67,7 +75,6 @@ The first user to login becomes a SuperAdmin
     - [Team Middleware](https://github.com/inmanturbo/b2bsaas/blob/main/b2bsaas/src/Http/Middleware/TeamMiddleware.php#L36)
   - Domain Based Tenancy
     - [Configure Requests](https://github.com/inmanturbo/b2bsaas/blob/main/b2bsaas/src/B2bSaasServiceProvider.php#L63) 
-
 - A Team belongs to one Tenant Database, or `TeamDatabase`
 - More than one Team can be on a single database (optional)
 - Only SuperAdmins and UpgradedUsers can create Teams
@@ -80,8 +87,8 @@ The first user to login becomes a SuperAdmin
 - Databases can have many teams
 - SuperAdmins and UpgradedUsers may select an existing database that they already own when creating a new team, in the case that they want to share data across teams.
 
-### Master Password
-
+## Master Password
+> [!NOTE]    
 > b2bsaas uses [laravel-Masterpass](https://github.com/imanghafoori1/laravel-MasterPass)
 
 #### when using the master password to register a user
@@ -103,18 +110,13 @@ Simply enter one of the following into the `password_confirmation` field when re
 
 SuperAdmins have the ability to impersonate other users
 
-- start by adding `start_impersonate={user_id}` to any request
-- end by adding `stop_impersonate` to any request
+- Start by adding `start_impersonate={user_id}` to any request
+- End by adding `stop_impersonate` to any request
 - Only SuperAdmin users can Impersonate
-
-## Usage during development
-
-- for development purposes, you may add `__DB_DATABASE` to your .env file (set the value to a database name) and all tenants will use that database.
-- You may also add `B2BSAAS_DATABASE_CREATION_DISABLED=true` to stop the automated creation of databases cluttering your local server.
 
 ## Database Types
 
-> Note:    
+> [!NOTE]    
 > Currently only `mysql`, `mariadb` and `sqlite`, support are currently implemented for tenant databases
 
 You can easily support another database by extending `\App\Models\TeamDatabase` and overriding some key methods found in `\B2bSaas\InteractsWithSystemDatabase`
@@ -219,7 +221,10 @@ Setting `APP_URL_SCHEME=https` in your `.env` will force all app urls to use `ht
 Setting the `DEFAULT_TEAM_DATABASE_CONNECTION_TEMPLATE` in your `.env` to a value corresponding to a database connection will cause the application to use that connection as a template for tenant database configuration by default.    
 
 This value must also match a case name in `app/Models/TeamDatabaseType.php`, the value of which should be a model which extends `App\Models\TeamDatabase` and uses the `B2bSaas\HasParent` trait.
-The available values can be found by inspecting the `app/Models/TeamDatabaseType.php` file. At the time of writing this, "out of the box" options include `tenant_mysql`, `tenant_mariadb` and `tenant_sqlite`.
+The available values can be found by inspecting the `app/TeamDatabaseType.php` file. At the time of writing this, "out of the box" options include `tenant_mysql`, `tenant_mariadb` and `tenant_sqlite`.
+
+>[!TIP]    
+>Setting `DEFAULT_TEAM_DATABASE_CONNECTION_TEMPLATE=tenant_sqlite` in your `.env` file will cause the application to create and use sqlite databases for tenants by default
 
 For example, setting `DEFAULT_TEAM_DATABASE_CONNECTION_TEMPLATE=tenant_sqlite` in your `.env` file will cause the application to create and use sqlite databases for tenants by default. `tenant_sqlite` corresponds to the following `TeamDatabaseType`: 
 
@@ -227,7 +232,11 @@ For example, setting `DEFAULT_TEAM_DATABASE_CONNECTION_TEMPLATE=tenant_sqlite` i
 case tenant_sqlite = Models\SqliteTeamDatabase::class;
 ```
 
-This means that the names of these tenant databases will be stored in the `team_databases` table of the landlord database. The `connection_template` column on these instances will be set to `tenant_sqlite`, which is how the application knows to use the `SqliteTeamDatabase` model for these instances. Also, `tenant_sqlite` is a database connection in `config/database.php` which will be used to build the connection config for these `TeamDatabase` instances. By default sqlite databases live in the `storage/app` directory, under a folder by the uuid of the user who owns the database. The `SqliteTeamDatabase` class holds the logic for how these databases are created, in a method called `createTeamDatabase`, which is called by its parent class `TeamDatabase` during boot whenever a new instance is created.
+This means that the names of these tenant databases will be stored in the `team_databases` table of the landlord database.     
+
+The `connection_template` column on these instances will be set to `tenant_sqlite`, which is how the application knows to use the `SqliteTeamDatabase` model for these instances. Also, `tenant_sqlite` is a database connection in `config/database.php` which will be used to build the connection config for these `TeamDatabase` instances.    
+
+By default sqlite databases live in the `storage/app` directory, under a folder by the uuid of the user who owns the database. The `SqliteTeamDatabase` class holds the logic for how these databases are created, in a method called `createTeamDatabase`, which is called by its parent class `TeamDatabase` during boot whenever a new instance is created.
 
 #### B2BSAAS_DATABASE_CREATION_DISABLED
 
@@ -236,6 +245,12 @@ Setting `B2BSAAS_DATABASE_CREATION_DISABLED=true` in your `.env` file will disab
 #### __DB_DATABASE
 
 Setting `__DB_DATABASE` to a database name will force all teams to use this same database.
+
+#### B2BSAAS_INVITATION_ONLY
+
+By default registation is by invitation only. This means that in order to register themselves a user must first be invited by a team owner
+
+Setting `B2BSAAS_INVITATION_ONLY=false` will allow new users to register without an invitation
 
 
 ## Installation
