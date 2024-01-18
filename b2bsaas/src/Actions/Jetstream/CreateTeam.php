@@ -3,6 +3,7 @@
 namespace B2bSaas\Actions\Jetstream;
 
 use App\Models\Team;
+use App\Models\TeamDatabase;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
@@ -23,7 +24,7 @@ class CreateTeam implements CreatesTeams
 
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
-            'team_database_id' => ['nullable', 'integer', 'exists:'.config('database.landlord').'.team_databases,id'],
+            'team_database_uuid' => ['nullable', 'exists:'.config('database.landlord').'.team_databases,uuid'],
             'team_database_driver' => 'nullable|string',
         ])->validateWithBag('createTeam');
 
@@ -34,8 +35,13 @@ class CreateTeam implements CreatesTeams
             'personal_team' => false,
         ];
 
-        if (isset($input['team_database_id'])) {
-            $teamData['team_database_id'] = $input['team_database_id'];
+        if (isset($input['team_database_uuid'])) {
+
+            $TeamDatabase = TeamDatabase::where('uuid', $input['team_database_uuid'])->firstOrFail();
+
+            Gate::forUser($user)->authorize('use', $TeamDatabase);
+
+            $teamData['team_database_id'] = $TeamDatabase->id;
         }
 
         $user->switchTeam($team = $user->ownedTeams()->save(

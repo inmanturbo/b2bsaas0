@@ -23,8 +23,8 @@ $createTeam = function(CreatesTeams $creator) {
     $this->resetErrorBag();
 
     // if the state['team_database'] is empty or null, just unset it
-    if (empty($this->state['team_database_id'])) {
-        unset($this->state['team_database_id']);
+    if (empty($this->state['team_database_uuid'])) {
+        unset($this->state['team_database_uuid']);
     }
 
     $creator->create($this->user, $this->state);
@@ -68,10 +68,10 @@ $createTeam = function(CreatesTeams $creator) {
                         
                         <div class="col-span-6 sm:col-span-4">
                             <x-label for="name" value="{{ __('Database') }}" />
-                            <x-select id="name" type="text" class="block w-full mt-1" wire:model="state.team_database_id" autofocus>
+                            <x-select id="name" type="text" class="block w-full mt-1" wire:model="state.team_database_uuid" autofocus>
                                 <option selected></option>
                                 @foreach ($this->teamDatabases as $teamDatabase)
-                                <option value="{{ $teamDatabase->id }}">{{ $teamDatabase->name }}</option>
+                                <option value="{{ $teamDatabase->uuid }}">{{ $teamDatabase->name }}</option>
                                 @endforeach
                             </x-select>
                             <x-form-help-text for="name" class="mt-2">

@@ -2,6 +2,7 @@
 
 use Laravel\Jetstream\RedirectsActions;
 use Laravel\Jetstream\InteractsWithBanner;
+use App\Models\TeamDatabase;
 
 use function Livewire\Volt\{uses, computed, state, mount};
 
@@ -20,7 +21,7 @@ mount(
         $this->team = $team;
 
         $this->state = [
-            'team_database_id' => $team->team_database_id,
+            'team_database_uuid' => $team->teamDatabase->uuid,
         ];
     }
 );
@@ -33,8 +34,16 @@ $updateTeamDatabase = function () {
 
     $this->resetErrorBag();
 
+    $this->validate([
+        'state.team_database_uuid' => ['required','exists:'.config('database.landlord').'.team_databases,uuid'],
+    ]);
+
+    $teamDatabase = TeamDatabase::where('uuid', $this->state['team_database_uuid'])->firstOrFail();
+
+    $this->authorize('use', $teamDatabase);
+
     $this->team->forceFill([
-        'team_database_id' => $this->state['team_database_id'],
+        'team_database_id' => $teamDatabase->id,
     ])->save();
 
     $this->team->migrate()->configure()->use();
@@ -58,9 +67,9 @@ $updateTeamDatabase = function () {
         <div class="col-span-6 sm:col-span-4">
             <x-label for="name" value="{{ __('Database') }}" />
 
-            <x-select id="name" type="text" class="block w-full mt-1" wire:model="state.team_database_id" autofocus>
+            <x-select id="name" type="text" class="block w-full mt-1" wire:model="state.team_database_uuid" autofocus>
                 @foreach ($this->teamDatabases as $teamDatabase)
-                <option value="{{ $teamDatabase->id }}">{{ $teamDatabase->name }}</option>
+                <option value="{{ $teamDatabase->uuid }}">{{ $teamDatabase->name }}</option>
                 @endforeach
             </x-select>
 
