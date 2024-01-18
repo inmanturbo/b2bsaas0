@@ -56,8 +56,14 @@ The first user to login becomes a SuperAdmin
 - After that registration is by team invitation only except when registering using the `Master Password` (see Master Password section below)
 - Invitation only mode can be disabled by setting `B2BSAAS_INVITATION_ONLY=false` in `.env`
 
->[!NOTE]   
+>[!IMPORTANT]   
 >Teams, Metadata for the Tenant Databases and Authentication details are all stored in the `landlord database`
+
+All of the migrations included in the template are for the landlord database, and are under `database/migrations/landlord`. These migration are not meant to be run on tenant databases!
+
+The dynamic tenant connection is the default database connection. A typical development workflow using this template would include somethind like running `php artisan make migration create_posts_table`.    
+This will create a migration in the default location, which would be run for all new team databases whenever a new team is created!    
+If you have existing teams and would like to run your new migration for them right away, simply run `php artisan teams:migrate`. [Info](#migrating-tenant-databases)
 
 ### Teams are tenants
 
