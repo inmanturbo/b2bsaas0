@@ -220,6 +220,15 @@ case tenant_sqlite = Models\SqliteTeamDatabase::class;
 
 This means that the names of these tenant databases will be stored in the `team_databases` table of the landlord database. The `connection_template` column on these instances will be set to `tenant_sqlite`, which is how the application knows to use the `SqliteTeamDatabase` model for these instances. Also, `tenant_sqlite` is a database connection in `config/database.php` which will be used to build the connection config for these `TeamDatabase` instances. By default sqlite databases live in the `storage/app` directory, under a folder by the uuid of the user who owns the database. The `SqliteTeamDatabase` class holds the logic for how these databases are created, in a method called `createTeamDatabase`, which is called by its parent class `TeamDatabase` during boot whenever a new instance is created.
 
+#### B2BSAAS_DATABASE_CREATION_DISABLED
+
+Setting `B2BSAAS_DATABASE_CREATION_DISABLED=true` in your `.env` file will disable the automatic creation of databases for teams. Additionally, setting the value of `__DB_DATABASE` (Note the double underscore) to the name of a database will cause all teams to use the same database. This can be useful during development or manual testing if you don't want your local or staging environment littered with databases automatically created during team creation. If you set `B2BSAAS_DATABASE_CREATION_DISABLED=true` but do not set `__DB_DATABASE`, you will likely get an error, as the application will be looking for a database which doesn't exist.
+
+#### __DB_DATABASE
+
+Setting `__DB_DATABASE` to a database name will force all teams to use this same database.
+
+
 ## Installation
 
 ```bash
