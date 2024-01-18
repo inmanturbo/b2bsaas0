@@ -36,10 +36,7 @@ trait HandlesTeamAuth
                 cache()->put('team_migrated_'.$team->id, true, now()->addDay());
             }
 
-            $team
-            // ->migrate()
-                ->configure()
-                ->use();
+            $team->configure()->use();
         }
 
         // if app debug is true, log team authenticated
