@@ -51,7 +51,13 @@ The first user to login becomes a SuperAdmin
 
 ### Teams are tenants
 
-- Setting the tenant can be done by calling `$team->configure()->use();` on a team instance.
+- Setting the tenant can be done by calling `$team->configure()->use();` on a team instance. This is done automatically when a user logs in, or when a request is for a domain registered to a team.
+  - Authentication Based tenancy 
+    - [Team Auth Trait](https://github.com/inmanturbo/b2bsaas/blob/main/b2bsaas/src/Http/Middleware/HandlesTeamAuth.php#L39C13-L39C13)
+    - [Team Middleware](https://github.com/inmanturbo/b2bsaas/blob/main/b2bsaas/src/Http/Middleware/TeamMiddleware.php#L36)
+  - Domain Based Tenancy
+    - - [Domain Based Tenancy](https://github.com/inmanturbo/b2bsaas/blob/main/b2bsaas/src/B2bSaasServiceProvider.php#L74) 
+
 - A Team belongs to one Tenant Database, or `TeamDatabase`
 - More than one Team can be on a single database (optional)
 - Only SuperAdmins and UpgradedUsers can create Teams
