@@ -1,5 +1,6 @@
 # B2bSaas
 ## Introduction
+[## Multitenancy](https://github.com/inmanturbo/b2bsaas/blob/main/README.md#multitenancy)
 
 This is about the simplest implementation possible, with minimal changes to the original jetstream skeleton, to to make it easier to keep it up to date with the latest changes in `laravel/jetstream`.
 
