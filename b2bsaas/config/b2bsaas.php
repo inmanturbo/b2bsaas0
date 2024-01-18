@@ -6,7 +6,7 @@ return [
 
     'url_scheme' => env('APP_URL_SCHEME', 'http'),
 
-    'default_team_database_driver' => env('DEFAULT_TEAM_DATABASE_CONNECTION_TEMPLATE', \App\Models\TeamDatabaseType::tenant_mysql->name),
+    'default_team_database_connection_template' => env('DEFAULT_TEAM_DATABASE_CONNECTION_TEMPLATE', \App\Models\TeamDatabaseType::tenant_mysql->name),
 
     'features' => [
         'invitation_only' => env('B2BSAAS_INVITATION_ONLY', true),
