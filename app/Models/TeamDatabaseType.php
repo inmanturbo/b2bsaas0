@@ -9,8 +9,8 @@ enum TeamDatabaseType: string
     case tenant_mysql = Models\MysqlTeamDatabase::class;
     case tenant_mariadb = Models\MariadbTeamDatabase::class;
     case tenant_sqlite = Models\SqliteTeamDatabase::class;
-    // case Postgres = PostgresTeamDatabase::class;
-    // case SqlServer = SqlServerTeamDatabase::class;
+    // case tenant_postgres = PostgresTeamDatabase::class;
+    // case tenant_sqlserver = SqlServerTeamDatabase::class;
 
     public static function toArray(): array
     {
