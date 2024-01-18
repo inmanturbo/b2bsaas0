@@ -1,6 +1,6 @@
 # B2bSaas
-[Introduction](#introduction)
-[Multitenancy](#multitenancy)
+- [Introduction](#introduction)
+- [Multitenancy](#multitenancy)
 
 
 ## Introduction
