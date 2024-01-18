@@ -31,8 +31,7 @@ trait HandlesTeamAuth
 
             // migrate only once a day, cache a key to check if it has been done today
             if (! cache()->has('team_migrated_'.$team->id)) {
-                $team
-                    ->migrate();
+                $team->migrate();
                 cache()->put('team_migrated_'.$team->id, true, now()->addDay());
             }
 
