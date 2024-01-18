@@ -10,6 +10,7 @@
 - [Database Types](#database-types)
 - [Configuration](#configuration)
 - [Installation](#installation)
+- [Migrating Tenant/Team Databases](#migrating-tenant-databases)
 
 
 
