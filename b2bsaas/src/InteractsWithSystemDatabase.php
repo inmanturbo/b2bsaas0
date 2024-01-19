@@ -19,7 +19,7 @@ trait InteractsWithSystemDatabase
 
         $name = (string) str()->of($this->name)->slug('_');
 
-        DB::statement('DROP DATABASE IF EXISTS '.$name);
+        DB::statement('DROP DATABASE IF EXISTS tenant_'.$name);
 
         $this->restoreOriginalConnection();
     }
@@ -52,7 +52,7 @@ trait InteractsWithSystemDatabase
         }
 
         $exists = DB::connection($this->getSystemDatabaseConnectionName())->select(
-            "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '".$this->name."'"
+            "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'tenant_".$this->name."'"
         );
 
         $this->restoreOriginalConnection();
