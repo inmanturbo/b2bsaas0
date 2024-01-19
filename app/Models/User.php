@@ -29,14 +29,7 @@ class User extends Authenticatable
     use UsesLandlordConnection;
     use WithUuid;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $guarded = [
-        // 'name', 'email', 'password',
-    ];
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for serialization.

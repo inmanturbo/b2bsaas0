@@ -6,7 +6,6 @@ use App\Models\Team;
 use App\Models\User;
 use App\TeamDatabaseType;
 use App\WithUuid;
-use B2bSaas\InteractsWithSystemDatabase;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Artisan;

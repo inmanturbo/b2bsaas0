@@ -2,8 +2,8 @@
 
 namespace B2bSaas;
 
-trait ManagesMariadbDatabase {
-
+trait ManagesMariadbDatabase
+{
     protected function getSystemDatabaseConnectionName(): string
     {
         return 'mariadb';

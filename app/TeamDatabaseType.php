@@ -10,7 +10,6 @@ use B2bSaas\SqliteTeamDatabase;
 
 enum TeamDatabaseType: string
 {
-
     use ArrayableEnum;
     use HasEloquentModelableValue;
 

@@ -5,8 +5,8 @@ namespace B2bSaas;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 
-trait ManagesSqliteDatabase {
-
+trait ManagesSqliteDatabase
+{
     protected function createTeamDatabase(bool $testing = false): self
     {
         $name = (string) str()->of($this->name)->slug('_');
