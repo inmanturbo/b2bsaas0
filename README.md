@@ -22,7 +22,7 @@
 
 This is about the simplest implementation possible, with minimal changes to the original jetstream skeleton, to to make it easier to keep it up to date with the latest changes in `laravel/jetstream`.
 
-In order to avoid many changes to the skeleton, I've made most of my additions in the `b2bsaas/` directory, then bootstrapped them with a service provider and a Psr4 namespace of their own instead of adding them directly to the app directory. I've avoided doing this with models however, as they are first class citizens in a laravel app, often need to be modified, and are expected to live in the `app/Models` directory where many packages and laravel tools will autoscan for them.
+In order to avoid many changes to the skeleton, I've made most of my additions in the `b2bsaas/` directory, then bootstrapped them with a service provider and a Psr4 namespace of their own instead of adding them directly to the app directory.
 
 > [!NOTE]    
 > b2bsaas IS NOT a package under vendor/, or using any `modules` package.     
@@ -70,8 +70,8 @@ If you have existing teams and would like to run your new migration for them rig
 
 - Setting the tenant can be done by calling `$team->configure()->use();` on a team instance. This is done automatically when a user logs in, or when a request is for a domain registered to a team.
   - Authentication Based tenancy 
-    - [Team Auth Trait](https://github.com/inmanturbo/b2bsaas/blob/main/b2bsaas/src/Http/Middleware/HandlesTeamAuth.php#L39C13-L39C13)
-    - [Team Middleware](https://github.com/inmanturbo/b2bsaas/blob/main/b2bsaas/src/Http/Middleware/TeamMiddleware.php#L36)
+    - [Team Auth Trait](https://github.com/inmanturbo/b2bsaas/blob/main/b2bsaas/src/HandlesTeamAuth.php#L39C13-L39C13)
+    - [Team Middleware](https://github.com/inmanturbo/b2bsaas/blob/main/b2bsaas/src/TeamMiddleware.php#L36)
   - Domain Based Tenancy
     - [Configure Requests](https://github.com/inmanturbo/b2bsaas/blob/main/b2bsaas/src/B2bSaasServiceProvider.php#L63) 
 - A Team belongs to one Tenant Database, or `TeamDatabase`
