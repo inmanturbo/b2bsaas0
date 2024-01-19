@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "envor/laravel-database-manager": "^1.1",
         "guzzlehttp/guzzle": "^7.2",
         "imanghafoori/laravel-masterpass": "^2.2",
         "laravel/folio": "^1.1",
