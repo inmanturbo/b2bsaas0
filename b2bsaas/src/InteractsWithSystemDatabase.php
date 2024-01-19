@@ -8,7 +8,7 @@ trait InteractsWithSystemDatabase
 {
     use ConfiguresTenantDatabase;
 
-    public function getSystemDatabaseConnectionName(): string
+    protected function getSystemDatabaseConnectionName(): string
     {
         return 'mysql';
     }

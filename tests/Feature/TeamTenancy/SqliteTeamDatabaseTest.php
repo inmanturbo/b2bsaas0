@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\SqliteTeamDatabase;
 use App\Models\User;
+use B2bSaas\SqliteTeamDatabase;
 
 it('creates and deletes an sqlite database', function () {
     $user = User::factory()->create();

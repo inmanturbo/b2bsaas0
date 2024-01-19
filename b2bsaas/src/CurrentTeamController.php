@@ -1,6 +1,6 @@
 <?php
 
-namespace B2bSaas\Http\Controllers;
+namespace B2bSaas;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;

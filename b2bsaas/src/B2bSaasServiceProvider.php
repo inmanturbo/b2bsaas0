@@ -2,7 +2,6 @@
 
 namespace B2bSaas;
 
-use App\Models\PersonalAccessToken;
 use App\Models\Team;
 use B2bSaas\Actions\Fortify\CreateNewUser;
 use B2bSaas\Actions\Fortify\UpdateUserProfileInformation;

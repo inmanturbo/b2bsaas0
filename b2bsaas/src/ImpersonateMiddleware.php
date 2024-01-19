@@ -1,6 +1,6 @@
 <?php
 
-namespace B2bSaas\Http\Middleware;
+namespace B2bSaas;
 
 use App\Models\User;
 use Closure;

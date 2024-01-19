@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\TeamDatabase;
 use App\UserType;
+use B2bSaas\TeamDatabase;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TeamDatabasePolicy

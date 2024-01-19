@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Models;
-
-use B2bSaas\HasParent;
+namespace B2bSaas;
 
 class MysqlTeamDatabase extends TeamDatabase
 {

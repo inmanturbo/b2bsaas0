@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\UsesLandlordConnection;
+use B2bSaas\UsesLandlordConnection;
 use Laravel\Jetstream\Membership as JetstreamMembership;
 
 class Membership extends JetstreamMembership

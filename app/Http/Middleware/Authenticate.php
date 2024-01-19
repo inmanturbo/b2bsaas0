@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use B2bSaas\Http\Middleware\HandlesTeamAuth;
+use B2bSaas\HandlesTeamAuth;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Http\Request;
 

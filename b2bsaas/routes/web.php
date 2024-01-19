@@ -3,7 +3,7 @@
 // Path: b2bsaas/routes/web.php
 
 use App\Models\Team;
-use B2bSaas\Http\Controllers\CurrentTeamController;
+use B2bSaas\CurrentTeamController;
 use Illuminate\Support\Facades\Route;
 
 Route::put('/current-team', [CurrentTeamController::class, 'update'])->name('current-team.update')->middleware([

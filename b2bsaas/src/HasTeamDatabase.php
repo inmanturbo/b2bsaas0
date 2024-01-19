@@ -2,7 +2,6 @@
 
 namespace B2bSaas;
 
-use App\Models;
 use App\TeamDatabaseType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -45,10 +44,10 @@ trait HasTeamDatabase
 
     public function teamDatabase(): BelongsTo
     {
-        return $this->belongsTo(Models\TeamDatabase::class);
+        return $this->belongsTo(TeamDatabase::class);
     }
 
-    protected function createTeamDatabase(TeamDatabaseType $connectionTemplate = null): Models\TeamDatabase
+    protected function createTeamDatabase(TeamDatabaseType $connectionTemplate = null): TeamDatabase
     {
 
         if (! $connectionTemplate) {
@@ -60,9 +59,10 @@ trait HasTeamDatabase
                 : constant(TeamDatabaseType::class.'::'.$defaultDriverName);
         }
 
-        return $connectionTemplate->createTeamDatabase(
-            name: $this->name,
-            userId: $this?->user_id ?? (auth()?->id() ?? 1)
-        );
+        return $connectionTemplate->createModel([
+            'name' => (string) str()->of($name = $this->name)->slug('_'),
+            'user_id' => $this?->user_id ?? (auth()?->id() ?? 1),
+            'connection_template' => $connectionTemplate->name,
+        ]);
     }
 }

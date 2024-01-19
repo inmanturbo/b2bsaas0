@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace B2bSaas;
 
-use Artisan;
-use B2bSaas\HasParent;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 
-class SqliteTeamDatabase extends TeamDatabase
-{
-    use HasParent;
+trait ManagesSqliteDatabase {
 
     protected function createTeamDatabase(bool $testing = false): self
     {
