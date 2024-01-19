@@ -87,8 +87,7 @@ class User extends Authenticatable
     {
         $isOnTeam = $this->jetstreamSwitchTeam($team);
 
-        $team?->configure()
-            ?->use();
+        $team?->configure()?->use();
 
         return $isOnTeam;
     }
