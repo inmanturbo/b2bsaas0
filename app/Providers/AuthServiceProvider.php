@@ -5,10 +5,12 @@ namespace App\Providers;
 // use Illuminate\Support\Facades\Gate;
 
 use App\Policies\TeamDatabasePolicy;
+use App\UserType;
 use B2bSaas\MariadbTeamDatabase;
 use B2bSaas\MysqlTeamDatabase;
 use B2bSaas\SqliteTeamDatabase;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -28,6 +30,10 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Gate::before(function ($user) {
+            if($user->type === UserType::SuperAdmin->name){
+                return true;
+            }
+        });
     }
 }
