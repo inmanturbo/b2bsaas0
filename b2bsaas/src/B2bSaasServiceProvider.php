@@ -43,7 +43,7 @@ class B2bSaasServiceProvider extends \Illuminate\Support\ServiceProvider
         Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
 
         //if the config('app.url_scheme') is set to https, then we will force the scheme to be https
-        if (app()->environment('production') || config('b2bsaas.url_scheme') === 'https') {
+        if (config('b2bsaas.url_scheme') === 'https') {
             \URL::forceScheme('https');
         }
 
