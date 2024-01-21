@@ -1,13 +1,3 @@
-<?php
-
-use function Livewire\Volt\{on};
-
-on(['refresh-navigation-menu' => function () {
-    $this->render();
-}]);
-
-?>
-
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -31,9 +21,7 @@ on(['refresh-navigation-menu' => function () {
         <x-banner />
 
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            @volt('navigation-menu')
-                @include('b2bsaas::navigation-menu')
-            @endvolt
+            @livewire('team-navigation-menu')
 
             <!-- Page Heading -->
             @if (isset($header))
