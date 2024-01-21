@@ -11,10 +11,12 @@ use Inmanturbo\B2bSaas\Actions\Jetstream\InviteTeamMember;
 use Laravel\Fortify\Fortify;
 use Laravel\Jetstream\Jetstream;
 use Laravel\Sanctum\Sanctum;
-use Spatie\Navigation\Facades\Navigation;
 
 class B2bSaasServiceProvider extends \Illuminate\Support\ServiceProvider
 {
+
+    use MergesVoltMounts;
+
     public function register()
     {
 
@@ -54,6 +56,11 @@ class B2bSaasServiceProvider extends \Illuminate\Support\ServiceProvider
         /** @var Router $router */
         $router = $this->app['router'];
         $router->pushMiddlewareToGroup('web', NavigationMiddleware::class);
+
+        $this->mergeVoltMounts([
+            base_path('inmanturbo/b2bsaas/resources/views/livewire'),
+            base_path('inmanturbo/b2bsaas/resources/views/pages'),
+        ]);
     }
 
     public function configureRequests()
