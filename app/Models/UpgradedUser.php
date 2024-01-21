@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use B2bSaas\HasParent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Inmanturbo\B2bSaas\HasParent;
 
 class UpgradedUser extends User
 {

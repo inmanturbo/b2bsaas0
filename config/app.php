@@ -173,7 +173,7 @@ return [
         App\Providers\VoltServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
-        B2bSaas\B2bSaasServiceProvider::class,
+        Inmanturbo\B2bSaas\B2bSaasServiceProvider::class,
     ])->toArray(),
 
     /*

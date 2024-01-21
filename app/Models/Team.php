@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\WithUuid;
-use B2bSaas\ConfiguresTenant;
-use B2bSaas\UsesLandlordConnection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Inmanturbo\B2bSaas\ConfiguresTenant;
+use Inmanturbo\B2bSaas\UsesLandlordConnection;
 use Laravel\Jetstream\Events\TeamCreated;
 use Laravel\Jetstream\Events\TeamDeleted;
 use Laravel\Jetstream\Events\TeamUpdated;

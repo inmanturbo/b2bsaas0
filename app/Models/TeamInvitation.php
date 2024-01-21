@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\WithUuid;
-use B2bSaas\UsesLandlordConnection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Inmanturbo\B2bSaas\UsesLandlordConnection;
 use Laravel\Jetstream\Jetstream;
 use Laravel\Jetstream\TeamInvitation as JetstreamTeamInvitation;
 
