@@ -18,6 +18,7 @@
         "livewire/livewire": "^3.0",
         "livewire/volt": "^1.4",
         "spatie/laravel-data": "^3.9",
+        "spatie/laravel-navigation": "^1.2",
         "spatie/once": "^3.1"
     },
     "require-dev": {

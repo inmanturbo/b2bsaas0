@@ -11,6 +11,7 @@ use Inmanturbo\B2bSaas\Actions\Jetstream\InviteTeamMember;
 use Laravel\Fortify\Fortify;
 use Laravel\Jetstream\Jetstream;
 use Laravel\Sanctum\Sanctum;
+use Spatie\Navigation\Facades\Navigation;
 
 class B2bSaasServiceProvider extends \Illuminate\Support\ServiceProvider
 {
@@ -49,6 +50,10 @@ class B2bSaasServiceProvider extends \Illuminate\Support\ServiceProvider
 
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'b2bsaas');
+
+        /** @var Router $router */
+        $router = $this->app['router'];
+        $router->pushMiddlewareToGroup('web', NavigationMiddleware::class);
     }
 
     public function configureRequests()
