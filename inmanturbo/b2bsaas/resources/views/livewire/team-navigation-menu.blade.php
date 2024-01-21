@@ -1,3 +1,13 @@
+<?php
+
+use function Livewire\Volt\{on};
+
+on(['refresh-navigation-menu' => function () {
+    $this->render();
+}]);
+
+?>
+
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100 dark:bg-gray-800 dark:border-gray-700">
     <!-- Primary Navigation Menu -->
     <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
