@@ -1,10 +1,14 @@
 <?php
 
-use function Livewire\Volt\{on};
+use Spatie\Navigation\Facades\Navigation;
+
+use function Livewire\Volt\{on, state};
 
 on(['refresh-navigation-menu' => function () {
     $this->render();
 }]);
+
+state(['navigationMenu' => Navigation::make()->tree()]);
 
 ?>
 
@@ -22,9 +26,11 @@ on(['refresh-navigation-menu' => function () {
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" wire:navigate="true">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
+                    @foreach ($navigationMenu as $item)
+                        <x-nav-link :href="$item['url']" :active="$item['active']" wire:navigate="true">
+                            {{ $item['title'] }}
+                        </x-nav-link>
+                    @endforeach
                 </div>
             </div>
 
