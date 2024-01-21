@@ -1,22 +1,23 @@
 # B2bSaas
 
-- [Introduction](#introduction)
-- [Multitenancy](#multitenancy)
+- [B2bSaas](#b2bsaas)
+  - [Introduction](#introduction)
+  - [Multitenancy](#multitenancy)
     - [Teams are tenants](#teams-are-tenants)
     - [Users can have many databases](#users-can-have-many-databases)
-- [Master Password](#master-password)
-  - [when using the master password to register a user](#when-using-the-master-password-to-register-a-user)
-- [Impersonation](#impersonation)
-- [Database Types](#database-types)
-- [Configuration](#configuration)
+  - [Master Password](#master-password)
+      - [when using the master password to register a user](#when-using-the-master-password-to-register-a-user)
+  - [Impersonation](#impersonation)
+  - [Database Types](#database-types)
+  - [Configuration](#configuration)
     - [Config file](#config-file)
       - [APP\_URL\_SCHEME](#app_url_scheme)
       - [DEFAULT\_TEAM\_DATABASE\_CONNECTION\_TEMPLATE](#default_team_database_connection_template)
       - [B2BSAAS\_DATABASE\_CREATION\_DISABLED](#b2bsaas_database_creation_disabled)
       - [\_\_DB\_DATABASE](#__db_database)
-      - [B2BSAAS_INVITATION_ONLY](#b2bsaas_invitation_only)
-- [Installation](#installation)
-- [Migrating tenant databases](#migrating-tenant-databases)
+      - [B2BSAAS\_INVITATION\_ONLY](#b2bsaas_invitation_only)
+  - [Installation](#installation)
+  - [Migrating tenant databases](#migrating-tenant-databases)
 
 ## Introduction
 
@@ -70,8 +71,8 @@ If you have existing teams and would like to run your new migration for them rig
 
 - Setting the tenant can be done by calling `$team->configure()->use();` on a team instance. This is done automatically when a user logs in, or when a request is for a domain registered to a team.
   - Authentication Based tenancy 
-    - [Team Auth Trait](https://github.com/inmanturbo/b2bsaas/blob/main/b2bsaas/src/HandlesTeamAuth.php#L39C13-L39C13)
-    - [Team Middleware](https://github.com/inmanturbo/b2bsaas/blob/main/b2bsaas/src/TeamMiddleware.php#L36)
+    - [Team Auth Trait](https://github.com/inmanturbo/b2bsaas/blob/main/inmanturbo/b2bsaas/src/HandlesTeamAuth.php#L39C13-L39C13)
+    - [Team Middleware](https://github.com/inmanturbo/b2bsaas/blob/main/inmanturbo/b2bsaas/src/TeamMiddleware.php#L36)
   - Domain Based Tenancy
     - [Configure Requests](https://github.com/inmanturbo/b2bsaas/blob/main/b2bsaas/src/B2bSaasServiceProvider.php#L63) 
 - A Team belongs to one Tenant Database, or `TeamDatabase`
@@ -146,7 +147,7 @@ The Model:
 namespace App\Models;
 
 use Artisan;
-use B2bSaas\HasParent;
+use Inmanturbo\B2bSaas\HasParent;
 use Illuminate\Support\Facades\Storage;
 
 class SqliteTeamDatabase extends TeamDatabase

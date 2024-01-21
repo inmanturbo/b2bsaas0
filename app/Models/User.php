@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use App\WithUuid;
-use B2bSaas\HasB2bSaas;
-use B2bSaas\UsesLandlordConnection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Inmanturbo\B2bSaas\HasB2bSaas;
+use Inmanturbo\B2bSaas\UsesLandlordConnection;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;

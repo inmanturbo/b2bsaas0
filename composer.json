@@ -41,13 +41,13 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
-            "B2bSaas\\": "b2bsaas/src/",
+            "Inmanturbo\\B2bSaas\\": "inmanturbo/b2bsaas/src/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
         },
 
         "files": [
-            "b2bsaas/functions.php"
+            "inmanturbo/b2bsaas/functions.php"
         ]
     },
     "autoload-dev": {

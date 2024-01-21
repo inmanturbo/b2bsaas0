@@ -3,8 +3,8 @@
 namespace App\Policies;
 
 use App\UserType;
-use B2bSaas\TeamDatabase;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Inmanturbo\B2bSaas\TeamDatabase;
 
 class TeamDatabasePolicy
 {

@@ -2,11 +2,11 @@
 
 namespace App;
 
-use B2bSaas\ArrayableEnum;
-use B2bSaas\HasEloquentModelableValue;
-use B2bSaas\MariadbTeamDatabase;
-use B2bSaas\MysqlTeamDatabase;
-use B2bSaas\SqliteTeamDatabase;
+use Inmanturbo\B2bSaas\ArrayableEnum;
+use Inmanturbo\B2bSaas\HasEloquentModelableValue;
+use Inmanturbo\B2bSaas\MariadbTeamDatabase;
+use Inmanturbo\B2bSaas\MysqlTeamDatabase;
+use Inmanturbo\B2bSaas\SqliteTeamDatabase;
 
 enum TeamDatabaseType: string
 {

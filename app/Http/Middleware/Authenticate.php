@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use B2bSaas\HandlesTeamAuth;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Http\Request;
+use Inmanturbo\B2bSaas\HandlesTeamAuth;
 
 class Authenticate extends Middleware
 {

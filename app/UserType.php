@@ -2,8 +2,8 @@
 
 namespace App;
 
-use B2bSaas\ArrayableEnum;
-use B2bSaas\HasEloquentModelableValue;
+use Inmanturbo\B2bSaas\ArrayableEnum;
+use Inmanturbo\B2bSaas\HasEloquentModelableValue;
 
 enum UserType: string
 {

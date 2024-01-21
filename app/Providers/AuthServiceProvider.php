@@ -3,11 +3,11 @@
 namespace App\Providers;
 
 use App\Policies\TeamDatabasePolicy;
-use App\UserType;
-use B2bSaas\MariadbTeamDatabase;
-use B2bSaas\MysqlTeamDatabase;
-use B2bSaas\SqliteTeamDatabase;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Inmanturbo\B2bSaas\MariadbTeamDatabase;
+use Inmanturbo\B2bSaas\MysqlTeamDatabase;
+use Inmanturbo\B2bSaas\SqliteTeamDatabase;
+use App\UserType;
 use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
