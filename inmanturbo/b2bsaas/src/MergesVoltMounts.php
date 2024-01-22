@@ -6,7 +6,10 @@ use Livewire\Volt\Volt;
 
 trait MergesVoltMounts
 {
-    protected function mergeVoltMounts($paths)
+    /**
+     * Merge the given paths with the existing Volt mounts.
+     */
+    protected function mergeVoltMounts(array $paths): void
     {
         $voltPaths = collect(Volt::paths())->map(function ($path) {
             return $path->path;
