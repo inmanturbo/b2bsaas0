@@ -3,7 +3,10 @@
 namespace Inmanturbo\B2bSaas;
 
 use App\Models\Team;
+use App\Providers\FortifyServiceProvider;
+use App\Providers\JetstreamServiceProvider;
 use Illuminate\Queue\Events\JobProcessing;
+use Illuminate\Routing\Router;
 use Inmanturbo\B2bSaas\Actions\Fortify\CreateNewUser;
 use Inmanturbo\B2bSaas\Actions\Fortify\UpdateUserProfileInformation;
 use Inmanturbo\B2bSaas\Actions\Jetstream\AddTeamMember;
@@ -34,13 +37,17 @@ class B2bSaasServiceProvider extends \Illuminate\Support\ServiceProvider
 
         $this->configureQueue();
 
-        Fortify::createUsersUsing(CreateNewUser::class);
-        Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
+        // $this->app->resolving(JetstreamServiceProvider::class, function ($jetstream) {
+        //     Jetstream::inviteTeamMembersUsing(InviteTeamMember::class);
+        //     Jetstream::addTeamMembersUsing(AddTeamMember::class);
+        //     Jetstream::deleteUsersUsing(Actions\Jetstream\DeleteUser::class);
+        //     Jetstream::createTeamsUsing(Actions\Jetstream\CreateTeam::class);
+        // });
 
-        Jetstream::inviteTeamMembersUsing(InviteTeamMember::class);
-        Jetstream::addTeamMembersUsing(AddTeamMember::class);
-        Jetstream::deleteUsersUsing(Actions\Jetstream\DeleteUser::class);
-        Jetstream::createTeamsUsing(Actions\Jetstream\CreateTeam::class);
+        // $this->app->resolving(FortifyServiceProvider::class, function ($fortify) {
+        //     Fortify::createUsersUsing(CreateNewUser::class);
+        //     Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
+        // });
 
         Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
 
@@ -52,9 +59,11 @@ class B2bSaasServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'b2bsaas');
 
-        /** @var Router $router */
-        $router = $this->app['router'];
-        $router->pushMiddlewareToGroup('web', NavigationMiddleware::class);
+        $this->app->booted(function () {
+            /** @var Router $router */
+            $router = $this->app['router'];
+            $router->pushMiddlewareToGroup('web', NavigationMiddleware::class);
+        });
 
         $this->mergeVoltMounts([
             __DIR__.'/../resources/views/livewire',
