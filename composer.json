@@ -8,6 +8,8 @@
         "php": "^8.1",
         "guzzlehttp/guzzle": "^7.2",
         "imanghafoori/laravel-masterpass": "^2.2",
+        "inmanturbo/b2bsaas": "@dev",
+        "inmanturbo/turbohx": "@dev",
         "laravel/folio": "^1.1",
         "laravel/framework": "^10.10",
         "laravel/jetstream": "^4.0",
@@ -42,8 +44,6 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
-            "Inmanturbo\\B2bSaas\\": "inmanturbo/b2bsaas/src/",
-            "Inmanturbo\\TurboHX\\": "inmanturbo/turbohx/src/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
         },
@@ -52,6 +52,16 @@
             "inmanturbo/b2bsaas/functions.php"
         ]
     },
+    "repositories": [
+        {
+          "type": "path",
+          "url": "inmanturbo/b2bsaas"
+        },
+        {
+          "type": "path",
+          "url": "inmanturbo/turbohx"
+        }
+      ],
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"

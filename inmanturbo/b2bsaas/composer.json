@@ -1,0 +1,25 @@
+{
+    "name": "inmanturbo/b2bsaas",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Inmanturbo\\B2bSaas\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "inmanturbo"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Inmanturbo\\B2bSaas\\B2bSaasServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

@@ -30,7 +30,7 @@ In order to avoid many changes to the skeleton, I've made most of my additions i
 > It is just namespace, `B2bSaas` added to composer.json in the PSR4 Autoload section.      
 > Feel free to modify it as needed!
 
-I've copied the blade files for the layout components directory from jetstream and added `wire:navigate` to the links to make the navigation more snappy. The simplest way to do this with as little change as possible to the original skeleton was to copy them into `b2bsaas/resources/views` and ensure they are rendered by the Components in `app/View`. For example, for the `app/View/AppLayout.php` component (tagged `<x-app-layout>...</x-app-layout>`), I've changed the render method to this:
+I've copied the blade files for the layout components directory from jetstream and added `wire:navigate` to the links to make the navigation more snappy. The simplest way to do this with as little change as possible to the original skeleton was to copy them into `inmanturbo/b2bsaas/resources/views` and ensure they are rendered by the Components in `app/View`. For example, for the `app/View/AppLayout.php` component (tagged `<x-app-layout>...</x-app-layout>`), I've changed the render method to this:
 
 ```php
 /**
@@ -42,7 +42,7 @@ public function render(): View
 }
 ```
 
-The markup for the view `b2bsaas::components.app` lives in `b2bsaas/resources/views/components/app.blade.php`.
+The markup for the view `b2bsaas::components.app` lives in `inmanturbo/b2bsaas/resources/views/components/app.blade.php`.
 
 ## Multitenancy
 

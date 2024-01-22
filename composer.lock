@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2fabf9400a09a003d92746666622cab5",
+    "content-hash": "1abb94aa0638cb62b879a47d7bc1b917",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1188,6 +1188,72 @@
                 "source": "https://github.com/imanghafoori1/laravel-MasterPass/tree/v2.2.49"
             },
             "time": "2023-02-15T13:36:35+00:00"
+        },
+        {
+            "name": "inmanturbo/b2bsaas",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "inmanturbo/b2bsaas",
+                "reference": "928e7a7ace68971f03703326b8e6dd9aadaf710f"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Inmanturbo\\B2bSaas\\B2bSaasServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Inmanturbo\\B2bSaas\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "inmanturbo"
+                }
+            ],
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "inmanturbo/turbohx",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "inmanturbo/turbohx",
+                "reference": "a4ca035df42dec5b84f11f6218b2920c227ec496"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Inmanturbo\\TurboHX\\TurboHXServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Inmanturbo\\TurboHX\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "inmanturbo"
+                }
+            ],
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "jaybizzle/crawler-detect",
@@ -11752,7 +11818,10 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "inmanturbo/b2bsaas": 20,
+        "inmanturbo/turbohx": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

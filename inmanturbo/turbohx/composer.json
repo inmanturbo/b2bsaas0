@@ -1,0 +1,25 @@
+{
+    "name": "inmanturbo/turbohx",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Inmanturbo\\TurboHX\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "inmanturbo"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Inmanturbo\\TurboHX\\TurboHXServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
