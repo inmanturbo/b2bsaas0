@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Models\TeamDatabase;
 use Illuminate\Console\Command;
+use Inmanturbo\B2bSaas\TeamDatabase;
 
 class MigrateTeamDatabasesCommand extends Command
 {
