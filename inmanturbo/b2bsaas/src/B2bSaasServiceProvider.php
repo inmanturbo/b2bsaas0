@@ -57,8 +57,8 @@ class B2bSaasServiceProvider extends \Illuminate\Support\ServiceProvider
         $router->pushMiddlewareToGroup('web', NavigationMiddleware::class);
 
         $this->mergeVoltMounts([
-            base_path('inmanturbo/b2bsaas/resources/views/livewire'),
-            base_path('inmanturbo/b2bsaas/resources/views/pages'),
+            __DIR__.'/../resources/views/livewire',
+            __DIR__.'/../resources/views/pages',
         ]);
     }
 
