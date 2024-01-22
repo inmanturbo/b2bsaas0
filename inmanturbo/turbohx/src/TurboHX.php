@@ -19,7 +19,7 @@ class TurboHX extends \Laravel\Folio\FolioManager
     public function registerRoute(string $path, string $uri, array $middleware, ?string $domain): void
     {
         $path = realpath($path);
-        $uri = '/' . ltrim($uri, '/');
+        $uri = '/'.ltrim($uri, '/');
 
         if (! is_dir($path)) {
             throw new InvalidArgumentException("The given path [{$path}] is not a directory.");
@@ -34,7 +34,7 @@ class TurboHX extends \Laravel\Folio\FolioManager
 
         $prefix = rtrim($mountPath->baseUri, '/');
 
-        Route::any($prefix . '{any}', $this->handler())->where('any', '.*')->name('laravel-folio');
+        Route::any($prefix.'{any}', $this->handler())->where('any', '.*')->name('laravel-folio');
     }
 
     /**
@@ -46,7 +46,7 @@ class TurboHX extends \Laravel\Folio\FolioManager
             $this->terminateUsing = null;
 
             $mountPaths = collect($this->mountPaths)->filter(
-                fn (MountPath $mountPath) => str_starts_with(mb_strtolower('/' . $request->path()), $mountPath->baseUri)
+                fn (MountPath $mountPath) => str_starts_with(mb_strtolower('/'.$request->path()), $mountPath->baseUri)
             )->all();
 
             return (new RequestHandler(

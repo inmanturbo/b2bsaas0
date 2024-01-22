@@ -2,19 +2,13 @@
 
 namespace Inmanturbo\TurboHX;
 
-use Closure;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Pipeline;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\View;
 use Laravel\Folio\Events\ViewMatched;
 use Laravel\Folio\FolioManager;
-use Laravel\Folio\Pipeline\MatchedView;
 use Laravel\Folio\RequestHandler as FolioRequestHandler;
 use Laravel\Folio\Router;
-use Log;
-use Symfony\Component\HttpFoundation\Response;
 
 class RequestHandler extends FolioRequestHandler
 {
@@ -24,11 +18,11 @@ class RequestHandler extends FolioRequestHandler
     public function __invoke(Request $request): mixed
     {
         foreach ($this->mountPaths as $mountPath) {
-            $requestPath = '/' . ltrim($request->path(), '/');
+            $requestPath = '/'.ltrim($request->path(), '/');
 
-            $uri = '/' . ltrim(substr($requestPath, strlen($mountPath->baseUri)), '/');
+            $uri = '/'.ltrim(substr($requestPath, strlen($mountPath->baseUri)), '/');
 
-            if ($matchedView = app()->make(Router::class, ['mountPath' =>  $mountPath])->match($request, $uri)) {
+            if ($matchedView = app()->make(Router::class, ['mountPath' => $mountPath])->match($request, $uri)) {
 
                 break;
             }

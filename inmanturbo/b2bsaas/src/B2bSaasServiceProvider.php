@@ -14,7 +14,6 @@ use Laravel\Sanctum\Sanctum;
 
 class B2bSaasServiceProvider extends \Illuminate\Support\ServiceProvider
 {
-
     use MergesVoltMounts;
 
     public function register()

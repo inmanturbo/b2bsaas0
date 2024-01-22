@@ -4,6 +4,8 @@ namespace Inmanturbo\TurboHX;
 
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
+use Inmanturbo\TurboHX\Pipeline\MatchMultiSegmentWildcardDirectoryIndexViews;
+use Inmanturbo\TurboHX\Pipeline\MatchRootIndex;
 use Laravel\Folio\Pipeline\ContinueIterating;
 use Laravel\Folio\Pipeline\EnsureMatchesDomain;
 use Laravel\Folio\Pipeline\EnsureNoDirectoryTraversal;
@@ -18,8 +20,6 @@ use Laravel\Folio\Pipeline\SetMountPathOnMatchedView;
 use Laravel\Folio\Pipeline\State;
 use Laravel\Folio\Pipeline\StopIterating;
 use Laravel\Folio\Pipeline\TransformModelBindings;
-use Inmanturbo\TurboHX\Pipeline\MatchMultiSegmentWildcardDirectoryIndexViews;
-use Inmanturbo\TurboHX\Pipeline\MatchRootIndex;
 
 class Router extends \Laravel\Folio\Router
 {

@@ -19,7 +19,7 @@ class NavigationMiddleware
 
         Navigation::make()
             ->add('Dashboard', route('dashboard'));
-    
+
         return $next($request);
     }
 }
