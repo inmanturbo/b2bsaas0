@@ -43,6 +43,7 @@
         "psr-4": {
             "App\\": "app/",
             "Inmanturbo\\B2bSaas\\": "inmanturbo/b2bsaas/src/",
+            "Inmanturbo\\TurboHX\\": "inmanturbo/turbohx/src/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
         },
