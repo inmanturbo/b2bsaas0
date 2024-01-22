@@ -3,9 +3,7 @@
 namespace Inmanturbo\TurboHX;
 
 use Illuminate\Http\Request;
-use Illuminate\Pipeline\Pipeline;
-use Inmanturbo\TurboHX\Pipeline\MatchMultiSegmentWildcardDirectoryIndexViews;
-use Inmanturbo\TurboHX\Pipeline\MatchRootIndex;
+use Illuminate\Pipeline\Pipeline as IlluminatePipeline;
 use Laravel\Folio\Pipeline\ContinueIterating;
 use Laravel\Folio\Pipeline\EnsureMatchesDomain;
 use Laravel\Folio\Pipeline\EnsureNoDirectoryTraversal;
@@ -49,16 +47,16 @@ class Router extends \Laravel\Folio\Router
         );
 
         for ($i = 0; $i < $state->uriSegmentCount(); $i++) {
-            $value = (new Pipeline())
+            $value = (new IlluminatePipeline())
                 ->send($state->forIteration($i))
                 ->through([
                     new EnsureMatchesDomain($request, $this->mountPath),
                     new EnsureNoDirectoryTraversal(),
                     new TransformModelBindings($request),
                     new SetMountPathOnMatchedView(),
-                    new MatchRootIndex(),
+                    new Pipeline\MatchRootIndex(),
                     new MatchDirectoryIndexViews(),
-                    new MatchMultiSegmentWildcardDirectoryIndexViews(),
+                    new Pipeline\MatchMultiSegmentWildcardDirectoryIndexViews(),
                     new MatchWildcardViewsThatCaptureMultipleSegments(),
                     new MatchLiteralDirectories(),
                     new MatchWildcardDirectories(),
