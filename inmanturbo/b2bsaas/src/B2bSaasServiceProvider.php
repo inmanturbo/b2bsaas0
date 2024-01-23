@@ -3,8 +3,6 @@
 namespace Inmanturbo\B2bSaas;
 
 use App\Models\Team;
-use App\Providers\FortifyServiceProvider;
-use App\Providers\JetstreamServiceProvider;
 use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Routing\Router;
 use Inmanturbo\B2bSaas\Actions\Fortify\CreateNewUser;
@@ -37,18 +35,6 @@ class B2bSaasServiceProvider extends \Illuminate\Support\ServiceProvider
 
         $this->configureQueue();
 
-        // $this->app->resolving(JetstreamServiceProvider::class, function ($jetstream) {
-        //     Jetstream::inviteTeamMembersUsing(InviteTeamMember::class);
-        //     Jetstream::addTeamMembersUsing(AddTeamMember::class);
-        //     Jetstream::deleteUsersUsing(Actions\Jetstream\DeleteUser::class);
-        //     Jetstream::createTeamsUsing(Actions\Jetstream\CreateTeam::class);
-        // });
-
-        // $this->app->resolving(FortifyServiceProvider::class, function ($fortify) {
-        //     Fortify::createUsersUsing(CreateNewUser::class);
-        //     Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
-        // });
-
         Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
 
         //if the config('app.url_scheme') is set to https, then we will force the scheme to be https
@@ -63,6 +49,14 @@ class B2bSaasServiceProvider extends \Illuminate\Support\ServiceProvider
             /** @var Router $router */
             $router = $this->app['router'];
             $router->pushMiddlewareToGroup('web', NavigationMiddleware::class);
+
+            Jetstream::inviteTeamMembersUsing(InviteTeamMember::class);
+            Jetstream::addTeamMembersUsing(AddTeamMember::class);
+            Jetstream::deleteUsersUsing(Actions\Jetstream\DeleteUser::class);
+            Jetstream::createTeamsUsing(Actions\Jetstream\CreateTeam::class);
+
+            Fortify::createUsersUsing(CreateNewUser::class);
+            Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         });
 
         $this->mergeVoltMounts([
