@@ -2,6 +2,8 @@
 
 namespace Inmanturbo\TurboHX;
 
+use Illuminate\Support\Facades\File;
+use Laravel\Folio\Folio;
 use Laravel\Folio\FolioManager;
 use Laravel\Folio\Router as FolioRouter;
 
@@ -9,7 +11,6 @@ class TurboHXServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     public function register()
     {
-
         $this->app->singleton(FolioManager::class, TurboHX::class);
         $this->app->bind(FolioRouter::class, Router::class);
 
@@ -21,15 +22,16 @@ class TurboHXServiceProvider extends \Illuminate\Support\ServiceProvider
 
     public function boot()
     {
-
-        // foreach(File::glob(base_path('www') . '/[0-9]*', GLOB_ONLYDIR) as $version) {
+        // foreach (File::glob(base_path('.www').'/[0-9]*', GLOB_ONLYDIR) as $version) {
         //     $version = basename($version);
-        //     Folio::path(base_path('www/' . $version))
-        //         ->uri('/v' . $version)
+        //     Folio::path(base_path('.www/'.$version))
+        //         ->uri('/v'.$version)
         //         ->middleware([
-        //         '*' => $this->app['config']['path-router.routes'][0]['middleware'],
-        //     ]);
+        //             'web',
+        //             'auth:sanctum',
+        //             config('jetstream.auth_session'),
+        //             'verified',
+        //         ]);
         // }
-
     }
 }
