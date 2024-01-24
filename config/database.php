@@ -16,7 +16,7 @@ return [
     */
 
     'default' => env('DB_CONNECTION', 'tenant_connection'),
-    'landlord' => env('LANDLORD_DB_CONNECTION', 'landlord_mysql'),
+    'landlord' => env('LANDLORD_DB_CONNECTION', 'landlord_sqlite'),
 
     /*
     |--------------------------------------------------------------------------
@@ -129,7 +129,7 @@ return [
         'tenant_sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DATABASE_URL'),
-            'database' => env('__DB_DATABASE'),
+            'database' => env('__DB_DATABASE') ? database_path(env('__DB_DATABASE')) : null,
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
