@@ -260,7 +260,7 @@ cp .env.example .env
 ```
 
 ```bash
-mysql -u root -e "create database b2bsaas_landlord"
+touch database/database.sqlite
 ```
 
 ```bash
@@ -268,8 +268,8 @@ composer install
 ```
 
 ```bash
-# landlord_mysql is the default landlord connection
-php artisan migrate:fresh --path=database/migrations/landlord --database=landlord_mysql
+# landlord_sqlite is the default landlord connection
+php artisan migrate:fresh --path=database/migrations/landlord --database=landlord_sqlite
 ```
 
 ```bash
