@@ -12,10 +12,10 @@ use Inmanturbo\B2bSaas\Actions\Jetstream\InviteTeamMember;
 use Laravel\Fortify\Fortify;
 use Laravel\Jetstream\Jetstream;
 use Laravel\Sanctum\Sanctum;
+use Livewire\Volt\Volt;
 
 class B2bSaasServiceProvider extends \Illuminate\Support\ServiceProvider
 {
-    use MergesVoltMounts;
 
     public function register()
     {
@@ -57,12 +57,13 @@ class B2bSaasServiceProvider extends \Illuminate\Support\ServiceProvider
 
             Fortify::createUsersUsing(CreateNewUser::class);
             Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
+
+            Volt::mount([
+                __DIR__.'/../resources/views/livewire',
+                __DIR__.'/../resources/views/pages',
+            ]);
         });
 
-        $this->mergeVoltMounts([
-            __DIR__.'/../resources/views/livewire',
-            __DIR__.'/../resources/views/pages',
-        ]);
     }
 
     public function configureRequests()

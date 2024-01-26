@@ -3,12 +3,11 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Inmanturbo\B2bSaas\MergesVoltMounts;
+use Livewire\Volt\Volt;
 
 class VoltServiceProvider extends ServiceProvider
 {
-    use MergesVoltMounts;
-
+    
     /**
      * Register services.
      */
@@ -22,7 +21,7 @@ class VoltServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->mergeVoltMounts([
+        Volt::mount([
             resource_path('views/livewire'),
             resource_path('views/pages'),
         ]);
